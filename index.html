@@ -37,9 +37,9 @@ function actualizarCarrito() {
         suma += precio;
 
         lista.innerHTML += `
-            <div style="margin:5px;font-size:16px;">
+            <div style="margin:5px;">
                 ${cantidad} de ${t} - $${precio}
-                <button style="padding:5px;" onclick="quitar('${t}')">Quitar</button>
+                <button onclick="quitar('${t}')">Quitar</button>
             </div>
         `;
     }
@@ -66,6 +66,12 @@ function terminar() {
         return;
     }
 
+    let nombre = prompt("¿Cuál es tu nombre?");
+    if (!nombre) nombre = "Cliente";
+
+    let tipo = prompt("¿Para llevar o aquí? (llevar/aquí)");
+    if (!tipo) tipo = "No especificado";
+
     let contador = {};
     let total = 0;
 
@@ -73,7 +79,9 @@ function terminar() {
         contador[t] = (contador[t] || 0) + 1;
     });
 
-    let texto = "Hola, quiero mi pedido de tacos 🌮:%0A%0A";
+    let texto = "🌮 TACOS MILO%0A%0A";
+    texto += "Cliente: " + nombre + "%0A";
+    texto += "Pedido: " + tipo + "%0A%0A";
 
     for (let t in contador) {
         let cant = contador[t];
@@ -108,37 +116,37 @@ function terminar() {
     <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
         <h3>Pastor - $18</h3>
         <img src="pastor.jpg" width="120"><br><br>
-        <button style="padding:10px;" onclick="agregar('Pastor')">Agregar</button>
+        <button onclick="agregar('Pastor')">Agregar</button>
     </div>
 
     <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
         <h3>Chorizo - $18</h3>
         <img src="chorizo.jpg" width="120"><br><br>
-        <button style="padding:10px;" onclick="agregar('Chorizo')">Agregar</button>
+        <button onclick="agregar('Chorizo')">Agregar</button>
     </div>
 
     <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
         <h3>Bistec - $18</h3>
         <img src="bistec.jpg" width="120"><br><br>
-        <button style="padding:10px;" onclick="agregar('Bistec')">Agregar</button>
+        <button onclick="agregar('Bistec')">Agregar</button>
     </div>
 
     <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
         <h3>Suadero - $18</h3>
         <img src="suadero.jpg" width="120"><br><br>
-        <button style="padding:10px;" onclick="agregar('Suadero')">Agregar</button>
+        <button onclick="agregar('Suadero')">Agregar</button>
     </div>
 
     <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
         <h3>Tripa - $24</h3>
         <img src="tripa.jpg" width="120"><br><br>
-        <button style="padding:10px;" onclick="agregar('Tripa')">Agregar</button>
+        <button onclick="agregar('Tripa')">Agregar</button>
     </div>
 
     <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
         <h3>Coca 250ml - $24</h3>
         <img src="coca.jpg" width="120"><br><br>
-        <button style="padding:10px;" onclick="agregar('Coca 250ml')">Agregar</button>
+        <button onclick="agregar('Coca 250ml')">Agregar</button>
     </div>
 
 </div>
