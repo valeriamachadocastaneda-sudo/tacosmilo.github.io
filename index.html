@@ -1,60 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Tacos Milo 🌮</title>
+<meta charset="UTF-8">
+<title>Tacos Milo 🌮</title>
 
-    <script>
-        function pedir(taco) {
-            alert("Terminado ✔️");
+<script>
+let carrito = [];
 
-            let numero = "5213321310169";
-            let mensaje = "Quiero un taco de " + taco + " 🌮";
-            let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+function agregar(taco) {
+    carrito.push(taco);
+    alert("Agregado: " + taco + " ✔️");
+}
 
-            window.open(url, "_blank");
-        }
-    </script>
+function terminar() {
+    if (carrito.length === 0) {
+        alert("No has pedido nada 😅");
+        return;
+    }
+
+    let pedido = {};
+
+    carrito.forEach(taco => {
+        pedido[taco] = (pedido[taco] || 0) + 1;
+    });
+
+    let texto = "Hola, quiero mi pedido de tacos 🌮:%0A%0A";
+
+    for (let t in pedido) {
+        texto += "- " + pedido[t] + " de " + t + "%0A";
+    }
+
+    let numero = "5213321310169";
+    let url = "https://wa.me/" + numero + "?text=" + texto;
+
+    window.open(url, "_blank");
+}
+</script>
+
 </head>
 
-<body style="background-color: black; color: white; text-align: center; font-family: Arial;">
+<body style="background:black;color:white;text-align:center;font-family:Arial;">
 
-<h1 style="color: yellow;">🌮 TACOS MILO</h1>
-<p>¡Los mejores tacos!</p>
+<h1 style="color:yellow;">🌮 TACOS MILO</h1>
+<p>Elige tus tacos</p>
 
-<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:20px;">
 
-    <div style="background: #222; padding: 15px; border-radius: 10px;">
+    <div style="background:#222;padding:15px;border-radius:10px;">
         <h3>Pastor - $18</h3>
-        <img src="pastor.jpg" width="150"><br><br>
-        <button onclick="pedir('Pastor')">Ordenar</button>
+        <button onclick="agregar('Pastor')">Agregar</button>
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 10px;">
+    <div style="background:#222;padding:15px;border-radius:10px;">
         <h3>Chorizo - $18</h3>
-        <img src="chorizo.jpg" width="150"><br><br>
-        <button onclick="pedir('Chorizo')">Ordenar</button>
+        <button onclick="agregar('Chorizo')">Agregar</button>
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 10px;">
+    <div style="background:#222;padding:15px;border-radius:10px;">
         <h3>Bistec - $18</h3>
-        <img src="bistec.jpg" width="150"><br><br>
-        <button onclick="pedir('Bistec')">Ordenar</button>
+        <button onclick="agregar('Bistec')">Agregar</button>
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 10px;">
+    <div style="background:#222;padding:15px;border-radius:10px;">
         <h3>Suadero - $18</h3>
-        <img src="suadero.jpg" width="150"><br><br>
-        <button onclick="pedir('Suadero')">Ordenar</button>
+        <button onclick="agregar('Suadero')">Agregar</button>
     </div>
 
-    <div style="background: #222; padding: 15px; border-radius: 10px;">
+    <div style="background:#222;padding:15px;border-radius:10px;">
         <h3>Tripa - $24</h3>
-        <img src="tripa.jpg" width="150"><br><br>
-        <button onclick="pedir('Tripa')">Ordenar</button>
+        <button onclick="agregar('Tripa')">Agregar</button>
     </div>
 
 </div>
+
+<br><br>
+
+<button onclick="terminar()" style="background:green;color:white;padding:15px;font-size:18px;border-radius:10px;">
+    Terminar pedido ✔️
+</button>
 
 </body>
 </html>
