@@ -6,9 +6,12 @@
 
     <script>
         function pedir(taco) {
+            alert("Terminado ✔️");
+
             let numero = "5213321310169";
             let mensaje = "Quiero un taco de " + taco + " 🌮";
             let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+
             window.open(url, "_blank");
         }
     </script>
@@ -52,14 +55,6 @@
     </div>
 
 </div>
-
-<br><br>
-
-<a href="https://wa.me/5213321310169?text=Hola%20quiero%20hacer%20un%20pedido%20🌮" target="_blank">
-    <button style="background-color: green; color: white; padding: 15px; font-size: 18px; border-radius: 10px;">
-        Pedir todo por WhatsApp 📱
-    </button>
-</a>
 
 </body>
 </html>
