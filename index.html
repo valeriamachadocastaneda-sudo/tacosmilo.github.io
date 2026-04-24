@@ -6,6 +6,58 @@
 
 <title>Tacos Milo 🌮</title>
 
+<style>
+body {
+    background: black;
+    color: white;
+    text-align: center;
+    font-family: Arial;
+    padding: 10px;
+}
+
+.card {
+    background: #222;
+    padding: 15px;
+    border-radius: 10px;
+    width: 160px;
+}
+
+button {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+
+#formulario {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box {
+    background: #333;
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 300px;
+}
+
+input, select {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+}
+</style>
+
 <script>
 let carrito = [];
 
@@ -15,7 +67,7 @@ let precios = {
     "Bistec": 18,
     "Suadero": 18,
     "Tripa": 24,
-    "Coca 250ml": 26
+    "Coca 250ml": 24
 };
 
 function actualizarCarrito() {
@@ -37,9 +89,9 @@ function actualizarCarrito() {
         suma += precio;
 
         lista.innerHTML += `
-            <div style="margin:5px;">
+            <div>
                 ${cantidad} de ${t} - $${precio}
-                <button onclick="quitar('${t}')">Quitar</button>
+                <button onclick="quitar('${t}')">❌</button>
             </div>
         `;
     }
@@ -60,17 +112,21 @@ function quitar(taco) {
     actualizarCarrito();
 }
 
-function terminar() {
+function abrirFormulario() {
     if (carrito.length === 0) {
         alert("No has pedido nada 😅");
         return;
     }
+    document.getElementById("formulario").style.display = "flex";
+}
 
-    let nombre = prompt("¿Cuál es tu nombre?");
-    if (!nombre) nombre = "Cliente";
+function cerrarFormulario() {
+    document.getElementById("formulario").style.display = "none";
+}
 
-    let tipo = prompt("¿Para llevar o aquí? (llevar/aquí)");
-    if (!tipo) tipo = "No especificado";
+function enviarPedido() {
+    let nombre = document.getElementById("nombre").value || "Cliente";
+    let tipo = document.getElementById("tipo").value;
 
     let contador = {};
     let total = 0;
@@ -102,60 +158,79 @@ function terminar() {
 
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:Arial;padding:10px;">
+<body>
 
 <h1 style="color:yellow;">🌮 TACOS MILO</h1>
 
-<div id="lista" style="margin:15px;"></div>
+<div id="lista"></div>
 <h2 id="total">Total: $0</h2>
 
 <hr>
 
 <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">
 
-    <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
-        <h3>Pastor - $18</h3>
-        <img src="pastor.jpg" width="120"><br><br>
-        <button onclick="agregar('Pastor')">Agregar</button>
-    </div>
+<div class="card">
+<h3>Pastor - $18</h3>
+<img src="pastor.jpg" width="120"><br><br>
+<button onclick="agregar('Pastor')">Agregar</button>
+</div>
 
-    <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
-        <h3>Chorizo - $18</h3>
-        <img src="chorizo.jpg" width="120"><br><br>
-        <button onclick="agregar('Chorizo')">Agregar</button>
-    </div>
+<div class="card">
+<h3>Chorizo - $18</h3>
+<img src="chorizo.jpg" width="120"><br><br>
+<button onclick="agregar('Chorizo')">Agregar</button>
+</div>
 
-    <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
-        <h3>Bistec - $18</h3>
-        <img src="bistec.jpg" width="120"><br><br>
-        <button onclick="agregar('Bistec')">Agregar</button>
-    </div>
+<div class="card">
+<h3>Bistec - $18</h3>
+<img src="bistec.jpg" width="120"><br><br>
+<button onclick="agregar('Bistec')">Agregar</button>
+</div>
 
-    <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
-        <h3>Suadero - $18</h3>
-        <img src="suadero.jpg" width="120"><br><br>
-        <button onclick="agregar('Suadero')">Agregar</button>
-    </div>
+<div class="card">
+<h3>Suadero - $18</h3>
+<img src="suadero.jpg" width="120"><br><br>
+<button onclick="agregar('Suadero')">Agregar</button>
+</div>
 
-    <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
-        <h3>Tripa - $24</h3>
-        <img src="tripa.jpg" width="120"><br><br>
-        <button onclick="agregar('Tripa')">Agregar</button>
-    </div>
+<div class="card">
+<h3>Tripa - $24</h3>
+<img src="tripa.jpg" width="120"><br><br>
+<button onclick="agregar('Tripa')">Agregar</button>
+</div>
 
-    <div style="background:#222;padding:15px;border-radius:10px;width:160px;">
-        <h3>Coca 250ml - $24</h3>
-        <img src="coca.jpg" width="120"><br><br>
-        <button onclick="agregar('Coca 250ml')">Agregar</button>
-    </div>
+<div class="card">
+<h3>Coca 250ml - $24</h3>
+<img src="coca.jpg" width="120"><br><br>
+<button onclick="agregar('Coca 250ml')">Agregar</button>
+</div>
 
 </div>
 
 <br><br>
 
-<button onclick="terminar()" style="background:green;color:white;padding:15px;font-size:18px;border-radius:10px;">
-    Terminar pedido ✔️
+<button onclick="abrirFormulario()" style="background:green;color:white;font-size:18px;">
+Terminar pedido ✔️
 </button>
+
+<!-- FORMULARIO BONITO -->
+<div id="formulario">
+    <div class="form-box">
+        <h2>Finalizar pedido</h2>
+
+        <input type="text" id="nombre" placeholder="Tu nombre">
+
+        <select id="tipo">
+            <option value="Para llevar">Para llevar</option>
+            <option value="Para comer aquí">Comer aquí</option>
+        </select>
+
+        <br>
+        <button onclick="enviarPedido()" style="background:green;color:white;">Enviar a WhatsApp</button>
+        <br><br>
+        <button onclick="cerrarFormulario()">Cancelar</button>
+    </div>
+</div>
 
 </body>
 </html>
