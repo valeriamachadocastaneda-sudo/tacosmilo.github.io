@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tacos Milo 🌮</title>
 
 <style>
@@ -11,6 +10,7 @@ body {background:black;color:white;font-family:Arial;text-align:center;}
 .card {background:#222;padding:15px;border-radius:10px;width:170px;}
 button {padding:10px;border:none;border-radius:8px;cursor:pointer;margin:2px;}
 select {margin-top:5px;padding:5px;border-radius:5px;}
+.admin {display:none;}
 
 #formulario {
 display:none;position:fixed;top:0;left:0;width:100%;height:100%;
@@ -19,11 +19,10 @@ background:rgba(0,0,0,0.9);justify-content:center;align-items:center;
 
 .form-box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:300px;}
 input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
-
-.admin {display:none;}
 </style>
 
 <script>
+// 🛒 CARRITO
 let carrito=[];
 
 let precios={
@@ -32,7 +31,7 @@ let precios={
 "Lonche":50,"Gringa":40,"Agua":25,"Coca":24
 };
 
-// 🥤 ESTADO DE AGUAS (se guarda)
+// 🥤 SABORES (guardados)
 let aguas = JSON.parse(localStorage.getItem("aguas")) || {
 Jamaica:true,
 Horchata:true,
@@ -43,59 +42,74 @@ function guardarAguas(){
 localStorage.setItem("aguas", JSON.stringify(aguas));
 }
 
-// ADMIN
+// ⚙️ ADMIN
 let admin=false;
 
 function activarAdmin(){
 let pass=prompt("Contraseña:");
 if(pass==="1234"){
 admin=true;
-mostrarAdmin();
+document.querySelectorAll(".admin").forEach(e=>e.style.display="inline");
 alert("Modo admin activado");
 }
 }
 
-function mostrarAdmin(){
-document.querySelectorAll(".admin").forEach(b=>b.style.display="inline");
+// 🥤 ACTUALIZAR SELECT DE SABORES
+function actualizarSabores(){
+let select=document.getElementById("saborAgua");
+select.innerHTML="";
+
+for(let s in aguas){
+if(aguas[s]){
+select.innerHTML+=`<option>${s}</option>`;
+}
 }
 
-// CONTROL AGUAS
-function toggleAgua(nombre){
-aguas[nombre]=!aguas[nombre];
-guardarAguas();
-renderAguas();
-}
+// ADMIN CONTROLES
+let adminDiv=document.getElementById("adminAguas");
+adminDiv.innerHTML="";
 
-// RENDER AGUAS
-function renderAguas(){
-let cont=document.getElementById("aguasContainer");
-cont.innerHTML="";
-
-for(let nombre in aguas){
-if(aguas[nombre] || admin){
-cont.innerHTML+=`
-<div class="card">
-<h3>Agua de ${nombre}</h3>
-<img src="agua.jpg" width="120"><br>
-<button onclick="agregar('Agua de ${nombre}')">Agregar</button>
-
-<button class="admin" onclick="toggleAgua('${nombre}')">
-${aguas[nombre] ? "❌ Quitar" : "✔️ Activar"}
+if(admin){
+for(let s in aguas){
+adminDiv.innerHTML+=`
+<div>
+${s}
+<button onclick="toggleAgua('${s}')">
+${aguas[s] ? "❌" : "✔️"}
 </button>
 </div>`;
 }
 }
-
-if(admin) mostrarAdmin();
 }
 
-// CARRITO
-function agregar(p){carrito.push(p);actualizar();}
-function quitar(p){let i=carrito.indexOf(p);if(i!=-1) carrito.splice(i,1);actualizar();}
+// ACTIVAR/DESACTIVAR SABOR
+function toggleAgua(nombre){
+aguas[nombre]=!aguas[nombre];
+guardarAguas();
+actualizarSabores();
+}
 
+// ➕ AGREGAR
+function agregar(p){carrito.push(p);actualizar();}
+
+function agregarAgua(){
+let sabor=document.getElementById("saborAgua").value;
+carrito.push("Agua de "+sabor);
+actualizar();
+}
+
+// ❌ QUITAR
+function quitar(p){
+let i=carrito.indexOf(p);
+if(i!=-1) carrito.splice(i,1);
+actualizar();
+}
+
+// 🔄 ACTUALIZAR CARRITO
 function actualizar(){
 let lista=document.getElementById("lista");
 let total=0,cont={};
+
 lista.innerHTML="";
 
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
@@ -152,7 +166,7 @@ window.open("https://wa.me/5213321310169?text="+encodeURIComponent(txt));
 }
 
 // INIT
-window.onload=renderAguas;
+window.onload=actualizarSabores;
 </script>
 
 </head>
@@ -170,15 +184,23 @@ window.onload=renderAguas;
 
 <div class="card"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>
 <div class="card"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>
-<div class="card"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
 
-<!-- AGUAS DINÁMICAS -->
-<div id="aguasContainer" style="display:flex;gap:15px;"></div>
+<!-- 🥤 AGUA CON SABORES -->
+<div class="card">
+<h3>Agua</h3>
+<img src="agua.jpg" width="120"><br>
+
+<select id="saborAgua"></select><br>
+
+<button onclick="agregarAgua()">Agregar</button>
+
+<div id="adminAguas" class="admin"></div>
+</div>
 
 </div>
 
 <br><br>
-<button onclick="abrirForm()" style="background:green;color:white;font-size:18px;">Terminar pedido</button>
+<button onclick="abrirForm()" style="background:green;color:white;">Terminar pedido</button>
 
 <button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
 
