@@ -117,11 +117,14 @@ document.getElementById("formulario").style.display="flex";
 function tipoCambio(){
 let tipo=document.getElementById("tipo").value;
 let hora=document.getElementById("hora");
+let texto=document.getElementById("textoHora");
 
 if(tipo=="Para comer aquí"){
 hora.style.display="block";
+texto.style.display="block";
 }else{
 hora.style.display="none";
+texto.style.display="none";
 }
 }
 
@@ -202,21 +205,25 @@ window.open(url,"_blank");
 
 <div class="card">
 <h3>Volcán</h3>
+<img src="volcan.jpg" width="120"><br><br>
 <button onclick="agregar('Volcán')">Agregar</button>
 </div>
 
 <div class="card">
 <h3>Quesadilla sencilla</h3>
+<img src="quesadillasencilla.jpg" width="120"><br><br>
 <button onclick="agregar('Quesadilla sencilla')">Agregar</button>
 </div>
 
 <div class="card">
 <h3>Quesadilla con carne</h3>
+<img src="quesadillaconcarne.jpg" width="120"><br><br>
 <button onclick="agregar('Quesadilla con carne')">Agregar</button>
 </div>
 
 <div class="card">
 <h3>Lonche</h3>
+<img src="lonche.jpg" width="120"><br><br>
 <button onclick="agregar('Lonche')">Agregar</button>
 </div>
 
@@ -253,20 +260,10 @@ Terminar pedido ✔️
 <option>Para comer aquí</option>
 </select>
 
-<!-- SELECTOR BONITO DE HORA -->
-<select id="hora" style="display:none;">
-<option>7:00 pm</option>
-<option>7:15 pm</option>
-<option>7:30 pm</option>
-<option>7:45 pm</option>
-<option>8:00 pm</option>
-<option>8:15 pm</option>
-<option>8:30 pm</option>
-<option>8:45 pm</option>
-<option>9:00 pm</option>
-<option>9:15 pm</option>
-<option>9:30 pm</option>
-</select>
+<input id="hora" type="time" style="display:none;">
+<p id="textoHora" style="display:none;font-size:12px;color:gray;">
+Hora aproximada de llegada (abrimos de 8:00 pm a 12:00 am)
+</p>
 
 <br>
 <button onclick="enviar()" style="background:green;color:white;">
