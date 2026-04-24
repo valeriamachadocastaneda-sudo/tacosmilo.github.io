@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Tacos Milo 🌮</title>
 
 <style>
@@ -32,7 +31,7 @@ let precios={
 "Lonche":50,"Gringa":40,"Agua":25,"Coca":24
 };
 
-// 🥤 SABORES (guardados)
+// 🥤 SABORES DE AGUA (SE GUARDAN)
 let aguas = JSON.parse(localStorage.getItem("aguas")) || {
 Jamaica:true,
 Horchata:true,
@@ -67,7 +66,7 @@ select.innerHTML+=`<option>${s}</option>`;
 }
 }
 
-// ADMIN PANEL
+// PANEL ADMIN
 let adminDiv=document.getElementById("adminAguas");
 adminDiv.innerHTML="";
 
@@ -206,7 +205,7 @@ window.onload=actualizarSabores;
 <button onclick="agregarConCarne('Volcán','carneVolcan')">Agregar</button>
 </div>
 
-<!-- QUESADILLA -->
+<!-- QUESADILLAS -->
 <div class="card">
 <h3>Quesadilla con carne</h3>
 <img src="quesadillaconcarne.jpg" width="120"><br>
@@ -235,20 +234,19 @@ window.onload=actualizarSabores;
 <!-- GRINGA -->
 <div class="card">
 <h3>Gringa</h3>
+<img src="gringa.jpg" width="120"><br>
 <select id="carneGringa">
 <option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
 </select><br>
 <button onclick="agregarConCarne('Gringa','carneGringa')">Agregar</button>
 </div>
 
-<!-- 🥤 AGUA CON SABORES -->
+<!-- 🥤 AGUA -->
 <div class="card">
 <h3>Agua</h3>
 <img src="agua.jpg" width="120"><br>
-
 <select id="saborAgua"></select><br>
 <button onclick="agregarAgua()">Agregar</button>
-
 <div id="adminAguas" class="admin"></div>
 </div>
 
