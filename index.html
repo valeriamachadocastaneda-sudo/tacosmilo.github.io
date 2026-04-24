@@ -7,73 +7,42 @@
 <title>Tacos Milo 🌮</title>
 
 <style>
-body {
-    background:black;
-    color:white;
-    font-family:Arial;
-    text-align:center;
-}
+body {background:black;color:white;font-family:Arial;text-align:center;}
 
-.card {
-    background:#222;
-    padding:15px;
-    border-radius:10px;
-    width:160px;
-}
+.card {background:#222;padding:15px;border-radius:10px;width:170px;}
 
-button {
-    padding:10px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
+button {padding:10px;border:none;border-radius:8px;cursor:pointer;}
+
+select {margin-top:5px;padding:5px;border-radius:5px;}
 
 #formulario {
-    display:none;
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.9);
-    justify-content:center;
-    align-items:center;
+display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.9);justify-content:center;align-items:center;
 }
 
-.form-box {
-    background:#333;
-    padding:20px;
-    border-radius:15px;
-    width:90%;
-    max-width:300px;
-}
+.form-box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:300px;}
 
-input, select {
-    width:90%;
-    padding:10px;
-    margin:10px;
-    border-radius:8px;
-    border:none;
-}
+input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 </style>
 
 <script>
 let carrito=[];
 
 let precios={
-"Pastor":18,
-"Chorizo":18,
-"Bistec":18,
-"Suadero":18,
-"Tripa":24,
-"Volcán":30,
-"Quesadilla sencilla":25,
-"Quesadilla con carne":35,
-"Lonche":50,
-"Agua litro":25,
-"Coca":24
+"Pastor":18,"Chorizo":18,"Bistec":18,"Suadero":18,"Tripa":24,
+"Volcán":30,"Quesadilla sencilla":25,"Quesadilla con carne":35,
+"Lonche":50,"Gringa":40,"Agua litro":25,"Coca":24
 };
 
 function agregar(p){
 carrito.push(p);
+actualizar();
+}
+
+function agregarConCarne(tipo,id){
+let carne=document.getElementById(id).value;
+let producto=tipo+" de "+carne;
+carrito.push(producto);
 actualizar();
 }
 
@@ -93,12 +62,13 @@ lista.innerHTML="";
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 
 for(let x in cont){
-let precio=precios[x]*cont[x];
+let base=x.split(" de ")[0];
+let precio=precios[base]*cont[x];
 total+=precio;
 
 lista.innerHTML+=`
 <div>
-${cont[x]} de ${x} - $${precio}
+${cont[x]} ${x} - $${precio}
 <button onclick="quitar('${x}')">❌</button>
 </div>`;
 }
@@ -107,10 +77,7 @@ document.getElementById("total").innerText="Total: $"+total;
 }
 
 function abrirForm(){
-if(carrito.length==0){
-alert("No has pedido nada 😅");
-return;
-}
+if(carrito.length==0){alert("No has pedido nada 😅");return;}
 document.getElementById("formulario").style.display="flex";
 }
 
@@ -129,12 +96,21 @@ texto.style.display="none";
 }
 
 function enviar(){
-let nombre=document.getElementById("nombre").value||"Cliente";
+let nombre=document.getElementById("nombre").value;
 let tipo=document.getElementById("tipo").value;
 let hora=document.getElementById("hora").value;
 
-let cont={},total=0;
+if(!nombre || nombre.trim()==""){
+alert("Escribe tu nombre 👤");
+return;
+}
 
+if(tipo=="Para comer aquí" && !hora){
+alert("Selecciona la hora ⏰");
+return;
+}
+
+let cont={},total=0;
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 
 let texto="🌮 TACOS MILO\n\n";
@@ -142,21 +118,22 @@ texto+="Cliente: "+nombre+"\n";
 texto+="Tipo: "+tipo+"\n";
 
 if(tipo=="Para comer aquí"){
-texto+="Hora de llegada: "+hora+"\n";
+texto+="Hora: "+hora+"\n";
 }
 
 texto+="\nPedido:\n";
 
 for(let x in cont){
-let precio=precios[x]*cont[x];
+let base=x.split(" de ")[0];
+let precio=precios[base]*cont[x];
 total+=precio;
-texto+="- "+cont[x]+" de "+x+" ($"+precio+")\n";
+
+texto+="- "+cont[x]+" "+x+" ($"+precio+")\n";
 }
 
 texto+="\nTotal: $"+total;
 
-let url="https://wa.me/5213321310169?text="+encodeURIComponent(texto);
-window.open(url,"_blank");
+window.open("https://wa.me/5213321310169?text="+encodeURIComponent(texto));
 }
 </script>
 
@@ -173,81 +150,71 @@ window.open(url,"_blank");
 
 <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">
 
-<div class="card">
-<h3>Pastor</h3>
-<img src="pastor.jpg" width="120"><br><br>
-<button onclick="agregar('Pastor')">Agregar</button>
-</div>
+<!-- TACOS -->
+<div class="card"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>
+<div class="card"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>
+<div class="card"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
+<div class="card"><h3>Suadero</h3><img src="suadero.jpg" width="120"><br><button onclick="agregar('Suadero')">Agregar</button></div>
+<div class="card"><h3>Tripa</h3><img src="tripa.jpg" width="120"><br><button onclick="agregar('Tripa')">Agregar</button></div>
 
-<div class="card">
-<h3>Chorizo</h3>
-<img src="chorizo.jpg" width="120"><br><br>
-<button onclick="agregar('Chorizo')">Agregar</button>
-</div>
-
-<div class="card">
-<h3>Bistec</h3>
-<img src="bistec.jpg" width="120"><br><br>
-<button onclick="agregar('Bistec')">Agregar</button>
-</div>
-
-<div class="card">
-<h3>Suadero</h3>
-<img src="suadero.jpg" width="120"><br><br>
-<button onclick="agregar('Suadero')">Agregar</button>
-</div>
-
-<div class="card">
-<h3>Tripa</h3>
-<img src="tripa.jpg" width="120"><br><br>
-<button onclick="agregar('Tripa')">Agregar</button>
-</div>
-
+<!-- VOLCAN -->
 <div class="card">
 <h3>Volcán</h3>
-<img src="volcan.jpg" width="120"><br><br>
-<button onclick="agregar('Volcán')">Agregar</button>
+<img src="volcan.jpg" width="120"><br>
+<select id="carneVolcan">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Volcán','carneVolcan')">Agregar</button>
 </div>
 
+<!-- QUESADILLA CARNE -->
+<div class="card">
+<h3>Quesadilla con carne</h3>
+<img src="quesadillaconcarne.jpg" width="120"><br>
+<select id="carneQuesa">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Quesadilla con carne','carneQuesa')">Agregar</button>
+</div>
+
+<!-- QUESADILLA SENCILLA -->
 <div class="card">
 <h3>Quesadilla sencilla</h3>
-<img src="quesadillasencilla.jpg" width="120"><br><br>
+<img src="quesadillasencilla.jpg" width="120"><br>
 <button onclick="agregar('Quesadilla sencilla')">Agregar</button>
 </div>
 
-<div class="card">
-<h3>Quesadilla con carne</h3>
-<img src="quesadillaconcarne.jpg" width="120"><br><br>
-<button onclick="agregar('Quesadilla con carne')">Agregar</button>
-</div>
-
+<!-- LONCHE -->
 <div class="card">
 <h3>Lonche</h3>
-<img src="lonche.jpg" width="120"><br><br>
-<button onclick="agregar('Lonche')">Agregar</button>
+<img src="lonche.jpg" width="120"><br>
+<select id="carneLonche">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Lonche','carneLonche')">Agregar</button>
 </div>
 
+<!-- GRINGA -->
 <div class="card">
-<h3>Agua litro</h3>
-<img src="agua.jpg" width="120"><br><br>
-<button onclick="agregar('Agua litro')">Agregar</button>
+<h3>Gringa</h3>
+<select id="carneGringa">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Gringa','carneGringa')">Agregar</button>
 </div>
 
-<div class="card">
-<h3>Coca</h3>
-<img src="coca.jpg" width="120"><br><br>
-<button onclick="agregar('Coca')">Agregar</button>
-</div>
+<!-- BEBIDAS -->
+<div class="card"><h3>Agua litro</h3><img src="agua.jpg" width="120"><br><button onclick="agregar('Agua litro')">Agregar</button></div>
+<div class="card"><h3>Coca</h3><img src="coca.jpg" width="120"><br><button onclick="agregar('Coca')">Agregar</button></div>
 
 </div>
 
 <br><br>
-
 <button onclick="abrirForm()" style="background:green;color:white;font-size:18px;">
 Terminar pedido ✔️
 </button>
 
-<!-- FORMULARIO -->
+<!-- FORM -->
 <div id="formulario">
 <div class="form-box">
 
@@ -262,18 +229,12 @@ Terminar pedido ✔️
 
 <input id="hora" type="time" style="display:none;">
 <p id="textoHora" style="display:none;font-size:12px;color:gray;">
-Hora aproximada de llegada (abrimos de 8:00 pm a 12:00 am)
+Hora aproximada (8:00 pm a 12:00 am)
 </p>
 
-<br>
-<button onclick="enviar()" style="background:green;color:white;">
-Enviar a WhatsApp
-</button>
-
+<button onclick="enviar()" style="background:green;color:white;">Enviar a WhatsApp</button>
 <br><br>
-<button onclick="document.getElementById('formulario').style.display='none'">
-Cancelar
-</button>
+<button onclick="document.getElementById('formulario').style.display='none'">Cancelar</button>
 
 </div>
 </div>
