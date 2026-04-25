@@ -72,7 +72,7 @@ let select=document.getElementById("saborAgua");
 select.innerHTML="";
 
 for(let s in aguas){
-if(aguas[s]){
+if(guas[s]){
 select.innerHTML+=`<option>${s}</option>`;
 }
 }
@@ -292,11 +292,16 @@ document.getElementById("promoTexto").innerText=promo;
 <div class="card" id="cardSuadero"><h3>Suadero</h3><img src="suadero.jpg" width="120"><br><button onclick="agregar('Suadero')">Agregar</button></div>
 <div class="card" id="cardTripa"><h3>Tripa</h3><img src="tripa.jpg" width="120"><br><button onclick="agregar('Tripa')">Agregar</button></div>
 
+<!-- 🔥 VOLCÁN AGREGADO CORRECTAMENTE -->
 <div class="card" id="cardVolcán">
 <h3>Volcán</h3>
 <img src="volcan.jpg" width="120"><br>
 <select id="carneVolcan">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<option>Pastor</option>
+<option>Chorizo</option>
+<option>Bistec</option>
+<option>Suadero</option>
+<option>Tripa</option>
 </select><br>
 <button onclick="agregarConCarne('Volcán','carneVolcan')">Agregar</button>
 </div>
