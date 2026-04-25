@@ -5,10 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tacos Milo 🌮</title>
 
-<button onclick="activarSonido()" style="background:orange;">
-Activar sonido 🔊
-</button>
-
 <style>
 body {background:black;color:white;font-family:Arial;text-align:center;}
 .card {background:#222;padding:15px;border-radius:10px;width:180px;}
@@ -187,7 +183,7 @@ function agregarConCarne(tipo,id){
 let carne=document.getElementById(id).value;
 carrito.push(tipo+" de "+carne);
 sonidoAgregar.currentTime = 0;
-sonidoAgregar.play();
+sonidoAgregar.play().catch(()=>{});
 actualizar();
 }
 
@@ -195,7 +191,7 @@ function agregarAgua(){
 let sabor=document.getElementById("saborAgua").value;
 carrito.push("Agua de "+sabor);
 sonidoAgregar.currentTime = 0;
-sonidoAgregar.play();
+sonidoAgregar.play().catch(()=>{});
 actualizar();
 }
 
@@ -304,6 +300,10 @@ document.getElementById("promoTexto").innerText=promo;
 <body>
 
 <h1 style="color:yellow;">🌮 TACOS MILO</h1>
+
+<button onclick="activarSonido()" style="background:orange;">
+Activar sonido 🔊
+</button>
 
 <h2 id="promoTexto" style="color:lime;"></h2>
 
