@@ -32,6 +32,7 @@ let carrito=[];
 // PRECIOS
 let precios={
 "Pastor":18,"Chorizo":18,"Bistec":18,"Suadero":18,"Tripa":24,
+"Arrachera":20,
 "Volcán":30,"Quesadilla sencilla":25,"Quesadilla con carne":35,
 "Lonche":50,"Gringa":40,"Agua":25,"Coca":24
 };
@@ -92,7 +93,7 @@ ${s}
 
 // ===== PRODUCTOS =====
 let productos = JSON.parse(localStorage.getItem("productos")) || {
-Pastor:true,Chorizo:true,Bistec:true,Suadero:true,Tripa:true,
+Arrachera:true,Pastor:true,Chorizo:true,Bistec:true,Suadero:true,Tripa:true,
 "Volcán":true,"Quesadilla sencilla":true,"Quesadilla con carne":true,
 Lonche:true,Gringa:true,Agua:true,Coca:true
 };
@@ -291,12 +292,13 @@ document.getElementById("promoTexto").innerText=promo;
 <div class="card" id="cardBistec"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
 <div class="card" id="cardSuadero"><h3>Suadero</h3><img src="suadero.jpg" width="120"><br><button onclick="agregar('Suadero')">Agregar</button></div>
 <div class="card" id="cardTripa"><h3>Tripa</h3><img src="tripa.jpg" width="120"><br><button onclick="agregar('Tripa')">Agregar</button></div>
+<div class="card" id="cardArrachera"><h3>Arrachera</h3><img src="arrachera.jpg" width="120"><br><button onclick="agregar('Arrachera')">Agregar</button></div>
 
 <div class="card" id="cardVolcán">
 <h3>Volcán</h3>
 <img src="volcan.jpg" width="120"><br>
 <select id="carneVolcan">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option><option>Arrachera</option>
 </select><br>
 <button onclick="agregarConCarne('Volcán','carneVolcan')">Agregar</button>
 </div>
@@ -305,7 +307,7 @@ document.getElementById("promoTexto").innerText=promo;
 <h3>Quesadilla con carne</h3>
 <img src="quesadillaconcarne.jpg" width="120"><br>
 <select id="carneQuesa">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option><option>Arrachera</option>
 </select><br>
 <button onclick="agregarConCarne('Quesadilla con carne','carneQuesa')">Agregar</button>
 </div>
@@ -320,7 +322,7 @@ document.getElementById("promoTexto").innerText=promo;
 <h3>Lonche</h3>
 <img src="lonche.jpg" width="120"><br>
 <select id="carneLonche">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option><option>Arrachera</option>
 </select><br>
 <button onclick="agregarConCarne('Lonche','carneLonche')">Agregar</button>
 </div>
@@ -329,7 +331,7 @@ document.getElementById("promoTexto").innerText=promo;
 <h3>Gringa</h3>
 <img src="gringa.jpg" width="120"><br>
 <select id="carneGringa">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option><option>Arrachera</option>
 </select><br>
 <button onclick="agregarConCarne('Gringa','carneGringa')">Agregar</button>
 </div>
