@@ -79,16 +79,19 @@ actualizarSabores();
 
 // CARRITO
 function agregar(p){carrito.push(p);actualizar();}
-function agregarConCarne(t,id){
-let c=document.getElementById(id).value;
-carrito.push(t+" de "+c);
+
+function agregarConCarne(tipo,id){
+let carne=document.getElementById(id).value;
+carrito.push(tipo+" de "+carne);
 actualizar();
 }
+
 function agregarAgua(){
-let s=document.getElementById("saborAgua").value;
-carrito.push("Agua de "+s);
+let sabor=document.getElementById("saborAgua").value;
+carrito.push("Agua de "+sabor);
 actualizar();
 }
+
 function quitar(p){
 let i=carrito.indexOf(p);
 if(i!=-1) carrito.splice(i,1);
@@ -144,14 +147,13 @@ document.getElementById("pantallaPago").style.display="flex";
 
 // CONFIRMAR
 function confirmarPedido(){
-
 let nombre=localStorage.getItem("nombre");
 let tipo=localStorage.getItem("tipo");
 let hora=localStorage.getItem("hora");
 let referencia=document.getElementById("refPago").value;
 
 if(!referencia){
-alert("Escribe si ya pagaste o una referencia");
+alert("Escribe si ya pagaste o referencia");
 return;
 }
 
@@ -185,7 +187,6 @@ txt+="\nTotal: $"+total;
 window.open("https://wa.me/5213321310169?text="+encodeURIComponent(txt));
 }
 
-// INIT
 window.onload=actualizarSabores;
 </script>
 </head>
@@ -205,8 +206,50 @@ window.onload=actualizarSabores;
 
 <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">
 
+<!-- TACOS -->
 <div class="card"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>
+<div class="card"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>
+<div class="card"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
+<div class="card"><h3>Suadero</h3><img src="suadero.jpg" width="120"><br><button onclick="agregar('Suadero')">Agregar</button></div>
+<div class="card"><h3>Tripa</h3><img src="tripa.jpg" width="120"><br><button onclick="agregar('Tripa')">Agregar</button></div>
 
+<!-- VOLCAN -->
+<div class="card">
+<h3>Volcán</h3>
+<img src="volcan.jpg" width="120"><br>
+<select id="carneVolcan">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Volcán','carneVolcan')">Agregar</button>
+</div>
+
+<!-- QUESADILLAS -->
+<div class="card">
+<h3>Quesadilla con carne</h3>
+<img src="quesadillaconcarne.jpg" width="120"><br>
+<select id="carneQuesa">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Quesadilla con carne','carneQuesa')">Agregar</button>
+</div>
+
+<div class="card">
+<h3>Quesadilla sencilla</h3>
+<img src="quesadillasencilla.jpg" width="120"><br>
+<button onclick="agregar('Quesadilla sencilla')">Agregar</button>
+</div>
+
+<!-- LONCHE -->
+<div class="card">
+<h3>Lonche</h3>
+<img src="lonche.jpg" width="120"><br>
+<select id="carneLonche">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+</select><br>
+<button onclick="agregarConCarne('Lonche','carneLonche')">Agregar</button>
+</div>
+
+<!-- GRINGA -->
 <div class="card">
 <h3>Gringa</h3>
 <img src="gringa.jpg" width="120"><br>
@@ -216,12 +259,20 @@ window.onload=actualizarSabores;
 <button onclick="agregarConCarne('Gringa','carneGringa')">Agregar</button>
 </div>
 
+<!-- AGUA -->
 <div class="card">
 <h3>Agua</h3>
 <img src="agua.jpg" width="120"><br>
 <select id="saborAgua"></select><br>
 <button onclick="agregarAgua()">Agregar</button>
 <div id="adminAguas" class="admin"></div>
+</div>
+
+<!-- COCA -->
+<div class="card">
+<h3>Coca</h3>
+<img src="coca.jpg" width="120"><br>
+<button onclick="agregar('Coca')">Agregar</button>
 </div>
 
 </div>
@@ -258,7 +309,7 @@ Terminar pedido ✔️
 
 <p style="color:orange;">⚠️ Paga y luego escribe referencia</p>
 
-<input id="refPago" placeholder="Ej: Ya pagué / folio">
+<input id="refPago" placeholder="Ej: ya pagué / folio">
 
 <button onclick="confirmarPedido()" style="background:green;color:white;">
 Confirmar pedido
