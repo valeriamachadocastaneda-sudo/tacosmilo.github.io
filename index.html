@@ -19,7 +19,7 @@ background:rgba(0,0,0,0.9);justify-content:center;align-items:center;
 
 #panelProductos{
 position:fixed;top:10px;right:10px;background:#111;
-padding:10px;border-radius:10px;max-height:80vh;overflow:auto;
+padding:10px;border-radius:10px;max-height:85vh;overflow:auto;
 }
 
 .box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:320px;}
@@ -29,13 +29,14 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 <script>
 let carrito=[];
 
+// PRECIOS
 let precios={
 "Pastor":18,"Chorizo":18,"Bistec":18,"Suadero":18,"Tripa":24,
 "Volcán":30,"Quesadilla sencilla":25,"Quesadilla con carne":35,
 "Lonche":50,"Gringa":40,"Agua":25,"Coca":24
 };
 
-// ===== AGUAS =====
+// ===== AGUAS (GUARDADAS) =====
 let aguas = JSON.parse(localStorage.getItem("aguas")) || {
 Jamaica:true,Horchata:true,Limón:true
 };
@@ -44,7 +45,52 @@ function guardarAguas(){
 localStorage.setItem("aguas", JSON.stringify(aguas));
 }
 
-// ===== PRODUCTOS ADMIN =====
+function agregarSabor(){
+let nuevo=document.getElementById("nuevoSabor").value;
+if(!nuevo) return;
+
+aguas[nuevo]=true;
+guardarAguas();
+actualizarSabores();
+document.getElementById("nuevoSabor").value="";
+}
+
+function eliminarSabor(nombre){
+delete aguas[nombre];
+guardarAguas();
+actualizarSabores();
+}
+
+function toggleAgua(nombre){
+aguas[nombre]=!aguas[nombre];
+guardarAguas();
+actualizarSabores();
+}
+
+function actualizarSabores(){
+let select=document.getElementById("saborAgua");
+select.innerHTML="";
+
+for(let s in aguas){
+if(aguas[s]){
+select.innerHTML+=`<option>${s}</option>`;
+}
+}
+
+let adminDiv=document.getElementById("adminAguas");
+adminDiv.innerHTML="";
+
+if(admin){
+for(let s in aguas){
+adminDiv.innerHTML+=`
+${s}
+<button onclick="toggleAgua('${s}')">${aguas[s]?"❌":"✔️"}</button>
+<button onclick="eliminarSabor('${s}')">🗑️</button><br>`;
+}
+}
+}
+
+// ===== PRODUCTOS =====
 let productos = JSON.parse(localStorage.getItem("productos")) || {
 Pastor:true,Chorizo:true,Bistec:true,Suadero:true,Tripa:true,
 "Volcán":true,"Quesadilla sencilla":true,"Quesadilla con carne":true,
@@ -58,7 +104,8 @@ localStorage.setItem("productos", JSON.stringify(productos));
 function toggleProducto(nombre){
 productos[nombre]=!productos[nombre];
 guardarProductos();
-location.reload();
+ocultarProductos();
+cargarAdminProductos();
 }
 
 // ===== PROMO =====
@@ -67,7 +114,7 @@ let promo = localStorage.getItem("promo") || "";
 function guardarPromo(){
 let txt=document.getElementById("promoInput").value;
 localStorage.setItem("promo", txt);
-location.reload();
+document.getElementById("promoTexto").innerText=txt;
 }
 
 // ===== ADMIN =====
@@ -84,32 +131,6 @@ document.getElementById("promoInput").value=promo;
 }
 }
 
-// ===== SABORES =====
-function actualizarSabores(){
-let select=document.getElementById("saborAgua");
-select.innerHTML="";
-
-for(let s in aguas){
-if(aguas[s]) select.innerHTML+=`<option>${s}</option>`;
-}
-
-let adminDiv=document.getElementById("adminAguas");
-adminDiv.innerHTML="";
-
-if(admin){
-for(let s in aguas){
-adminDiv.innerHTML+=`${s}
-<button onclick="toggleAgua('${s}')">${aguas[s]?"❌":"✔️"}</button><br>`;
-}
-}
-}
-
-function toggleAgua(n){
-aguas[n]=!aguas[n];
-guardarAguas();
-actualizarSabores();
-}
-
 // ===== ADMIN LISTA =====
 function cargarAdminProductos(){
 let div=document.getElementById("listaProductosAdmin");
@@ -117,19 +138,19 @@ div.innerHTML="";
 
 for(let p in productos){
 div.innerHTML+=`${p}
-<button onclick="toggleProducto('${p}')">
-${productos[p]?"❌":"✔️"}
-</button><br>`;
+<button onclick="toggleProducto('${p}')">${productos[p]?"❌":"✔️"}</button><br>`;
 }
 }
 
-// ===== OCULTAR PRODUCTOS =====
+// ===== OCULTAR =====
 function ocultarProductos(){
 for(let p in productos){
 let id="card"+p.replace(/\s/g,"");
 let card=document.getElementById(id);
 if(card && !productos[p]){
 card.style.display="none";
+}else if(card){
+card.style.display="block";
 }
 }
 }
@@ -319,6 +340,12 @@ document.getElementById("promoTexto").innerText=promo;
 <select id="saborAgua"></select><br>
 <button onclick="agregarAgua()">Agregar</button>
 <div id="adminAguas" class="admin"></div>
+
+<div class="admin">
+<input id="nuevoSabor" placeholder="Nuevo sabor">
+<button onclick="agregarSabor()">Agregar</button>
+</div>
+
 </div>
 
 <div class="card" id="cardCoca">
@@ -346,9 +373,9 @@ Terminar pedido ✔️
 <hr>
 
 <b>Promo del día</b><br>
-<input id="promoInput" placeholder="Ej: 2x1 tacos pastor">
+<input id="promoInput" placeholder="Ej: 2x1 tacos">
 <br>
-<button onclick="guardarPromo()">Guardar promo</button>
+<button onclick="guardarPromo()">Guardar</button>
 </div>
 
 <!-- FORM -->
@@ -368,12 +395,11 @@ Terminar pedido ✔️
 <div id="pantallaPago">
 <div class="box">
 <h2>💸 Pago por transferencia</h2>
-
 <p>Banco: BBVA</p>
 <p>CLABE: 123456789012345678</p>
 <p>Nombre: Tacos Milo</p>
 
-<input id="refPago" placeholder="Ej: ya pagué / folio">
+<input id="refPago" placeholder="Referencia">
 
 <button onclick="confirmarPedido()" style="background:green;color:white;">
 Confirmar pedido
