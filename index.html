@@ -6,20 +6,19 @@
 <title>Tacos Milo 🌮</title>
 
 <style>
-body {background:black;color:white;font-family:Arial;text-align:center;}
-.card {background:#222;padding:15px;border-radius:10px;width:180px;}
-button {padding:8px;border:none;border-radius:8px;cursor:pointer;margin:3px;}
-select {margin-top:5px;padding:5px;border-radius:5px;}
+body{background:black;color:white;font-family:Arial;text-align:center;}
+.card{background:#222;padding:15px;border-radius:10px;width:180px;}
+button{padding:8px;border:none;border-radius:8px;cursor:pointer;margin:3px;}
+select{padding:5px;border-radius:5px;margin-top:5px;}
 
-#formulario, #pantallaPago {
+#formulario,#pantallaPago{
 display:none;position:fixed;top:0;left:0;width:100%;height:100%;
 background:rgba(0,0,0,0.9);justify-content:center;align-items:center;
 }
 
-.box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:320px;}
-input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
+.box{background:#333;padding:20px;border-radius:15px;width:90%;max-width:320px;}
 
-.admin {display:none;}
+.admin{display:none;}
 
 #panelAdmin{
 position:fixed;top:10px;right:10px;background:#111;
@@ -31,6 +30,10 @@ padding:10px;border-radius:10px;max-height:85vh;overflow:auto;
 
 let carrito=[];
 
+// 🔥 CONTRASEÑA ADMIN
+let adminPass="1234";
+let admin=false;
+
 // 🔥 PRECIOS
 let precios={
 "Pastor":18,"Chorizo":18,"Bistec":18,"Suadero":18,"Tripa":24,
@@ -39,34 +42,47 @@ let precios={
 };
 
 // ================= ADMIN =================
-let admin=false;
-let adminPass="1234";
-
 function activarAdmin(){
-let pass=prompt("Contraseña admin:");
-if(pass===adminPass){
+let p=prompt("Contraseña admin:");
+if(p===adminPass){
 admin=true;
 document.querySelectorAll(".admin").forEach(e=>e.style.display="block");
-alert("Modo admin activado");
-}else{
-alert("Incorrecto");
-}
+alert("Admin activado");
+}else alert("Incorrecto");
 }
 
 function cambiarPassword(){
-let nueva=prompt("Nueva contraseña:");
-if(nueva) adminPass=nueva;
+let n=prompt("Nueva contraseña:");
+if(n) adminPass=n;
+}
+
+// ================= AGUAS =================
+let aguas=["Jamaica","Horchata","Limón","Fresa","Guayaba"];
+
+function renderAguas(){
+let s=document.getElementById("saborAgua");
+s.innerHTML="";
+aguas.forEach(a=>{
+s.innerHTML+=`<option>${a}</option>`;
+});
+}
+
+function agregarAguaAdmin(){
+let n=prompt("Nuevo sabor de agua:");
+if(n){aguas.push(n);renderAguas();}
+}
+
+function quitarAgua(a){
+aguas=aguas.filter(x=>x!==a);
+renderAguas();
 }
 
 // ================= CARRITO =================
-function agregar(p){
-carrito.push(p);
-actualizar();
-}
+function agregar(p){carrito.push(p);actualizar();}
 
 function agregarConCarne(tipo,id){
-let carne=document.getElementById(id).value;
-carrito.push(tipo+" de "+carne);
+let c=document.getElementById(id).value;
+carrito.push(tipo+" de "+c);
 actualizar();
 }
 
@@ -76,15 +92,14 @@ if(i>-1) carrito.splice(i,1);
 actualizar();
 }
 
+// ================= ACTUALIZAR =================
 function actualizar(){
-
 let lista=document.getElementById("lista");
-let total=0,cont={};
+let total=0;
+let cont={};
 lista.innerHTML="";
 
-carrito.forEach(x=>{
-cont[x]=(cont[x]||0)+1;
-});
+carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 
 for(let x in cont){
 let base=x.includes("Agua")?"Agua":x.split(" de ")[0];
@@ -102,174 +117,130 @@ document.getElementById("total").innerText="Total: $"+total;
 
 // ================= FORM =================
 function abrirForm(){
-if(carrito.length==0){
-alert("No hay pedido");
-return;
-}
+if(carrito.length==0){alert("Agrega algo");return;}
 document.getElementById("formulario").style.display="flex";
 }
 
 function tipoCambio(){
-let t=document.getElementById("tipo").value;
-document.getElementById("hora").style.display=(t==="Para comer aquí")?"block":"none";
+document.getElementById("hora").style.display=
+(document.getElementById("tipo").value==="Para comer aquí")?"block":"none";
 }
 
 function enviar(){
-let nombre=document.getElementById("nombre").value;
-let tipo=document.getElementById("tipo").value;
-let hora=document.getElementById("hora").value;
-
-if(!nombre){alert("Nombre obligatorio");return;}
-if(tipo==="Para comer aquí" && !hora){alert("Pon hora");return;}
-
-localStorage.setItem("nombre",nombre);
-localStorage.setItem("tipo",tipo);
-localStorage.setItem("hora",hora);
-
+let n=document.getElementById("nombre").value;
+if(!n){alert("Nombre obligatorio");return;}
 document.getElementById("formulario").style.display="none";
 document.getElementById("pantallaPago").style.display="flex";
 }
 
 // ================= CANCELAR =================
 function cancelarPedido(){
-
 if(confirm("¿Cancelar pedido?")){
-
 carrito=[];
-
-document.getElementById("lista").innerHTML="";
-document.getElementById("total").innerText="Total: $0";
-
+actualizar();
 document.getElementById("formulario").style.display="none";
 document.getElementById("pantallaPago").style.display="none";
-
-localStorage.clear();
-
 }
 }
 
 // ================= CONFIRMAR =================
 function confirmarPedido(){
 
-let nombre=localStorage.getItem("nombre");
-let tipo=localStorage.getItem("tipo");
-let hora=localStorage.getItem("hora");
+let n=document.getElementById("nombre").value;
 let ref=document.getElementById("ref").value;
 
 if(!ref){alert("Referencia obligatoria");return;}
 
-let cont={},total=0;
-carrito.forEach(x=>{
-cont[x]=(cont[x]||0)+1;
-});
+let txt="🌮 TACOS MILO\n\nCliente: "+n+"\n\nPedido:\n";
 
-let txt="🌮 TACOS MILO\n\n";
-txt+="Cliente: "+nombre+"\n";
-txt+="Tipo: "+tipo+"\n";
-
-if(tipo==="Para comer aquí"){
-txt+="Hora: "+hora+"\n";
-}
-
-txt+="\nPago: Transferencia\n";
-txt+="Referencia: "+ref+"\n\nPedido:\n";
-
-for(let x in cont){
-let base=x.includes("Agua")?"Agua":x.split(" de ")[0];
-let precio=precios[base]*cont[x];
-total+=precio;
-
-txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";
-}
-
-txt+="\nTotal: $"+total;
+carrito.forEach(x=>txt+="- "+x+"\n");
 
 window.open("https://wa.me/5213321310169?text="+encodeURIComponent(txt));
 }
 
-function actualizarPagina(){
-actualizar();
+// ================= INIT =================
+window.onload=function(){
+renderAguas();
 }
 
 </script>
 </head>
 
-<body onload="actualizarPagina()">
+<body>
 
-<h1 style="color:yellow;">🌮 TACOS MILO</h1>
+<h1>🌮 TACOS MILO</h1>
 
 <div id="lista"></div>
 <h2 id="total">Total: $0</h2>
 
 <hr>
 
-<!-- PRODUCTOS (TODO LO ANTERIOR) -->
+<!-- PRODUCTOS CON IMÁGENES -->
 <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">
 
-<div class="card"><h3>Pastor</h3><button onclick="agregar('Pastor')">Agregar</button></div>
-<div class="card"><h3>Chorizo</h3><button onclick="agregar('Chorizo')">Agregar</button></div>
-<div class="card"><h3>Bistec</h3><button onclick="agregar('Bistec')">Agregar</button></div>
-<div class="card"><h3>Suadero</h3><button onclick="agregar('Suadero')">Agregar</button></div>
-<div class="card"><h3>Tripa</h3><button onclick="agregar('Tripa')">Agregar</button></div>
+<div class="card"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>
+<div class="card"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>
+<div class="card"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
 
 <div class="card">
 <h3>Volcán</h3>
-<select id="volcan">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<img src="volcan.jpg" width="120"><br>
+<select id="v">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option>
 </select>
-<button onclick="agregarConCarne('Volcán','volcan')">Agregar</button>
-</div>
-
-<div class="card">
-<h3>Quesadilla con carne</h3>
-<select id="quesa">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
-</select>
-<button onclick="agregarConCarne('Quesadilla con carne','quesa')">Agregar</button>
-</div>
-
-<div class="card"><h3>Quesadilla sencilla</h3><button onclick="agregar('Quesadilla sencilla')">Agregar</button></div>
-
-<div class="card">
-<h3>Lonche</h3>
-<select id="lonche">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
-</select>
-<button onclick="agregarConCarne('Lonche','lonche')">Agregar</button>
+<button onclick="agregarConCarne('Volcán','v')">Agregar</button>
 </div>
 
 <div class="card">
 <h3>Gringa</h3>
-<select id="gringa">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
+<img src="gringa.jpg" width="120"><br>
+<select id="g">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option>
 </select>
-<button onclick="agregarConCarne('Gringa','gringa')">Agregar</button>
+<button onclick="agregarConCarne('Gringa','g')">Agregar</button>
 </div>
 
-<div class="card"><h3>Agua</h3><button onclick="agregar('Agua')">Agregar</button></div>
-<div class="card"><h3>Coca</h3><button onclick="agregar('Coca')">Agregar</button></div>
+<div class="card">
+<h3>Lonche</h3>
+<img src="lonche.jpg" width="120"><br>
+<select id="l">
+<option>Pastor</option><option>Chorizo</option><option>Bistec</option>
+</select>
+<button onclick="agregarConCarne('Lonche','l')">Agregar</button>
+</div>
+
+<div class="card">
+<h3>Agua</h3>
+<img src="agua.jpg" width="120"><br>
+<select id="saborAgua"></select>
+<button onclick="agregar('Agua')">Agregar</button>
+</div>
+
+<div class="card">
+<h3>Coca</h3>
+<img src="coca.jpg" width="120"><br>
+<button onclick="agregar('Coca')">Agregar</button>
+</div>
 
 </div>
 
-<br><br>
+<br>
 
 <button onclick="abrirForm()" style="background:green;color:white;font-size:18px;">
-Terminar pedido ✔️
+Terminar ✔️
 </button>
 
 <button onclick="cancelarPedido()" style="background:red;color:white;font-size:18px;">
 Cancelar ❌
 </button>
 
-<button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">
-⚙️
-</button>
+<button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
 
 <!-- FORM -->
 <div id="formulario">
 <div class="box">
 
-<input id="nombre" placeholder="Tu nombre">
+<input id="nombre" placeholder="Nombre">
 
 <select id="tipo" onchange="tipoCambio()">
 <option>Para llevar</option>
@@ -287,17 +258,11 @@ Cancelar ❌
 <div id="pantallaPago">
 <div class="box">
 
-<h2>💸 Transferencia</h2>
-
-<p>BBVA</p>
-<p>CLABE: 1234567890</p>
-<p>Tacos Milo</p>
+<h3>Transferencia</h3>
 
 <input id="ref" placeholder="Referencia">
 
-<button onclick="confirmarPedido()" style="background:green;color:white;">
-Confirmar
-</button>
+<button onclick="confirmarPedido()">Enviar</button>
 
 </div>
 </div>
@@ -308,6 +273,7 @@ Confirmar
 <h3>ADMIN</h3>
 
 <button onclick="cambiarPassword()">Cambiar contraseña</button>
+<button onclick="agregarAguaAdmin()">Agregar agua</button>
 
 </div>
 
