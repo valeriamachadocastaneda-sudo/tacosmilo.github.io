@@ -12,17 +12,16 @@ button {padding:8px;border:none;border-radius:8px;cursor:pointer;margin:3px;}
 select {margin-top:5px;padding:5px;border-radius:5px;}
 .admin {display:none;}
 
-#formulario {
+#formulario, #pantallaPago {
 display:none;position:fixed;top:0;left:0;width:100%;height:100%;
 background:rgba(0,0,0,0.9);justify-content:center;align-items:center;
 }
 
-.form-box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:320px;}
+.box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:320px;}
 input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 </style>
 
 <script>
-// 🛒 CARRITO
 let carrito=[];
 
 let precios={
@@ -31,18 +30,16 @@ let precios={
 "Lonche":50,"Gringa":40,"Agua":25,"Coca":24
 };
 
-// 🥤 SABORES DE AGUA (SE GUARDAN)
+// AGUAS
 let aguas = JSON.parse(localStorage.getItem("aguas")) || {
-Jamaica:true,
-Horchata:true,
-Limón:true
+Jamaica:true,Horchata:true,Limón:true
 };
 
 function guardarAguas(){
 localStorage.setItem("aguas", JSON.stringify(aguas));
 }
 
-// ⚙️ ADMIN
+// ADMIN
 let admin=false;
 
 function activarAdmin(){
@@ -51,71 +48,56 @@ if(pass==="1234"){
 admin=true;
 document.querySelectorAll(".admin").forEach(e=>e.style.display="block");
 actualizarSabores();
-alert("Modo admin activado");
 }
 }
 
-// 🥤 SABORES
+// SABORES
 function actualizarSabores(){
 let select=document.getElementById("saborAgua");
 select.innerHTML="";
 
 for(let s in aguas){
-if(aguas[s]){
-select.innerHTML+=`<option>${s}</option>`;
-}
+if(aguas[s]) select.innerHTML+=`<option>${s}</option>`;
 }
 
-// PANEL ADMIN
 let adminDiv=document.getElementById("adminAguas");
 adminDiv.innerHTML="";
 
 if(admin){
 for(let s in aguas){
-adminDiv.innerHTML+=`
-<div>
-${s}
-<button onclick="toggleAgua('${s}')">
-${aguas[s] ? "❌" : "✔️"}
-</button>
-</div>`;
+adminDiv.innerHTML+=`${s}
+<button onclick="toggleAgua('${s}')">${aguas[s]?"❌":"✔️"}</button><br>`;
 }
 }
 }
 
-function toggleAgua(nombre){
-aguas[nombre]=!aguas[nombre];
+function toggleAgua(n){
+aguas[n]=!aguas[n];
 guardarAguas();
 actualizarSabores();
 }
 
-// ➕ AGREGAR
+// CARRITO
 function agregar(p){carrito.push(p);actualizar();}
-
-function agregarConCarne(tipo,id){
-let carne=document.getElementById(id).value;
-carrito.push(tipo+" de "+carne);
+function agregarConCarne(t,id){
+let c=document.getElementById(id).value;
+carrito.push(t+" de "+c);
 actualizar();
 }
-
 function agregarAgua(){
-let sabor=document.getElementById("saborAgua").value;
-carrito.push("Agua de "+sabor);
+let s=document.getElementById("saborAgua").value;
+carrito.push("Agua de "+s);
 actualizar();
 }
-
-// ❌ QUITAR
 function quitar(p){
 let i=carrito.indexOf(p);
 if(i!=-1) carrito.splice(i,1);
 actualizar();
 }
 
-// 🔄 ACTUALIZAR CARRITO
 function actualizar(){
 let lista=document.getElementById("lista");
 let total=0,cont={};
-
 lista.innerHTML="";
 
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
@@ -143,26 +125,43 @@ let t=document.getElementById("tipo").value;
 document.getElementById("hora").style.display=(t=="Para comer aquí")?"block":"none";
 }
 
+// PASO A PAGO
 function enviar(){
 let nombre=document.getElementById("nombre").value;
 let tipo=document.getElementById("tipo").value;
 let hora=document.getElementById("hora").value;
 
-if(!nombre || nombre.trim()==""){alert("Pon tu nombre");return;}
+if(!nombre){alert("Pon tu nombre");return;}
 if(tipo=="Para comer aquí" && !hora){alert("Pon hora");return;}
+
+localStorage.setItem("nombre", nombre);
+localStorage.setItem("tipo", tipo);
+localStorage.setItem("hora", hora);
+
+document.getElementById("formulario").style.display="none";
+document.getElementById("pantallaPago").style.display="flex";
+}
+
+// CONFIRMAR PEDIDO
+function confirmarPedido(){
+let nombre=localStorage.getItem("nombre");
+let tipo=localStorage.getItem("tipo");
+let hora=localStorage.getItem("hora");
 
 let cont={},total=0;
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 
 let txt="🌮 TACOS MILO\n\nCliente: "+nombre+"\nTipo: "+tipo+"\n";
+
 if(tipo=="Para comer aquí") txt+="Hora: "+hora+"\n";
 
-txt+="\nPedido:\n";
+txt+="\nPago: Transferencia\n\nPedido:\n";
 
 for(let x in cont){
 let base=x.includes("Agua")?"Agua":x.split(" de ")[0];
 let precio=precios[base]*cont[x];
 total+=precio;
+
 txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";
 }
 
@@ -174,7 +173,6 @@ window.open("https://wa.me/5213321310169?text="+encodeURIComponent(txt));
 // INIT
 window.onload=actualizarSabores;
 </script>
-
 </head>
 
 <body>
@@ -192,44 +190,6 @@ window.onload=actualizarSabores;
 <div class="card"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>
 <div class="card"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>
 <div class="card"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
-<div class="card"><h3>Suadero</h3><img src="suadero.jpg" width="120"><br><button onclick="agregar('Suadero')">Agregar</button></div>
-<div class="card"><h3>Tripa</h3><img src="tripa.jpg" width="120"><br><button onclick="agregar('Tripa')">Agregar</button></div>
-
-<!-- VOLCAN -->
-<div class="card">
-<h3>Volcán</h3>
-<img src="volcan.jpg" width="120"><br>
-<select id="carneVolcan">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
-</select><br>
-<button onclick="agregarConCarne('Volcán','carneVolcan')">Agregar</button>
-</div>
-
-<!-- QUESADILLAS -->
-<div class="card">
-<h3>Quesadilla con carne</h3>
-<img src="quesadillaconcarne.jpg" width="120"><br>
-<select id="carneQuesa">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
-</select><br>
-<button onclick="agregarConCarne('Quesadilla con carne','carneQuesa')">Agregar</button>
-</div>
-
-<div class="card">
-<h3>Quesadilla sencilla</h3>
-<img src="quesadillasencilla.jpg" width="120"><br>
-<button onclick="agregar('Quesadilla sencilla')">Agregar</button>
-</div>
-
-<!-- LONCHE -->
-<div class="card">
-<h3>Lonche</h3>
-<img src="lonche.jpg" width="120"><br>
-<select id="carneLonche">
-<option>Pastor</option><option>Chorizo</option><option>Bistec</option><option>Suadero</option><option>Tripa</option>
-</select><br>
-<button onclick="agregarConCarne('Lonche','carneLonche')">Agregar</button>
-</div>
 
 <!-- GRINGA -->
 <div class="card">
@@ -241,7 +201,7 @@ window.onload=actualizarSabores;
 <button onclick="agregarConCarne('Gringa','carneGringa')">Agregar</button>
 </div>
 
-<!-- 🥤 AGUA -->
+<!-- AGUA -->
 <div class="card">
 <h3>Agua</h3>
 <img src="agua.jpg" width="120"><br>
@@ -250,42 +210,50 @@ window.onload=actualizarSabores;
 <div id="adminAguas" class="admin"></div>
 </div>
 
-<!-- COCA -->
-<div class="card">
-<h3>Coca</h3>
-<img src="coca.jpg" width="120"><br>
-<button onclick="agregar('Coca')">Agregar</button>
-</div>
-
 </div>
 
 <br><br>
-
 <button onclick="abrirForm()" style="background:green;color:white;font-size:18px;">
 Terminar pedido ✔️
 </button>
 
-<button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">
-⚙️
-</button>
+<button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
 
 <!-- FORM -->
 <div id="formulario">
-<div class="form-box">
-
+<div class="box">
 <input id="nombre" placeholder="Tu nombre">
-
 <select id="tipo" onchange="tipoCambio()">
 <option>Para llevar</option>
 <option>Para comer aquí</option>
 </select>
-
 <input id="hora" type="time" style="display:none;">
+<button onclick="enviar()">Continuar</button>
+</div>
+</div>
 
-<button onclick="enviar()">Enviar a WhatsApp</button>
+<!-- PAGO -->
+<div id="pantallaPago">
+<div class="box">
+
+<h2>💸 Pago por transferencia</h2>
+
+<img src="qr.png" width="200"><br><br>
+
+<p>Banco: BBVA</p>
+<p>CLABE: 123456789012345678</p>
+<p>Nombre: Tacos Milo</p>
+
+<p style="color:orange;">⚠️ Paga y luego confirma</p>
+
+<button onclick="confirmarPedido()" style="background:green;color:white;">
+Ya pagué / Confirmar pedido
+</button>
 
 <br><br>
-<button onclick="document.getElementById('formulario').style.display='none'">Cancelar</button>
+<button onclick="document.getElementById('pantallaPago').style.display='none'">
+Cancelar
+</button>
 
 </div>
 </div>
