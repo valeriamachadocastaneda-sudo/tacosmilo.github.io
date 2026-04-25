@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tacos Milo 🌮</title>
 
+<button onclick="activarSonido()" style="background:orange;">
+Activar sonido 🔊
+</button>
+
 <style>
 body {background:black;color:white;font-family:Arial;text-align:center;}
 .card {background:#222;padding:15px;border-radius:10px;width:180px;}
@@ -31,7 +35,16 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 <script>
 let carrito=[];
 
-const sonidoAgregar = new Audio("https://www.soundjay.com/buttons/sounds/button-3.mp3");
+let sonidoAgregar = new Audio();
+sonidoAgregar.src = "https://www.soundjay.com/buttons/sounds/button-3.mp3";
+
+function activarSonido(){
+sonidoAgregar.play().then(()=>{
+alert("Sonido activado 🔊");
+}).catch(()=>{
+alert("Toca otra vez para activar sonido");
+});
+}
 
 // PRECIOS
 let precios={
@@ -163,8 +176,10 @@ card.style.display="block";
 // ===== CARRITO =====
 function agregar(p){
 carrito.push(p);
+
 sonidoAgregar.currentTime = 0;
-sonidoAgregar.play();
+sonidoAgregar.play().catch(e => console.log("Sonido bloqueado"));
+
 actualizar();
 }
 
