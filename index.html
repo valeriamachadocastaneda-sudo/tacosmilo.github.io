@@ -142,20 +142,35 @@ document.getElementById("formulario").style.display="none";
 document.getElementById("pantallaPago").style.display="flex";
 }
 
-// CONFIRMAR PEDIDO
+// CONFIRMAR
 function confirmarPedido(){
+
 let nombre=localStorage.getItem("nombre");
 let tipo=localStorage.getItem("tipo");
 let hora=localStorage.getItem("hora");
+let referencia=document.getElementById("refPago").value;
+
+if(!referencia){
+alert("Escribe si ya pagaste o una referencia");
+return;
+}
 
 let cont={},total=0;
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 
-let txt="🌮 TACOS MILO\n\nCliente: "+nombre+"\nTipo: "+tipo+"\n";
+let txt="🌮 TACOS MILO\n\n";
+txt+="Cliente: "+nombre+"\n";
+txt+="Tipo: "+tipo+"\n";
 
-if(tipo=="Para comer aquí") txt+="Hora: "+hora+"\n";
+if(tipo=="Para comer aquí"){
+txt+="Hora: "+hora+"\n";
+}
 
-txt+="\nPago: Transferencia\n\nPedido:\n";
+txt+="\nPago: Transferencia\n";
+txt+="Referencia: "+referencia+"\n";
+txt+="⚠️ Enviar comprobante\n\n";
+
+txt+="Pedido:\n";
 
 for(let x in cont){
 let base=x.includes("Agua")?"Agua":x.split(" de ")[0];
@@ -179,6 +194,10 @@ window.onload=actualizarSabores;
 
 <h1 style="color:yellow;">🌮 TACOS MILO</h1>
 
+<p style="color:orange;">
+⚠️ El pedido se prepara después de confirmar el pago por transferencia
+</p>
+
 <div id="lista"></div>
 <h2 id="total">Total: $0</h2>
 
@@ -186,12 +205,8 @@ window.onload=actualizarSabores;
 
 <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">
 
-<!-- TACOS -->
 <div class="card"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>
-<div class="card"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>
-<div class="card"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>
 
-<!-- GRINGA -->
 <div class="card">
 <h3>Gringa</h3>
 <img src="gringa.jpg" width="120"><br>
@@ -201,7 +216,6 @@ window.onload=actualizarSabores;
 <button onclick="agregarConCarne('Gringa','carneGringa')">Agregar</button>
 </div>
 
-<!-- AGUA -->
 <div class="card">
 <h3>Agua</h3>
 <img src="agua.jpg" width="120"><br>
@@ -238,21 +252,16 @@ Terminar pedido ✔️
 
 <h2>💸 Pago por transferencia</h2>
 
-<img src="qr.png" width="200"><br><br>
-
 <p>Banco: BBVA</p>
 <p>CLABE: 123456789012345678</p>
 <p>Nombre: Tacos Milo</p>
 
-<p style="color:orange;">⚠️ Paga y luego confirma</p>
+<p style="color:orange;">⚠️ Paga y luego escribe referencia</p>
+
+<input id="refPago" placeholder="Ej: Ya pagué / folio">
 
 <button onclick="confirmarPedido()" style="background:green;color:white;">
-Ya pagué / Confirmar pedido
-</button>
-
-<br><br>
-<button onclick="document.getElementById('pantallaPago').style.display='none'">
-Cancelar
+Confirmar pedido
 </button>
 
 </div>
