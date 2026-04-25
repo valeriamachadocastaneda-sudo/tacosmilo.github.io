@@ -229,9 +229,12 @@ function confirmarPedido(){
 let nombre=localStorage.getItem("nombre");
 let tipo=localStorage.getItem("tipo");
 let hora=localStorage.getItem("hora");
-let referencia=document.getElementById("refPago").value;
+let referencia=document.getElementById("refPago").value.trim();
 
-if(!referencia){alert("Pon referencia");return;}
+if(!referencia || referencia.length < 4){
+alert("Pon una referencia válida (mínimo 4 caracteres)");
+return;
+}
 
 let cont={},total=0;
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
@@ -399,9 +402,12 @@ Terminar pedido ✔️
 <h2>💸 Pago por transferencia</h2>
 <p>Banco: BBVA</p>
 <p>CLABE: 123456789012345678</p>
-<p>Nombre: Tacos Milo</p>
-
-<input id="refPago" placeholder="Referencia">
+txt+="\nPago: Transferencia (PENDIENTE DE VERIFICACIÓN)\n";
+txt+="Referencia: "+referencia+"\n\n";
+<p style="color:yellow;">
+⚠️ Tu pedido NO se prepara hasta confirmar el pago
+</p>
+<input id="refPago" placeholder="Referencia de pago (OBLIGATORIO)">
 
 <button onclick="confirmarPedido()" style="background:green;color:white;">
 Confirmar pedido
