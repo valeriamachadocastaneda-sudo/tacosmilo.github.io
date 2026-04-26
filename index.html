@@ -31,7 +31,8 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 <script>
 let carrito=[];
 
-let sonidoAgregar = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
+let sonidoAgregar = new Audio("https://actions.google.com/sounds/v1/cash_register/cash_register.ogg");
+sonidoAgregar.volume = 1.0;
 
 function activarSonido(){
 sonidoAgregar.play().then(()=>{
@@ -173,7 +174,12 @@ function agregar(p){
 carrito.push(p);
 
 sonidoAgregar.currentTime = 0;
-sonidoAgregar.play().catch(e => console.log("Sonido bloqueado"));
+sonidoAgregar.play().catch(()=>{});
+
+// 🔥 vibración
+if(navigator.vibrate){
+navigator.vibrate(100);
+}
 
 actualizar();
 }
@@ -183,6 +189,9 @@ let carne=document.getElementById(id).value;
 carrito.push(tipo+" de "+carne);
 sonidoAgregar.currentTime = 0;
 sonidoAgregar.play().catch(()=>{});
+if(navigator.vibrate){
+navigator.vibrate(100);
+}
 actualizar();
 }
 
@@ -191,6 +200,9 @@ let sabor=document.getElementById("saborAgua").value;
 carrito.push("Agua de "+sabor);
 sonidoAgregar.currentTime = 0;
 sonidoAgregar.play().catch(()=>{});
+if(navigator.vibrate){
+navigator.vibrate(100);
+}
 actualizar();
 }
 
