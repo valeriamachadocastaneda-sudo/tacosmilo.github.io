@@ -46,12 +46,6 @@ function beepSuave(){
 }  
 let sonidoDesbloqueado = false;  
   
-let audioCtx;  
-  
-function beepSuave(){  
-  if(!audioCtx){  
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();  
-  }  
   
   let osc = audioCtx.createOscillator();  
   let gain = audioCtx.createGain();  
