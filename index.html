@@ -28,6 +28,9 @@ function beepSuave(){
   if(!audioCtx){  
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();  
   }  
+if(audioCtx.state === "suspended"){
+  audioCtx.resume();
+}
   
   let osc = audioCtx.createOscillator();  
   let gain = audioCtx.createGain();  
