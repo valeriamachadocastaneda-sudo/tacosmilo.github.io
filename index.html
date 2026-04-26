@@ -30,16 +30,21 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 
 <script>
 let carrito=[];
+let sonidoDesbloqueado = false;
 
-let sonidoAgregar = new Audio("button.mp3");
+let sonidoAgregar = new Audio("./button.mp3");
+sonidoAgregar.preload = "auto";
 sonidoAgregar.volume = 1.0;
 
 function activarSonido(){
-sonidoAgregar.play().then(()=>{
-alert("Sonido activado 🔊");
-}).catch(()=>{
-alert("Toca otra vez para activar sonido");
-});
+  sonidoAgregar.play().then(()=>{
+    sonidoAgregar.pause();
+    sonidoAgregar.currentTime = 0;
+    sonidoDesbloqueado = true;
+    alert("Sonido activado 🔊");
+  }).catch(()=>{
+    alert("Toca otra vez el botón");
+  });
 }
 
 // PRECIOS
