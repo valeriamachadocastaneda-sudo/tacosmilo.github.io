@@ -238,9 +238,24 @@ lista.innerHTML="";
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 
 for(let x in cont){
-let base=x.includes("Agua")?"Agua":x.split(" de ")[0];
-let precio=precios[base]*cont[x];
-total+=precio;
+let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];
+let cantidad = cont[x];
+let precioUnitario = precios[base];
+
+let cantidadReal = cantidad;
+let totalItem = cantidad * precioUnitario;
+
+// 👇 APLICAR PROMO 2x1 SOLO SI ES EL PRODUCTO
+if(promo.activo && promo.producto === base){
+    cantidadReal = cantidad * promo.multiplicador; // duplica
+    totalItem = (cantidad / promo.multiplicador) * precioUnitario;
+}
+
+total += totalItem;
+
+lista.innerHTML += `
+${cantidad} = ${cantidadReal} ${x} = ${precioUnitario} pesos<br>
+`;
 
 lista.innerHTML+=`${cont[x]} ${x} - $${precio}
 <button onclick="quitar('${x}')">❌</button><br>`;
@@ -304,10 +319,28 @@ txt+="Referencia: "+referencia+"\n\n";
 txt+="Pedido:\n";
 
 for(let x in cont){
-let base=x.includes("Agua")?"Agua":x.split(" de ")[0];
-let precio=precios[base]*cont[x];
-total+=precio;
-txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";
+
+let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];
+let cantidad = cont[x];
+
+// ===== PROMO =====
+let cantidadFinal = cantidad;
+
+if(promo.activo && x.includes(promo.producto)){
+  cantidadFinal = cantidad * promo.multiplicador;
+}
+
+// precio normal
+let precioUnitario = precios[base];
+let precioTotal = precioUnitario * cantidadFinal;
+
+total += precioTotal;
+
+// texto bonito tipo ticket
+lista.innerHTML += `
+${cantidad} = ${cantidadFinal} ${x} = $${precioTotal}
+<button onclick="quitar('${x}')">❌</button><br>
+`;
 }
 
 txt+="\nTotal: $"+total;
