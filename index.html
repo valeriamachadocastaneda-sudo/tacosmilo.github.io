@@ -50,9 +50,15 @@ if(audioCtx.state === "suspended"){
 let sonidoDesbloqueado = false;  
   
 function activarSonido(){
-  beepSuave();
-  sonidoDesbloqueado = true;
-  alert("Sonido activado 🔊");
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+
+  audioCtx.resume().then(() => {
+    beepSuave();
+    sonidoDesbloqueado = true;
+    alert("Sonido activado 🔊");
+  });
 }
   
 // PRECIOS  
