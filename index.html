@@ -31,8 +31,7 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 <script>
 let carrito=[];
 
-let sonidoAgregar = new Audio();
-sonidoAgregar.src = "https://www.soundjay.com/buttons/sounds/button-3.mp3";
+let sonidoAgregar = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg");
 
 function activarSonido(){
 sonidoAgregar.play().then(()=>{
