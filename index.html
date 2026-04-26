@@ -46,23 +46,6 @@ function beepSuave(){
 }  
 let sonidoDesbloqueado = false;  
   
-let audioCtx;  
-  
-  let osc = audioCtx.createOscillator();  
-  let gain = audioCtx.createGain();  
-  
-  osc.type = "sine";  
-  osc.frequency.value = 600; // tono suave  
-  
-  gain.gain.value = 0.05; // volumen bajito  
-  
-  osc.connect(gain);  
-  gain.connect(audioCtx.destination);  
-  
-  osc.start();  
-  osc.stop(audioCtx.currentTime + 0.08);  
-}  
-  
 function activarSonido(){
   beepSuave();
   sonidoDesbloqueado = true;
