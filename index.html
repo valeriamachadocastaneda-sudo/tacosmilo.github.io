@@ -235,20 +235,37 @@ let lista=document.getElementById("lista");
 let total=0,cont={};
 lista.innerHTML="";
 
-carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
+// contar productos
+carrito.forEach(x=>{
+  cont[x]=(cont[x]||0)+1;
+});
 
 for(let x in cont){
+
 let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];
 let cantidad = cont[x];
-let precioUnitario = precios[base];
 
-let cantidadReal = cantidad;
-let totalItem = cantidad * precioUnitario;
+// ===== PROMO =====
+let cantidadFinal = cantidad;
 
-// 👇 APLICAR PROMO 2x1 SOLO SI ES EL PRODUCTO
-if(promo.activo && promo.producto === base){
-    cantidadReal = cantidad * promo.multiplicador; // duplica
-    totalItem = (cantidad / promo.multiplicador) * precioUnitario;
+if(promo.activo && x.includes(promo.producto)){
+  cantidadFinal = cantidad * promo.multiplicador;
+}
+
+// precio unitario
+let precioUnitario = precios[base] || 0;
+let precioTotal = precioUnitario * cantidadFinal;
+
+total += precioTotal;
+
+// texto visible
+lista.innerHTML += `
+${cantidad} = ${cantidadFinal} ${x} = $${precioTotal}
+<button onclick="quitar('${x}')">❌</button><br>
+`;
+}
+
+document.getElementById("total").innerText="Total: $"+total;
 }
 
 total += totalItem;
@@ -294,14 +311,55 @@ document.getElementById("pantallaPago").style.display="flex";
 
 // ===== CONFIRMAR =====
 function confirmarPedido(){
+
 let nombre=localStorage.getItem("nombre");
 let tipo=localStorage.getItem("tipo");
 let hora=localStorage.getItem("hora");
 let referencia=document.getElementById("refPago").value.trim();
 
 if(!referencia || referencia.length < 4){
-alert("Pon una referencia válida (mínimo 4 caracteres)");
+alert("Pon una referencia válida");
 return;
+}
+
+let cont={},total=0;
+carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
+
+let txt="🌮 TACOS MILO\n\n";
+txt+="Cliente: "+nombre+"\n";
+txt+="Tipo: "+tipo+"\n";
+
+if(tipo=="Para comer aquí") txt+="Hora: "+hora+"\n";
+
+txt+="\nPago: Transferencia\n";
+txt+="Referencia: "+referencia+"\n\n";
+
+txt+="Pedido:\n";
+
+for(let x in cont){
+
+let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];
+let cantidad = cont[x];
+
+// promo
+let cantidadFinal = cantidad;
+
+if(promo.activo && x.includes(promo.producto)){
+  cantidadFinal = cantidad * promo.multiplicador;
+}
+
+let precioUnitario = precios[base] || 0;
+let precioTotal = precioUnitario * cantidadFinal;
+
+total += precioTotal;
+
+// SOLO TEXTO
+txt += `${cantidad} = ${cantidadFinal} ${x} = $${precioTotal}\n`;
+}
+
+txt+="\nTotal: $"+total;
+
+window.open("https://wa.me/5213321310169?text="+encodeURIComponent(txt));
 }
 
 let cont={},total=0;
