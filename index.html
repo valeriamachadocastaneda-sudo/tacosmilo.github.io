@@ -46,6 +46,7 @@ function beepSuave(){
 }  
 let sonidoDesbloqueado = false;  
   
+let audioCtx;  
   
   let osc = audioCtx.createOscillator();  
   let gain = audioCtx.createGain();  
@@ -62,16 +63,11 @@ let sonidoDesbloqueado = false;
   osc.stop(audioCtx.currentTime + 0.08);  
 }  
   
-function activarSonido(){  
-  sonidoAgregar.play().then(()=>{  
-    sonidoAgregar.pause();  
-    sonidoAgregar.currentTime = 0;  
-    sonidoDesbloqueado = true;  
-    alert("Sonido activado 🔊");  
-  }).catch(()=>{  
-    alert("Toca otra vez el botón");  
-  });  
-}  
+function activarSonido(){
+  beepSuave();
+  sonidoDesbloqueado = true;
+  alert("Sonido activado 🔊");
+}
   
 // PRECIOS  
 let precios={  
@@ -434,4 +430,4 @@ Confirmar pedido
 </div>  
 
 </body>  
-  </html>
+          </html>
