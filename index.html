@@ -30,11 +30,28 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 
 <script>
 let carrito=[];
-let sonidoDesbloqueado = false;
+let audioCtx;
+function beepSuave(){
+  if(!audioCtx){
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
 
-let sonidoAgregar = new Audio("./button.mp3");
-sonidoAgregar.preload = "auto";
-sonidoAgregar.volume = 1.0;
+  let osc = audioCtx.createOscillator();
+  let gain = audioCtx.createGain();
+
+  osc.type = "sine";      // sonido suave
+  osc.frequency.value = 600;
+
+  gain.gain.value = 0.05;  // volumen bajito
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.08);
+  
+}
+let sonidoDesbloqueado = false;
 
 function activarSonido(){
   sonidoAgregar.play().then(()=>{
@@ -178,10 +195,8 @@ card.style.display="block";
 function agregar(p){
 carrito.push(p);
 
-sonidoAgregar.currentTime = 0;
-sonidoAgregar.play().catch(()=>{});
+beepSuave(); // 👈 SONIDO
 
-// 🔥 vibración
 if(navigator.vibrate){
 navigator.vibrate(100);
 }
@@ -192,8 +207,7 @@ actualizar();
 function agregarConCarne(tipo,id){
 let carne=document.getElementById(id).value;
 carrito.push(tipo+" de "+carne);
-sonidoAgregar.currentTime = 0;
-sonidoAgregar.play().catch(()=>{});
+  beepSuave(); // 👈 SONIDO
 if(navigator.vibrate){
 navigator.vibrate(100);
 }
@@ -203,8 +217,7 @@ actualizar();
 function agregarAgua(){
 let sabor=document.getElementById("saborAgua").value;
 carrito.push("Agua de "+sabor);
-sonidoAgregar.currentTime = 0;
-sonidoAgregar.play().catch(()=>{});
+  beepSuave(); // 👈 SONIDO
 if(navigator.vibrate){
 navigator.vibrate(100);
 }
