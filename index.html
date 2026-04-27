@@ -345,55 +345,6 @@ txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";
 txt+="\nTotal: $"+total;  
   
 window.open("https://wa.me/5213321310169?text="+encodeURIComponent(txt));  
-}  
-  
-// ===== INIT =====  
-  // ===== MOVER SALSAS =====
-let caja = document.getElementById("salsasBox");
-
-let moviendo = false;
-let offsetX = 0;
-let offsetY = 0;
-
-// MOUSE
-caja.addEventListener("mousedown", (e) => {
-  moviendo = true;
-  offsetX = e.clientX - caja.offsetLeft;
-  offsetY = e.clientY - caja.offsetTop;
-});
-
-document.addEventListener("mousemove", (e) => {
-  if (moviendo) {
-    caja.style.left = (e.clientX - offsetX) + "px";
-    caja.style.top = (e.clientY - offsetY) + "px";
-    caja.style.right = "auto";
-  }
-});
-
-document.addEventListener("mouseup", () => {
-  moviendo = false;
-});
-
-// CELULAR
-caja.addEventListener("touchstart", (e) => {
-  moviendo = true;
-  let touch = e.touches[0];
-  offsetX = touch.clientX - caja.offsetLeft;
-  offsetY = touch.clientY - caja.offsetTop;
-});
-
-document.addEventListener("touchmove", (e) => {
-  if (moviendo) {
-    let touch = e.touches[0];
-    caja.style.left = (touch.clientX - offsetX) + "px";
-    caja.style.top = (touch.clientY - offsetY) + "px";
-    caja.style.right = "auto";
-  }
-});
-
-document.addEventListener("touchend", () => {
-  moviendo = false;
-});
   
 window.onload=function(){
 
