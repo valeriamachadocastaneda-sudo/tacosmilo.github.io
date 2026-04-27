@@ -2,7 +2,8 @@
 <head>  
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>Tacos Milo 🌮</title>  <style>  
+<title>Tacos Milo 🌮</title>  <style> 
+
 body {background:black;color:white;font-family:Arial;text-align:center;}  
 .card {background:#222;padding:15px;border-radius:10px;width:180px;}  
 button {padding:8px;border:none;border-radius:8px;cursor:pointer;margin:3px;}  
@@ -20,7 +21,18 @@ padding:10px;border-radius:10px;max-height:85vh;overflow:auto;
 }  
   
 .box {background:#333;padding:20px;border-radius:15px;width:90%;max-width:320px;}  
-input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}  
+input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
+  
+#salsasBox{
+  position: fixed;
+  top: 120px;
+  right: 10px;
+  background: #111;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: left;
+}
+
 </style>  <script>  
 let carrito=[];
 function obtenerSalsas(){
@@ -346,13 +358,15 @@ Activar sonido 🔊
 ⚠️ El pedido se prepara después de confirmar el pago por transferencia
 </p>
 
-<h3>🌶️ Elige tus salsas:</h3>
+<div id="salsasBox">
+  <h3>🌶️ Salsas</h3>
 
-<label><input type="checkbox" id="sVerde"> Verde</label><br>
-<label><input type="checkbox" id="sRoja"> Roja</label><br>
-<label><input type="checkbox" id="sGuacamole"> Guacamole</label><br>
-<label><input type="checkbox" id="sCebolla"> Cebolla</label><br>
-<label><input type="checkbox" id="sCilantro"> Cilantro</label><br>
+  <label><input type="checkbox" id="sVerde"> Verde</label><br>
+  <label><input type="checkbox" id="sRoja"> Roja</label><br>
+  <label><input type="checkbox" id="sGuacamole"> Guacamole</label><br>
+  <label><input type="checkbox" id="sCebolla"> Cebolla</label><br>
+  <label><input type="checkbox" id="sCilantro"> Cilantro</label><br>
+</div>
 </p>  <div id="lista"></div>  
 <h2 id="total">Total: $0</h2>  <hr>  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">  <div class="card" id="cardPastor"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>  
 <div class="card" id="cardChorizo"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>  
