@@ -52,7 +52,36 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
   cursor: grab;
   touch-action: none;
 }
+// ===== PANEL EN VIVO =====
+function escucharPedidos(){
+  db.ref("pedidos").limitToLast(20).on("value", (snapshot)=>{
+    
+    let lista = document.getElementById("listaPedidos");
+    lista.innerHTML = "";
 
+    snapshot.forEach((child)=>{
+      let p = child.val();
+
+      let pedidoHTML = `
+      <div style="border-bottom:1px solid gray;margin-bottom:10px;padding:5px;">
+        <b>${p.nombre}</b><br>
+        ${p.tipo}<br>
+        💵 $${p.total}<br>
+        🔢 ${p.referencia}<br>
+        <button onclick="eliminarPedido('${child.key}')">❌</button>
+      </div>
+      `;
+
+      lista.innerHTML = pedidoHTML + lista.innerHTML;
+    });
+
+  });
+}
+function eliminarPedido(id){
+  if(confirm("¿Eliminar pedido?")){
+    db.ref("pedidos/" + id).remove();
+  }
+}
 </style>  <script>  
 let carrito=[];
 function obtenerSalsas(){
@@ -203,7 +232,8 @@ admin=true;
 document.querySelectorAll(".admin").forEach(e=>e.style.display="block");  
 actualizarSabores();  
 cargarAdminProductos();  
-document.getElementById("promoInput").value=promo;  
+document.getElementById("promoInput").value=promo;
+escucharPedidos();
 }  
 }  
   
@@ -360,7 +390,16 @@ txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";
 }  
   
 txt+="\nTotal: $"+total;  
-  
+  // 🔥 GUARDAR EN FIREBASE
+db.ref("pedidos").push({
+  nombre: nombre,
+  tipo: tipo,
+  hora: hora,
+  pedido: cont,
+  total: total,
+  referencia: referencia,
+  fecha: Date.now()
+});
 window.open("https://wa.me/5213314368669?text="+encodeURIComponent(txt));  
 }
   
@@ -530,6 +569,19 @@ Confirmar pedido
 </button>  
 </div>  
 </div>  
-
+<div id="panelPedidos" class="admin" style="
+position:fixed;
+left:10px;
+top:10px;
+background:#000;
+padding:10px;
+border-radius:10px;
+max-height:90vh;
+overflow:auto;
+width:300px;
+">
+<h3>📦 Pedidos en vivo</h3>
+<div id="listaPedidos"></div>
+</div>
 </body>  
           </html>
