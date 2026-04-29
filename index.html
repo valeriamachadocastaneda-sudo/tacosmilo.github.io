@@ -367,6 +367,7 @@ db.ref("pedidos").push({
   tipo: tipo,
   hora: hora,
   pedido: cont,
+  salsas: salsas, // 👈 AQUÍ
   total: total,
   referencia: referencia,
   fecha: Date.now()
@@ -450,6 +451,10 @@ function escucharPedidos(){
       `- ${cantidad} ${item}`
     ).join("<br>")
   }
+  ${p.salsas && p.salsas.length > 0 ? `
+<br><b>🌶️ Salsas:</b><br>
+${p.salsas.map(s => `- ${s}`).join("<br>")}
+` : ""}
 
   <br><br>💵 Total: $${p.total}<br>
   🔢 Ref: ${p.referencia}<br>
