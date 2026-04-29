@@ -1,5 +1,22 @@
 <!DOCTYPE html>  <html>  
 <head>  
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBBzyNLtsJBulrflAbg4XteZmO7GIk4mcc",
+  authDomain: "tacos-milo.firebaseapp.com",
+  projectId: "tacos-milo",
+  storageBucket: "tacos-milo.firebasestorage.app",
+  messagingSenderId: "264651688631",
+  appId: "1:264651688631:web:685a8ee662c2b0c1d49b32",
+  measurementId: "G-P2FXFV9RWZ"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+</script>
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
 <title>Tacos Milo 🌮</title>  <style> 
