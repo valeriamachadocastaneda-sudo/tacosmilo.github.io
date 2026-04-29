@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Panel Tacos Milo 🌮</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBBzyNLtsJBulrflAbg4XteZmO7GIk4mcc",
+  authDomain: "tacos-milo.firebaseapp.com",
+  projectId: "tacos-milo",
+  storageBucket: "tacos-milo.firebasestorage.app",
+  messagingSenderId: "264651688631",
+  appId: "1:264651688631:web:685a8ee662c2b0c1d49b32",
+  measurementId: "G-P2FXFV9RWZ"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function cargarPedidos(){
+  db.ref("pedidos").on("value", (snap) => {
+    let data = snap.val();
+    let div = document.getElementById("pedidos");
+    div.innerHTML = "";
+
+    for(let id in data){
+      let p = data[id];
+
+      let html = `
+      <div class="card">
+        <h3>🧾 Pedido</h3>
+        <b>Cliente:</b> ${p.nombre}<br>
+        <b>Tipo:</b> ${p.tipo}<br>
+        <b>Hora:</b> ${p.hora || "-"}<br>
+        <b>Referencia:</b> ${p.referencia}<br>
+        <b>Total:</b> $${p.total}<br>
+        <b>Fecha:</b> ${p.fecha}<br><br>
+
+        <b>Pedido:</b><br>
+      `;
+
+      for(let item in p.pedido){
+        html += `- ${p.pedido[item]} ${item}<br>`;
+      }
+
+      if(p.salsas && p.salsas.length > 0){
+        html += `<br><b>Salsas:</b><br>`;
+        p.salsas.forEach(s => {
+          html += `- ${s}<br>`;
+        });
+      }
+
+      html += `
+        <br>
+        <button onclick="eliminar('${id}')">❌ Eliminar</button>
+      </div>
+      `;
+
+      div.innerHTML += html;
+    }
+  });
+}
+
+function eliminar(id){
+  if(confirm("¿Eliminar pedido?")){
+    db.ref("pedidos/"+id).remove();
+  }
+}
+
+window.onload = cargarPedidos;
+</script>
+
+<style>
+body{
+  background:black;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+}
+
+.card{
+  background:#222;
+  margin:10px;
+  padding:15px;
+  border-radius:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🔥 Panel de Pedidos en Vivo</h1>
+
+<div id="pedidos"></div>
+
+</body>
+</html>
