@@ -438,15 +438,26 @@ function escucharPedidos(){
     snapshot.forEach((child)=>{
       let p = child.val();
 
-      let pedidoHTML = `
-      <div style="border-bottom:1px solid gray;margin-bottom:10px;padding:5px;">
-        <b>${p.nombre}</b><br>
-        ${p.tipo}<br>
-        💵 $${p.total}<br>
-        🔢 ${p.referencia}<br>
-        <button onclick="eliminarPedido('${child.key}')">❌</button>
-      </div>
-      `;
+ let pedidoHTML = `
+<div style="border-bottom:1px solid gray;margin-bottom:10px;padding:5px;">
+  <b>👤 ${p.nombre}</b><br>
+  📦 ${p.tipo}<br>
+  ⏰ ${p.hora || "Sin hora"}<br>
+
+  <br><b>Pedido:</b><br>
+  ${
+    Object.entries(p.pedido || {}).map(([item, cantidad]) =>
+      `- ${cantidad} ${item}`
+    ).join("<br>")
+  }
+
+  <br><br>💵 Total: $${p.total}<br>
+  🔢 Ref: ${p.referencia}<br>
+  📅 ${new Date(p.fecha).toLocaleString()}<br>
+
+  <button onclick="eliminarPedido('${child.key}')">❌ Eliminar</button>
+</div>
+`;
 
       lista.innerHTML = pedidoHTML + lista.innerHTML;
     });
