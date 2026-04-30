@@ -55,6 +55,7 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 
 </style>  <script>  
 let carrito=[];
+let pedidosPrevios = 0;
 function obtenerSalsas(){
   let salsas=[];
 
@@ -81,7 +82,7 @@ if(audioCtx.state === "suspended"){
   osc.type = "sine";      // sonido suave  
   osc.frequency.value = 600;  
   
-  gain.gain.value = 0.05;  // volumen bajito  
+  gain.gain.value = 0.15;  // volumen medio  
   
   osc.connect(gain);  
   gain.connect(audioCtx.destination);  
@@ -458,14 +459,23 @@ window.onload=function(){
 // ===== PANEL EN VIVO =====
 function escucharPedidos(){
   db.ref("pedidos").limitToLast(20).on("value", (snapshot)=>{
-    
+
     let lista = document.getElementById("listaPedidos");
     lista.innerHTML = "";
+
+    let totalActual = snapshot.size;
+
+    // 🔥 SONIDO SOLO SI HAY NUEVOS Y SI ES ADMIN
+    if(admin && pedidosPrevios !== 0 && totalActual > pedidosPrevios){
+      beepSuave();
+    }
+
+    pedidosPrevios = totalActual;
 
     snapshot.forEach((child)=>{
       let p = child.val();
 
- let pedidoHTML = `
+      let pedidoHTML = `
 <div style="border-bottom:1px solid gray;margin-bottom:10px;padding:5px;">
   <b>👤 ${p.nombre}</b><br>
   📦 ${p.tipo}<br>
@@ -477,6 +487,7 @@ function escucharPedidos(){
       `- ${cantidad} ${item}`
     ).join("<br>")
   }
+
   ${p.salsas && p.salsas.length > 0 ? `
 <br><b>🌶️ Salsas:</b><br>
 ${p.salsas.map(s => `- ${s}`).join("<br>")}
