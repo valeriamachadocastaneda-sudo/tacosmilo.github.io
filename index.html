@@ -333,6 +333,10 @@ function confirmarPedido(){
 
   let cont = {}, total = 0;  
   carrito.forEach(x => cont[x] = (cont[x] || 0) + 1);
+  for(let x in cont){  
+  let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];  
+  total += precios[base] * cont[x];  
+}
 
   // ✅ VALIDACIONES DESPUÉS de definir variables
   if(!nombre || nombre.length < 3){
