@@ -56,6 +56,7 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 </style>  <script>  
 let carrito=[];
 let pedidosPrevios = 0;
+let audioCtx; // 👈 🔥 AGREGA ESTO
 function obtenerSalsas(){
   let salsas=[];
 
@@ -67,30 +68,32 @@ function obtenerSalsas(){
 
   return salsas;
 }
-let audioCtx;  
 function beepSuave(){  
   if(!audioCtx){  
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();  
   }  
-if(audioCtx.state === "suspended"){
-  audioCtx.resume();
-}
-  
+
+  if(audioCtx.state === "suspended"){
+    audioCtx.resume();
+  }
+
+  // 👇 IMPORTANTE
+  if(!sonidoDesbloqueado) return;
+
   let osc = audioCtx.createOscillator();  
   let gain = audioCtx.createGain();  
-  
-  osc.type = "sine";      // sonido suave  
-  osc.frequency.value = 600;  
-  
-  gain.gain.value = 0.15;  // volumen medio  
-  
+
+  osc.type = "sine";  
+  osc.frequency.value = 700;  
+
+  gain.gain.value = 0.2;  
+
   osc.connect(gain);  
   gain.connect(audioCtx.destination);  
-  
+
   osc.start();  
-  osc.stop(audioCtx.currentTime + 0.08);  
-    
-}  
+  osc.stop(audioCtx.currentTime + 0.1);  
+}
 let sonidoDesbloqueado = false;  
   
 function activarSonido(){
@@ -211,6 +214,7 @@ function activarAdmin(){
   actualizarSabores();  
   cargarAdminProductos();  
   document.getElementById("promoInput").value = promo;
+    activarSonido(); // 👈 🔥 AGREGA ESTA LÍNEA
   escucharPedidos();
 }
   
