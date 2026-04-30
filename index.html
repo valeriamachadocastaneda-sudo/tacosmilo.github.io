@@ -325,32 +325,35 @@ document.getElementById("pantallaPago").style.display="flex";
   
 // ===== CONFIRMAR =====  
 function confirmarPedido(){
-if(!nombre || nombre.length < 3){
-  alert("Nombre inválido");
-  return;
-}
 
-if(Object.keys(cont).length === 0){
-  alert("Pedido vacío");
-  return;
-}
+  let nombre = localStorage.getItem("nombre");  
+  let tipo = localStorage.getItem("tipo");  
+  let hora = localStorage.getItem("hora");  
+  let referencia = document.getElementById("refPago").value.trim();  
 
-if(total <= 0){
-  alert("Total inválido");
-  return;
-}
-let nombre=localStorage.getItem("nombre");  
-let tipo=localStorage.getItem("tipo");  
-let hora=localStorage.getItem("hora");  
-let referencia=document.getElementById("refPago").value.trim();  
-  
-if(!referencia || referencia.length < 4){  
-alert("Pon una referencia válida (mínimo 4 caracteres)");  
-return;  
-}  
-  
-let cont={},total=0;  
-carrito.forEach(x=>cont[x]=(cont[x]||0)+1);  
+  let cont = {}, total = 0;  
+  carrito.forEach(x => cont[x] = (cont[x] || 0) + 1);
+
+  // ✅ VALIDACIONES DESPUÉS de definir variables
+  if(!nombre || nombre.length < 3){
+    alert("Nombre inválido");
+    return;
+  }
+
+  if(Object.keys(cont).length === 0){
+    alert("Pedido vacío");
+    return;
+  }
+
+  if(total <= 0){
+    alert("Total inválido");
+    return;
+  }
+
+  if(!referencia || referencia.length < 4){  
+    alert("Pon una referencia válida");  
+    return;  
+  }
   
 let txt="🌮 TACOS MILO\n\n";  
 txt+="Cliente: "+nombre+"\n";  
