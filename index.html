@@ -55,6 +55,7 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 
 </style>  <script>  
 let carrito=[];
+let pedidosListos = {};
 let pedidosPrevios = 0;
 let audioCtx; // 👈 🔥 AGREGA ESTO
 function obtenerSalsas(){
@@ -67,6 +68,11 @@ function obtenerSalsas(){
   if(document.getElementById("sCilantro").checked) salsas.push("Cilantro");
 
   return salsas;
+}
+function pedidoListo(id){
+  db.ref("pedidos/" + id).update({
+    estado: "listo"
+  });
 }
 function toggleSalsas(){
   let box = document.getElementById("contenidoSalsas");
@@ -407,10 +413,11 @@ db.ref("pedidos").push({
   tipo: tipo,
   hora: hora,
   pedido: cont,
-  salsas: salsas, // 👈 AQUÍ
+  salsas: salsas,
   total: total,
   referencia: referencia,
-  fecha: Date.now()
+  fecha: Date.now(),
+  estado: "pendiente" // 👈 NUEVO
 });
 window.open("https://wa.me/5213314368669?text="+encodeURIComponent(txt));  
 }
@@ -487,6 +494,12 @@ function escucharPedidos(){
 
     snapshot.forEach((child)=>{
       let p = child.val();
+      // 🔊 AQUÍ VA
+      if(p.estado === "listo" && !pedidosListos[child.key]){
+    pedidosListos[child.key] = true;
+    beepSuave();
+    alert("Tu pedido está listo 🎉");
+  }
 
       let pedidoHTML = `
 <div style="border-bottom:1px solid gray;margin-bottom:10px;padding:5px;">
@@ -510,7 +523,8 @@ ${p.salsas.map(s => `- ${s}`).join("<br>")}
   🔢 Ref: ${p.referencia}<br>
   📅 ${new Date(p.fecha).toLocaleString()}<br>
 
-  <button onclick="eliminarPedido('${child.key}')">❌ Eliminar</button>
+<button onclick="pedidoListo('${child.key}')">✅ Listo</button>
+<button onclick="eliminarPedido('${child.key}')">❌ Eliminar</button>
 </div>
 `;
 
