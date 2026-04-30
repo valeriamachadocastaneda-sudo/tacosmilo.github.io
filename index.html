@@ -197,16 +197,21 @@ document.getElementById("promoTexto").innerText=txt;
 let admin=false;  
   
 function activarAdmin(){  
-let pass=prompt("Contraseña:");  
-if(pass==="Mateo"){  
-admin=true;  
-document.querySelectorAll(".admin").forEach(e=>e.style.display="block");  
-actualizarSabores();  
-cargarAdminProductos();  
-document.getElementById("promoInput").value=promo;
-escucharPedidos();
-}  
-}  
+  let pass = prompt("Contraseña:");
+
+  if(pass !== "Mateo12345"){   // 👈 NEGAMOS si es incorrecta
+    alert("Acceso denegado");
+    return;
+  }
+
+  // 👇 SOLO entra si la contraseña es correcta
+  admin = true;  
+  document.querySelectorAll(".admin").forEach(e => e.style.display = "block");  
+  actualizarSabores();  
+  cargarAdminProductos();  
+  document.getElementById("promoInput").value = promo;
+  escucharPedidos();
+}
   
 // ===== ADMIN LISTA =====  
 function cargarAdminProductos(){  
@@ -319,7 +324,21 @@ document.getElementById("pantallaPago").style.display="flex";
 }  
   
 // ===== CONFIRMAR =====  
-function confirmarPedido(){  
+function confirmarPedido(){
+if(!nombre || nombre.length < 3){
+  alert("Nombre inválido");
+  return;
+}
+
+if(Object.keys(cont).length === 0){
+  alert("Pedido vacío");
+  return;
+}
+
+if(total <= 0){
+  alert("Total inválido");
+  return;
+}
 let nombre=localStorage.getItem("nombre");  
 let tipo=localStorage.getItem("tipo");  
 let hora=localStorage.getItem("hora");  
