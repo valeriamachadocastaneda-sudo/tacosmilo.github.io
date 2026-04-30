@@ -68,6 +68,15 @@ function obtenerSalsas(){
 
   return salsas;
 }
+function toggleSalsas(){
+  let box = document.getElementById("contenidoSalsas");
+
+  if(box.style.display === "none"){
+    box.style.display = "block";
+  } else {
+    box.style.display = "none";
+  }
+}
 function beepSuave(){  
   if(!audioCtx){  
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();  
@@ -523,13 +532,21 @@ Activar sonido 🔊
 </p>
 
 <div id="salsasBox">
-  <h3>🌶️ Salsas</h3>
 
-  <label><input type="checkbox" id="sVerde"> Verde</label><br>
-  <label><input type="checkbox" id="sRoja"> Roja</label><br>
-  <label><input type="checkbox" id="sGuacamole"> Guacamole</label><br>
-  <label><input type="checkbox" id="sCebolla"> Cebolla</label><br>
-  <label><input type="checkbox" id="sCilantro"> Cilantro</label><br>
+  <button onclick="toggleSalsas()" style="width:100%;background:orange;">
+    🌶️ Salsas
+  </button>
+
+  <div id="contenidoSalsas" style="display:none; margin-top:10px;">
+
+    <label><input type="checkbox" id="sVerde"> Verde</label><br>
+    <label><input type="checkbox" id="sRoja"> Roja</label><br>
+    <label><input type="checkbox" id="sGuacamole"> Guacamole</label><br>
+    <label><input type="checkbox" id="sCebolla"> Cebolla</label><br>
+    <label><input type="checkbox" id="sCilantro"> Cilantro</label><br>
+
+  </div>
+
 </div>
 </p>  <div id="lista"></div>  
 <h2 id="total">Total: $0</h2>  <hr>  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">  <div class="card" id="cardPastor"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>  
