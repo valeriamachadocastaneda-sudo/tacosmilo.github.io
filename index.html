@@ -102,8 +102,8 @@ function activarSonido(){
   }
 
   audioCtx.resume().then(() => {
-    beepSuave();
-    sonidoDesbloqueado = true;
+    sonidoDesbloqueado = true; // 🔥 PRIMERO
+    beepSuave();               // 🔥 DESPUÉS
     alert("Sonido activado 🔊");
   });
 }
@@ -467,7 +467,7 @@ function escucharPedidos(){
     let lista = document.getElementById("listaPedidos");
     lista.innerHTML = "";
 
-    let totalActual = snapshot.size;
+   let totalActual = snapshot.numChildren();
 
     // 🔥 SONIDO SOLO SI HAY NUEVOS Y SI ES ADMIN
     if(admin && pedidosPrevios !== 0 && totalActual > pedidosPrevios){
