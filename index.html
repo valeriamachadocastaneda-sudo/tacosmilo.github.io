@@ -74,6 +74,18 @@ function pedidoListo(id){
     estado: "listo"
   });
 }
+function enviarWhatsAppListo(p, id){
+  // marcar como listo
+  pedidoListo(id);
+
+  let mensaje = `Hola ${p.nombre} 👋\n\nTu pedido ya está listo 🌮🎉\n\n¡Puedes pasar por él!`;
+
+  let numero = "5213314368669"; // 👈 tu número
+
+  let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+
+  window.open(url, "_blank");
+}
 function toggleSalsas(){
   let box = document.getElementById("contenidoSalsas");
 
@@ -524,6 +536,11 @@ ${p.salsas.map(s => `- ${s}`).join("<br>")}
   📅 ${new Date(p.fecha).toLocaleString()}<br>
 
 <button onclick="pedidoListo('${child.key}')">✅ Listo</button>
+
+<button onclick="enviarWhatsAppListo(${JSON.stringify(p)}, '${child.key}')">
+📲 Listo (WhatsApp)
+</button>
+
 <button onclick="eliminarPedido('${child.key}')">❌ Eliminar</button>
 </div>
 `;
