@@ -79,14 +79,14 @@ function enviarWhatsAppListo(id){
   db.ref("pedidos/" + id).once("value").then((snapshot)=>{
     let p = snapshot.val();
 
-    // marcar como listo
+    if(!p || !p.nombre){
+      alert("Error: pedido sin nombre");
+      return;
+    }
+
     pedidoListo(id);
 
-    let mensaje = `Hola ${p.nombre} 👋
-
-Tu pedido ya está listo 🌮🎉
-
-¡Puedes pasar por él!`;
+    let mensaje = "Hola " + p.nombre + " 👋\n\nTu pedido ya está listo 🌮🎉\n\n¡Puedes pasar por él!";
 
     let numero = "5213314368669";
 
