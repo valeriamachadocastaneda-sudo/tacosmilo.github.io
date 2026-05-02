@@ -60,7 +60,13 @@ let pedidosPrevios = 0;
 let audioCtx; // 👈 🔥 AGREGA ESTO
 
   let promoCliente = false;
+function actualizarEstadoPromoCliente(){
+  document.getElementById("estadoPromoPastor").innerText =
+    promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
 
+  document.getElementById("estadoPromoCliente").innerText =
+    promoPastorActiva ? "🔥 Promo aplicada" : "";
+}
 function togglePromoCliente(){
   promoCliente = !promoCliente;
 
@@ -139,7 +145,17 @@ function enviarWhatsAppListo(id){
 
     pedidoListo(id);
 
-    let mensaje = "Hola " + p.nombre + " 👋\n\nTu pedido ya está listo 🌮🎉\n\n¡Puedes pasar por él!";
+let mensaje =
+`Hola ${p.nombre} 👋
+
+Tu pedido ya está listo 🌮🎉
+
+📦 Pedido:
+${Object.entries(p.pedido || {}).map(([item, cantidad]) => "- " + cantidad + " " + item).join("\n")}
+
+💵 Total: $${p.total}
+
+¡Puedes pasar por él!`;
 
     let numero = "5213314368669";
 
@@ -298,6 +314,7 @@ function togglePromoPastor(){
     promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
 
   localStorage.setItem("promoPastor", promoPastorActiva);
+  actualizarEstadoPromoCliente();
 }
 
 function actualizarVistaPromoAdmin(){
