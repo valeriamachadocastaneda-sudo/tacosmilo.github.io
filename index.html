@@ -287,6 +287,11 @@ document.getElementById("promoTexto").innerText=txt;
 }  
 
 function togglePromoPastor(){
+  if(!admin){
+    alert("Solo admin puede usar esto");
+    return;
+  }
+
   promoPastorActiva = !promoPastorActiva;
 
   document.getElementById("estadoPromoPastor").innerText =
@@ -294,7 +299,14 @@ function togglePromoPastor(){
 
   localStorage.setItem("promoPastor", promoPastorActiva);
 }
-  
+
+function actualizarVistaPromoAdmin(){
+  let div = document.getElementById("promoPastorAdmin");
+
+  if(!div) return; // evita errores si no carga el elemento
+
+  div.style.display = admin ? "block" : "none";
+}
 // ===== ADMIN =====  
 let admin=false;  
   
@@ -314,6 +326,7 @@ function activarAdmin(){
   document.getElementById("promoInput").value = promo;
     activarSonido(); // 👈 🔥 AGREGA ESTA LÍNEA
   escucharPedidos();
+  actualizarVistaPromoAdmin();
   verGananciasHoy();
 }
   
@@ -594,6 +607,7 @@ if(nombreGuardado){
 }
   actualizarSabores();
   ocultarProductos();
+  actualizarVistaPromoAdmin();
   if(promo){
     document.getElementById("promoTexto").innerText=promo;
   }
@@ -850,8 +864,10 @@ Ver mis pedidos 📜
   
 <hr>
 <b>Promoción Pastor</b><br>
-<button onclick="togglePromoPastor()">🌮 Pastor 2x1</button>
-<p id="estadoPromoPastor"></p>
+<div id="promoPastorAdmin">
+  <button onclick="togglePromoPastor()">🌮 Pastor 2x1</button>
+  <p id="estadoPromoPastor"></p>
+</div>
 
 </div>  
 
