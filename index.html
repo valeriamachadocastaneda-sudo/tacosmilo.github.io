@@ -58,6 +58,39 @@ let carrito=[];
 let pedidosListos = {};
 let pedidosPrevios = 0;
 let audioCtx; // 👈 🔥 AGREGA ESTO
+  function verGananciasHoy(){
+
+  let contenedor = document.getElementById("gananciasHoy");
+
+  let inicioHoy = new Date();
+  inicioHoy.setHours(0,0,0,0);
+
+  db.ref("pedidos").on("value", (snapshot)=>{
+
+    let total = 0;
+    let pedidos = 0;
+
+    snapshot.forEach((child)=>{
+      let p = child.val();
+
+      if(p.fecha >= inicioHoy.getTime()){
+
+        // 🔥 OPCIONAL: solo contar pagados
+        // if(p.estado !== "pagado") return;
+
+        total += p.total || 0;
+        pedidos++;
+
+      }
+    });
+
+    contenedor.innerHTML = `
+      💵 Total: $${total} <br>
+      📦 Pedidos: ${pedidos}
+    `;
+  });
+
+}
 // ===== CLIENTE ID =====
 let clienteID = localStorage.getItem("clienteID");
 
@@ -243,7 +276,7 @@ document.getElementById("promoTexto").innerText=txt;
 // ===== ADMIN =====  
 let admin=false;  
   
-function activarAdmin(){  
+function activarAdmin(){ 
   let pass = prompt("Contraseña:");
 
   if(pass !== "Mateo12345"){   // 👈 NEGAMOS si es incorrecta
@@ -259,6 +292,7 @@ function activarAdmin(){
   document.getElementById("promoInput").value = promo;
     activarSonido(); // 👈 🔥 AGREGA ESTA LÍNEA
   escucharPedidos();
+  verGananciasHoy();
 }
   
 // ===== ADMIN LISTA =====  
@@ -713,7 +747,10 @@ Ver mis pedidos 📜
 <button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
 
 <div id="panelProductos" class="admin">  
-<h3>ADMIN</h3>  <b>Productos</b><br>
+<h3>ADMIN</h3>  
+  <h3>💰 Ganancias de hoy</h3>
+<div id="gananciasHoy">Cargando...</div>
+  <b>Productos</b><br>
 
 <div id="listaProductosAdmin"></div>  <hr>  <b>Promo del día</b><br>
 <input id="promoInput" placeholder="Ej: 2x1 tacos">
