@@ -58,6 +58,19 @@ let carrito=[];
 let pedidosListos = {};
 let pedidosPrevios = 0;
 let audioCtx; // 👈 🔥 AGREGA ESTO
+
+  let promoCliente = false;
+
+function togglePromoCliente(){
+  promoCliente = !promoCliente;
+
+  document.getElementById("estadoPromoCliente").innerText =
+    promoCliente ? "🔥 Promo aplicada" : "";
+
+  localStorage.setItem("promoCliente", promoCliente);
+}
+
+let promoPastorActiva = false;
   function verGananciasHoy(){
 
   let contenedor = document.getElementById("gananciasHoy");
@@ -272,6 +285,15 @@ let txt=document.getElementById("promoInput").value;
 localStorage.setItem("promo", txt);  
 document.getElementById("promoTexto").innerText=txt;  
 }  
+
+function togglePromoPastor(){
+  promoPastorActiva = !promoPastorActiva;
+
+  document.getElementById("estadoPromoPastor").innerText =
+    promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
+
+  localStorage.setItem("promoPastor", promoPastorActiva);
+}
   
 // ===== ADMIN =====  
 let admin=false;  
@@ -351,6 +373,16 @@ navigator.vibrate(100);
 }  
 actualizar();  
 }  
+
+function aplicarPromoPastor(cantidad){
+  let totalRecibe = cantidad * 2; // 2x1 real
+  let totalPaga = cantidad;
+
+  return {
+    cobrar: totalPaga,
+    mostrar: cantidad + " = " + totalRecibe + " Pastor"
+  };
+}
   
 function quitar(p){  
 let i=carrito.indexOf(p);  
@@ -365,18 +397,33 @@ lista.innerHTML="";
   
 carrito.forEach(x=>cont[x]=(cont[x]||0)+1);  
   
-for(let x in cont){  
-let base=x.includes("Agua")?"Agua":x.split(" de ")[0];  
-let precio=precios[base]*cont[x];  
-total+=precio;  
-  
-lista.innerHTML+=`${cont[x]} ${x} - $${precio}  
-<button onclick="quitar('${x}')">❌</button><br>`;  
-}  
-  
-document.getElementById("total").innerText="Total: $"+total;  
-}  
-  
+for(let x in cont){
+  let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];
+  let cantidad = cont[x];
+  let texto = cantidad + " " + x;
+  let cobrar = cantidad;
+
+  // 👇 PROMO
+  if(
+    promoPastorActiva &&
+    promoCliente &&
+    x === "Pastor"
+  ){
+    let promo = aplicarPromoPastor(cantidad);
+    cobrar = promo.cobrar;
+    texto = promo.mostrar;
+  }
+
+  let precio = precios[base] * cobrar;
+  total += precio;
+
+  lista.innerHTML += `${texto} - $${precio}
+  <button onclick="quitar('${x}')">❌</button><br>`;
+}
+
+// 👇 ESTO VA FUERA DEL FOR
+document.getElementById("total").innerText = "Total: $" + total;
+}
 // ===== FORM =====  
 function abrirForm(){  
 if(carrito.length==0){alert("No has pedido nada");return;}  
@@ -419,7 +466,19 @@ let nombre = localStorage.getItem("nombreCliente");
   carrito.forEach(x => cont[x] = (cont[x] || 0) + 1);
   for(let x in cont){  
   let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];  
-  total += precios[base] * cont[x];  
+  let cantidad = cont[x];
+let cobrar = cantidad;
+
+if(
+  promoPastorActiva &&
+  promoCliente &&
+  x === "Pastor"
+){
+  let promo = aplicarPromoPastor(cantidad);
+  cobrar = promo.cobrar;
+}
+
+total += precios[base] * cobrar;  
 }
 
   // ✅ VALIDACIONES DESPUÉS de definir variables
@@ -464,11 +523,26 @@ if(salsas.length > 0){
 }
   
 for(let x in cont){  
-let base=x.includes("Agua")?"Agua":x.split(" de ")[0];  
-let precio=precios[base]*cont[x];  
-total+=precio;  
-txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";  
-}  
+let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];  
+let cantidad = cont[x];  
+let mostrar = cantidad;
+let totalMostrar = cantidad;
+
+// 🔥 PROMO PASTOR 2x1
+if(
+  promoPastorActiva &&
+  promoCliente &&
+  x === "Pastor"
+){
+  let promo = aplicarPromoPastor(cantidad);
+  mostrar = promo.mostrar; // 👈 "3 = 6 Pastor"
+  totalMostrar = promo.cobrar;
+}
+
+let precio = precios[base] * totalMostrar;
+
+txt += "- " + mostrar + " ($" + precio + ")\n";
+}
   
 txt+="\nTotal: $"+total;  
   // 🔥 GUARDAR EN FIREBASE
@@ -501,8 +575,18 @@ document.getElementById("pantallaPago").style.display = "none";
 window.onload=function(){
 
  escucharPedidos(); // 👈 AGREGA ESTA LÍNEA
+
+promoCliente = localStorage.getItem("promoCliente") === "true";
+
+if(promoCliente){
+  document.getElementById("estadoPromoCliente").innerText = "🔥 Promo aplicada";
+}
   
 verHistorialCliente();
+promoPastorActiva = localStorage.getItem("promoPastor") === "true";
+
+document.getElementById("estadoPromoPastor").innerText =
+  promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
 // Cargar nombre guardado (si existe)
 let nombreGuardado = localStorage.getItem("nombreCliente");
 if(nombreGuardado){
@@ -663,7 +747,14 @@ function eliminarPedido(id){
 }
 </script>  </head>  <body>  <h1 style="color:yellow;">🌮 TACOS MILO</h1>  <button onclick="activarSonido()" style="background:orange;">  
 Activar sonido 🔊  
-</button>  <h2 id="promoTexto" style="color:lime;"></h2>  <p style="color:orange;">  
+</button> 
+
+<button onclick="togglePromoCliente()" style="background:purple;color:white;">
+Activar promoción 🌮
+</button>
+<p id="estadoPromoCliente"></p>
+  
+  <h2 id="promoTexto" style="color:lime;"></h2>  <p style="color:orange;">  
 ⚠️ El pedido se prepara después de confirmar el pago por transferencia
 </p>
 
@@ -756,6 +847,11 @@ Ver mis pedidos 📜
 <input id="promoInput" placeholder="Ej: 2x1 tacos">
 <br>
 <button onclick="guardarPromo()">Guardar</button>
+  
+<hr>
+<b>Promoción Pastor</b><br>
+<button onclick="togglePromoPastor()">🌮 Pastor 2x1</button>
+<p id="estadoPromoPastor"></p>
 
 </div>  
 
