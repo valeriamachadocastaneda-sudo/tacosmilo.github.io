@@ -58,6 +58,13 @@ let carrito=[];
 let pedidosListos = {};
 let pedidosPrevios = 0;
 let audioCtx; // 👈 🔥 AGREGA ESTO
+// ===== CLIENTE ID =====
+let clienteID = localStorage.getItem("clienteID");
+
+if(!clienteID){
+  clienteID = "cli_" + Date.now();
+  localStorage.setItem("clienteID", clienteID);
+}
 function obtenerSalsas(){
   let salsas=[];
 
@@ -350,7 +357,9 @@ document.getElementById("hora").style.display=(t=="Para comer aquí")?"block":"n
 // ===== ENVIO =====  
 function enviar(){  
 let nombre = document.getElementById("nombre").value.trim();
-localStorage.setItem("nombre", nombre); // 👈 guarda el nuevo siempre  
+if(!localStorage.getItem("nombreCliente")){
+  localStorage.setItem("nombreCliente", nombre);
+} // 👈 guarda el nuevo siempre  
 let tipo=document.getElementById("tipo").value;  
 let hora=document.getElementById("hora").value;  
   
@@ -367,7 +376,7 @@ document.getElementById("pantallaPago").style.display="flex";
 // ===== CONFIRMAR =====  
 function confirmarPedido(){
 
-let nombre = document.getElementById("nombre").value.trim();
+let nombre = localStorage.getItem("nombreCliente");
   let tipo = localStorage.getItem("tipo");  
   let hora = localStorage.getItem("hora");  
   let referencia = document.getElementById("refPago").value.trim();  
@@ -430,6 +439,7 @@ txt+="- "+cont[x]+" "+x+" ($"+precio+")\n";
 txt+="\nTotal: $"+total;  
   // 🔥 GUARDAR EN FIREBASE
 db.ref("pedidos").push({
+  clienteID: clienteID,
   nombre: nombre,
   tipo: tipo,
   hora: hora,
@@ -442,11 +452,9 @@ db.ref("pedidos").push({
 });
 window.open("https://wa.me/5213314368669?text="+encodeURIComponent(txt));  
 // 🧹 LIMPIAR TODO DESPUÉS DEL PEDIDO
-localStorage.removeItem("nombre");
 localStorage.removeItem("tipo");
 localStorage.removeItem("hora");
 
-document.getElementById("nombre").value = "";
 document.getElementById("refPago").value = "";
 
 carrito = [];
@@ -457,8 +465,15 @@ document.getElementById("pantallaPago").style.display = "none";
 }
   
 window.onload=function(){
-// Cargar nombre guardado (si existe)
 
+ escucharPedidos(); // 👈 AGREGA ESTA LÍNEA
+  
+verHistorialCliente();
+// Cargar nombre guardado (si existe)
+let nombreGuardado = localStorage.getItem("nombreCliente");
+if(nombreGuardado){
+  document.getElementById("nombre").value = nombreGuardado;
+}
   actualizarSabores();
   ocultarProductos();
   if(promo){
@@ -512,7 +527,36 @@ window.onload=function(){
 
 };
 // ===== PANEL EN VIVO =====
-function escucharPedidos(){
+function verHistorialCliente(){
+
+  let contenedor = document.getElementById("historialCliente");
+  contenedor.innerHTML = "Cargando...";
+
+  db.ref("pedidos").orderByChild("clienteID").equalTo(clienteID)
+  .on("value", (snapshot)=>{
+
+    contenedor.innerHTML = "";
+
+    if(!snapshot.exists()){
+      contenedor.innerHTML = "Sin pedidos aún";
+      return;
+    }
+
+    snapshot.forEach((child)=>{
+      let p = child.val();
+
+      contenedor.innerHTML += `
+      <div style="border:1px solid gray;margin:5px;padding:5px;">
+        📅 ${new Date(p.fecha).toLocaleString()}<br>
+        💵 $${p.total}<br>
+        📦 ${Object.entries(p.pedido).map(([i,c])=>c+" "+i).join(", ")}
+      </div>
+      `;
+    });
+
+  });
+}
+  function escucharPedidos(){
   db.ref("pedidos").limitToLast(20).on("value", (snapshot)=>{
 
     let lista = document.getElementById("listaPedidos");
@@ -530,7 +574,11 @@ function escucharPedidos(){
     snapshot.forEach((child)=>{
       let p = child.val();
       // 🔊 AQUÍ VA
-      if(p.estado === "listo" && !pedidosListos[child.key]){
+   if(
+  p.estado === "listo" &&
+  p.clienteID === clienteID &&
+  !pedidosListos[child.key]
+){
     pedidosListos[child.key] = true;
     beepSuave();
     alert("Tu pedido está listo 🎉");
@@ -655,6 +703,11 @@ Activar sonido 🔊
 </div>  </div>  <br><br>
 <button onclick="abrirForm()" style="background:green;color:white;font-size:18px;">
 Terminar pedido ✔️
+<button onclick="verHistorialCliente()" style="background:blue;color:white;">
+Ver mis pedidos 📜
+</button>
+
+<div id="historialCliente" style="margin-top:10px;"></div>
 </button>
 
 <button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
