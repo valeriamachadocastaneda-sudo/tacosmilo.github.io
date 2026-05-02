@@ -367,7 +367,7 @@ document.getElementById("pantallaPago").style.display="flex";
 // ===== CONFIRMAR =====  
 function confirmarPedido(){
 
-  let nombre = localStorage.getItem("nombre");
+let nombre = document.getElementById("nombre").value.trim();
   let tipo = localStorage.getItem("tipo");  
   let hora = localStorage.getItem("hora");  
   let referencia = document.getElementById("refPago").value.trim();  
@@ -458,10 +458,7 @@ document.getElementById("pantallaPago").style.display = "none";
   
 window.onload=function(){
 // Cargar nombre guardado (si existe)
-let nombreGuardado = localStorage.getItem("nombre");
-if(nombreGuardado){
-  document.getElementById("nombre").value = nombreGuardado;
-}
+
   actualizarSabores();
   ocultarProductos();
   if(promo){
