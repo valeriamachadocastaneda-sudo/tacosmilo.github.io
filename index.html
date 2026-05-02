@@ -349,14 +349,14 @@ document.getElementById("hora").style.display=(t=="Para comer aquí")?"block":"n
   
 // ===== ENVIO =====  
 function enviar(){  
-let nombre=document.getElementById("nombre").value;  
+let nombre = document.getElementById("nombre").value.trim();
+localStorage.setItem("nombre", nombre); // 👈 guarda el nuevo siempre  
 let tipo=document.getElementById("tipo").value;  
 let hora=document.getElementById("hora").value;  
   
 if(!nombre){alert("Pon tu nombre");return;}  
 if(tipo=="Para comer aquí" && !hora){alert("Pon hora");return;}  
-  
-localStorage.setItem("nombre", nombre);  
+   
 localStorage.setItem("tipo", tipo);  
 localStorage.setItem("hora", hora);  
   
@@ -367,7 +367,7 @@ document.getElementById("pantallaPago").style.display="flex";
 // ===== CONFIRMAR =====  
 function confirmarPedido(){
 
-  let nombre = localStorage.getItem("nombre");  
+  let nombre = localStorage.getItem("nombre");
   let tipo = localStorage.getItem("tipo");  
   let hora = localStorage.getItem("hora");  
   let referencia = document.getElementById("refPago").value.trim();  
@@ -441,10 +441,27 @@ db.ref("pedidos").push({
   estado: "pendiente" // 👈 NUEVO
 });
 window.open("https://wa.me/5213314368669?text="+encodeURIComponent(txt));  
+// 🧹 LIMPIAR TODO DESPUÉS DEL PEDIDO
+localStorage.removeItem("nombre");
+localStorage.removeItem("tipo");
+localStorage.removeItem("hora");
+
+document.getElementById("nombre").value = "";
+document.getElementById("refPago").value = "";
+
+carrito = [];
+actualizar();
+
+// opcional: cerrar pantalla de pago
+document.getElementById("pantallaPago").style.display = "none";
 }
   
 window.onload=function(){
-
+// Cargar nombre guardado (si existe)
+let nombreGuardado = localStorage.getItem("nombre");
+if(nombreGuardado){
+  document.getElementById("nombre").value = nombreGuardado;
+}
   actualizarSabores();
   ocultarProductos();
   if(promo){
