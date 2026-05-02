@@ -74,17 +74,26 @@ function pedidoListo(id){
     estado: "listo"
   });
 }
-function enviarWhatsAppListo(p, id){
-  // marcar como listo
-  pedidoListo(id);
+function enviarWhatsAppListo(id){
 
-  let mensaje = `Hola ${p.nombre} 👋\n\nTu pedido ya está listo 🌮🎉\n\n¡Puedes pasar por él!`;
+  db.ref("pedidos/" + id).once("value").then((snapshot)=>{
+    let p = snapshot.val();
 
-  let numero = "5213314368669"; // 👈 tu número
+    // marcar como listo
+    pedidoListo(id);
 
-  let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+    let mensaje = `Hola ${p.nombre} 👋
 
-  window.open(url, "_blank");
+Tu pedido ya está listo 🌮🎉
+
+¡Puedes pasar por él!`;
+
+    let numero = "5213314368669";
+
+    let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+
+    window.open(url, "_blank");
+  });
 }
 function toggleSalsas(){
   let box = document.getElementById("contenidoSalsas");
@@ -537,7 +546,7 @@ ${p.salsas.map(s => `- ${s}`).join("<br>")}
 
 <button onclick="pedidoListo('${child.key}')">✅ Listo</button>
 
-<button onclick="enviarWhatsAppListo(${JSON.stringify(p)}, '${child.key}')">
+<button onclick="enviarWhatsAppListo('${child.key}')">
 📲 Listo (WhatsApp)
 </button>
 
