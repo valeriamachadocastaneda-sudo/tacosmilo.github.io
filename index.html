@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBBzyNLtsJBulrflAbg4XteZmO7GIk4mcc",
   authDomain: "tacos-milo.firebaseapp.com",
   projectId: "tacos-milo",
-  storageBucket: "tacos-milo.firebasestorage.app",
+ storageBucket: "tacos-milo.appspot.com",
   messagingSenderId: "264651688631",
   appId: "1:264651688631:web:685a8ee662c2b0c1d49b32",
   measurementId: "G-P2FXFV9RWZ"
@@ -61,16 +61,13 @@ let audioCtx; // 👈 🔥 AGREGA ESTO
 
   let promoCliente = false;
 function actualizarEstadoPromoCliente(){
-  document.getElementById("estadoPromoPastor").innerText =
-    promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
-
   document.getElementById("estadoPromoCliente").innerText =
-    promoPastorActiva ? "🔥 Promo aplicada" : "";
+    promoCliente ? "🔥 Promo aplicada" : "";
 }
 function togglePromoCliente(){
   promoCliente = !promoCliente;
 
-  document.getElementById("estadoPromoCliente").innerText =
+document.getElementById("estadoPromoCliente").innerText =
     promoCliente ? "🔥 Promo aplicada" : "";
 
   localStorage.setItem("promoCliente", promoCliente);
@@ -265,7 +262,7 @@ select.innerHTML+=`<option>${s}</option>`;
 let adminDiv=document.getElementById("adminAguas");  
 adminDiv.innerHTML="";  
   
-if(admin){  
+if (typeof admin !== "undefined" && admin) {
 for(let s in aguas){  
 adminDiv.innerHTML+=`  
 ${s}  
@@ -313,8 +310,7 @@ function togglePromoPastor(){
   document.getElementById("estadoPromoPastor").innerText =
     promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
 
-  localStorage.setItem("promoPastor", promoPastorActiva);
-  actualizarEstadoPromoCliente();
+  db.ref("config/promoPastor").set(promoPastorActiva);
 }
 
 function actualizarVistaPromoAdmin(){
@@ -604,14 +600,24 @@ document.getElementById("pantallaPago").style.display = "none";
   
 window.onload=function(){
 
+db.ref("config/promoPastor").on("value", (snap) => {
+  promoPastorActiva = snap.val() || false;
+
+  let btn = document.getElementById("btnPromoPastor");
+
+  if(btn){
+    btn.style.display = promoPastorActiva ? "inline-block" : "none";
+  }
+
+  actualizarEstadoPromoCliente();
+});
+
  escucharPedidos(); // 👈 AGREGA ESTA LÍNEA
 
 promoCliente = localStorage.getItem("promoCliente") === "true";
 
-if(promoCliente){
-  document.getElementById("estadoPromoCliente").innerText = "🔥 Promo aplicada";
-}
-  
+actualizarEstadoPromoCliente();
+
 verHistorialCliente();
 promoPastorActiva = localStorage.getItem("promoPastor") === "true";
 
@@ -776,14 +782,22 @@ function eliminarPedido(id){
     db.ref("pedidos/" + id).remove();
   }
 }
-</script>  </head>  <body>  <h1 style="color:yellow;">🌮 TACOS MILO</h1>  <button onclick="activarSonido()" style="background:orange;">  
+</script>  </head>  <body>  <h1 style="color:yellow;">🌮 TACOS MILO</h1> 
+
+<button onclick="activarSonido()" style="background:orange;">  
 Activar sonido 🔊  
 </button> 
+
+<button id="btnPromoPastor" onclick="togglePromoCliente()" 
+style="background:purple;color:white;display:none;">
+🌮 Activar promo 2x1 Pastor
+</button>
+
+<p id="estadoPromoCliente"></p>
 
 <button onclick="togglePromoCliente()" style="background:purple;color:white;">
 Activar promoción 🌮
 </button>
-<p id="estadoPromoCliente"></p>
   
   <h2 id="promoTexto" style="color:lime;"></h2>  <p style="color:orange;">  
 ⚠️ El pedido se prepara después de confirmar el pago por transferencia
@@ -857,8 +871,11 @@ Activar promoción 🌮
 <img src="coca.jpg" width="120"><br>  
 <button onclick="agregar('Coca')">Agregar</button>  
 </div>  </div>  <br><br>
+
 <button onclick="abrirForm()" style="background:green;color:white;font-size:18px;">
 Terminar pedido ✔️
+</button>
+
 <button onclick="verHistorialCliente()" style="background:blue;color:white;">
 Ver mis pedidos 📜
 </button>
