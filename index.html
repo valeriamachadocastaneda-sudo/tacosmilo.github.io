@@ -142,17 +142,26 @@ function enviarWhatsAppListo(id){
 
     pedidoListo(id);
 
+let pedidoTexto = Object.entries(p.pedido || {})
+  .map(([item, cantidad]) => "- " + cantidad + " " + item)
+  .join("\n");
+
+// 🔥 limpiar caracteres raros
+pedidoTexto = pedidoTexto
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "");
+
 let mensaje =
 `Hola ${p.nombre} 👋
 
-Tu pedido ya está listo 🌮🎉
+Tu pedido ya esta listo 🌮🎉
 
-📦 Pedido:
-${Object.entries(p.pedido || {}).map(([item, cantidad]) => "- " + cantidad + " " + item).join("\n")}
+Pedido:
+${pedidoTexto}
 
-💵 Total: $${p.total}
+Total: $${p.total}
 
-¡Puedes pasar por él!`;
+Puedes pasar por el 👍`;
 
     let numero = "5213314368669";
 
@@ -309,6 +318,9 @@ function togglePromoPastor(){
 
   document.getElementById("estadoPromoPastor").innerText =
     promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
+
+  // 🔥 AGREGA ESTA LÍNEA
+  localStorage.setItem("promoPastor", promoPastorActiva);
 
   db.ref("config/promoPastor").set(promoPastorActiva);
 }
@@ -615,7 +627,7 @@ db.ref("config/promoPastor").on("value", (snap) => {
  escucharPedidos(); // 👈 AGREGA ESTA LÍNEA
 
 promoCliente = localStorage.getItem("promoCliente") === "true";
-
+  
 actualizarEstadoPromoCliente();
 
 verHistorialCliente();
