@@ -567,7 +567,7 @@ if(
 
 let precio = precios[base] * totalMostrar;
 
-txt += "- " + mostrar + " ($" + precio + ")\n";
+txt += "- " + mostrar + " " + x + " ($" + precio + ")\n";
 }
   
 txt+="\nTotal: $"+total;  
@@ -619,7 +619,6 @@ promoCliente = localStorage.getItem("promoCliente") === "true";
 actualizarEstadoPromoCliente();
 
 verHistorialCliente();
-promoPastorActiva = localStorage.getItem("promoPastor") === "true";
 
 document.getElementById("estadoPromoPastor").innerText =
   promoPastorActiva ? "✅ Promo ACTIVA" : "❌ Promo INACTIVA";
