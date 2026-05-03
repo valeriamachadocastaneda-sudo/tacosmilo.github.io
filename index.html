@@ -413,12 +413,9 @@ actualizar();
 }  
 
 function aplicarPromoPastor(cantidad){
-  let totalRecibe = cantidad * 2; // 2x1 real
-  let totalPaga = cantidad;
-
   return {
-    cobrar: totalPaga,
-    mostrar: cantidad + " = " + totalRecibe + " Pastor"
+    cobrar: cantidad,
+    mostrar: cantidad + " = " + (cantidad * 2) + " Past"
   };
 }
   
@@ -442,15 +439,15 @@ for(let x in cont){
   let cobrar = cantidad;
 
   // 👇 PROMO
-  if(
-    promoPastorActiva &&
-    promoCliente &&
-    x === "Pastor"
-  ){
-    let promo = aplicarPromoPastor(cantidad);
-    cobrar = promo.cobrar;
-    texto = promo.mostrar;
-  }
+if(
+  promoPastorActiva &&
+  promoCliente &&
+  x === "Pastor"
+){
+  let promo = aplicarPromoPastor(cantidad);
+  cobrar = promo.cobrar;
+  texto = promo.mostrar + " Past";
+}
 
   let precio = precios[base] * cobrar;
   total += precio;
@@ -579,7 +576,16 @@ if(
 
 let precio = precios[base] * totalMostrar;
 
-txt += "- " + mostrar + " " + x + " ($" + precio + ")\n";
+if(
+  promoPastorActiva &&
+  promoCliente &&
+  x === "Pastor"
+){
+  let promo = aplicarPromoPastor(cantidad);
+  txt += "- " + promo.mostrar + " ($" + precio + ")\n";
+}else{
+  txt += "- " + cantidad + " " + x + " ($" + precio + ")\n";
+}
 }
   
 txt+="\nTotal: $"+total;  
@@ -758,9 +764,19 @@ function verHistorialCliente(){
 
   <br><b>Pedido:</b><br>
   ${
-    Object.entries(p.pedido || {}).map(([item, cantidad]) =>
-      `- ${cantidad} ${item}`
-    ).join("<br>")
+Object.entries(p.pedido || {}).map(([item, cantidad]) => {
+
+  if(
+    promoPastorActiva &&
+    item === "Pastor"
+  ){
+    let promo = aplicarPromoPastor(cantidad);
+    return `- ${promo.mostrar}`;
+  }
+
+  return `- ${cantidad} ${item}`;
+  
+}).join("<br>")
   }
 
   ${p.salsas && p.salsas.length > 0 ? `
@@ -806,10 +822,6 @@ style="background:purple;color:white;display:none;">
 
 <p id="estadoPromoCliente"></p>
 
-<button onclick="togglePromoCliente()" style="background:purple;color:white;">
-Activar promoción 🌮
-</button>
-  
   <h2 id="promoTexto" style="color:lime;"></h2>  <p style="color:orange;">  
 ⚠️ El pedido se prepara después de confirmar el pago por transferencia
 </p>
