@@ -418,7 +418,6 @@ function aplicarPromoPastor(cantidad){
     mostrar: cantidad + " = " + (cantidad * 2) + " Past"
   };
 }
-  
 function quitar(p){  
 let i=carrito.indexOf(p);  
 if(i!=-1) carrito.splice(i,1);  
@@ -446,7 +445,7 @@ if(
 ){
   let promo = aplicarPromoPastor(cantidad);
   cobrar = promo.cobrar;
-  texto = promo.mostrar + " Past";
+texto = promo.mostrar;
 }
 
   let precio = precios[base] * cobrar;
