@@ -556,6 +556,11 @@ localStorage.setItem("hora", hora);
 document.getElementById("formulario").style.display="none";  
 document.getElementById("pantallaPago").style.display="flex";  
 }  
+
+function atras(){
+  document.getElementById("formulario").style.display = "none";
+  document.getElementById("pantallaPago").style.display = "none";
+}
   
 // ===== CONFIRMAR =====  
 function confirmarPedido(){
@@ -1025,6 +1030,15 @@ Ver mis pedidos 📜
 
 <div id="formulario">  
 <div class="box">  
+<button onclick="atras()" style="
+background:linear-gradient(45deg, red, darkred);
+color:white;
+padding:8px 12px;
+border-radius:8px;
+margin-bottom:10px;
+">
+⬅️ Atrás
+</button>
 <input id="nombre" placeholder="Tu nombre">  
 <select id="tipo" onchange="tipoCambio()">  
 <option>Para llevar</option>  
@@ -1037,6 +1051,15 @@ Ver mis pedidos 📜
 
 <div id="pantallaPago">  
 <div class="box">  
+<button onclick="atras()" style="
+background:linear-gradient(45deg, red, darkred);
+color:white;
+padding:8px 12px;
+border-radius:8px;
+margin-bottom:10px;
+">
+⬅️ Atrás
+</button>
 <h2>💸 Pago por transferencia</h2>  
 <p>Banco: BBVA</p>  
 <p>Nombre: Rair Jimenez</p> 
