@@ -19,12 +19,61 @@ const db = firebase.database();
 </script>
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>Tacos Milo 🌮</title>  <style> 
+<title>Tacos Milo 🌮</title> 
+  
+<style>
 
-body {background:black;color:white;font-family:Arial;text-align:center;}  
-.card {background:#222;padding:15px;border-radius:10px;width:180px;}  
-button {padding:8px;border:none;border-radius:8px;cursor:pointer;margin:3px;}  
-select {margin-top:5px;padding:5px;border-radius:5px;}  
+body {
+  background: linear-gradient(135deg, #0a0a0a, #1a1a1a, #400000);
+  color: white;
+  font-family: 'Segoe UI', Arial;
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  font-size: 2.5em;
+  margin-top: 15px;
+  text-shadow: 0 0 10px orange;
+}
+
+.card {
+  background: #1c1c1c;
+  padding: 15px;
+  border-radius: 15px;
+  width: 180px;
+  box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+  transition: all 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(255, 140, 0, 0.6);
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: scale(1.08);
+  opacity: 0.9;
+}
+
+select, input {
+  margin-top: 5px;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+}
+
+</style>
 .admin {display:none;}  
 #ubicacionBox{
   position: fixed;
@@ -882,7 +931,15 @@ style="background:purple;color:white;display:none;">
 </div> 
   
 </p>  <div id="lista"></div>  
-<h2 id="total">Total: $0</h2>  <hr>  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:15px;">  <div class="card" id="cardPastor"><h3>Pastor</h3><img src="pastor.jpg" width="120"><br><button onclick="agregar('Pastor')">Agregar</button></div>  
+<h2 id="total">Total: $0</h2>  <hr>  <div style="
+display:grid;
+grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+gap:15px;
+padding:10px;
+">  <div class="card" id="cardPastor">
+  <h3>Pastor</h3>
+  <img src="pastor.jpg" width="120">
+  <br><button onclick="agregar('Pastor')">Agregar</button></div>  
 <div class="card" id="cardChorizo"><h3>Chorizo</h3><img src="chorizo.jpg" width="120"><br><button onclick="agregar('Chorizo')">Agregar</button></div>  
 <div class="card" id="cardBistec"><h3>Bistec</h3><img src="bistec.jpg" width="120"><br><button onclick="agregar('Bistec')">Agregar</button></div>  
 <div class="card" id="cardSuadero"><h3>Suadero</h3><img src="suadero.jpg" width="120"><br><button onclick="agregar('Suadero')">Agregar</button></div>  
