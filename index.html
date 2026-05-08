@@ -1058,9 +1058,17 @@ z-index:999;
 
 <div id="productosAdmin" class="admin" style="display:none;"> 
 <h3>ADMIN</h3>  
-  <h3>💰 Ganancias de hoy</h3>
-<div id="gananciasAdmin" style="display:none;">
-  <div id="gananciasHoy">Cargando...</div>
+
+<b>Productos</b><br>
+<div id="listaProductosAdmin"></div>
+
+<hr>
+
+<b>Promo del día</b><br>
+<input id="promoInput" placeholder="Ej: 2x1 tacos">
+<br>
+<button onclick="guardarPromo()">Guardar</button>
+
 </div>
   <b>Productos</b><br>
 
@@ -1143,6 +1151,39 @@ width:300px;
 ">
 <h3>📦 Pedidos en vivo</h3>
 <div id="listaPedidos"></div>
+</div>
+
+<div id="gananciasAdmin" class="admin" style="
+display:none;
+position:fixed;
+top:80px;
+right:10px;
+background:#111;
+padding:10px;
+border-radius:10px;
+z-index:999;
+">
+<h3>💰 Ganancias</h3>
+<div id="gananciasHoy">Cargando...</div>
+</div>
+
+<div id="promosAdmin" class="admin" style="
+display:none;
+position:fixed;
+top:220px;
+right:10px;
+background:#111;
+padding:10px;
+border-radius:10px;
+z-index:999;
+">
+<h3>🎁 Promos</h3>
+
+<div id="promoPastorAdmin">
+  <button onclick="togglePromoPastor()">🌮 Pastor 2x1</button>
+  <p id="estadoPromoPastor"></p>
+</div>
+
 </div>
 </body>  
           </html>
