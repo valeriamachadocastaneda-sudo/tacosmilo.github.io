@@ -119,7 +119,19 @@ input {width:90%;padding:10px;margin:10px;border-radius:8px;border:none;}
 let carrito=[];
 let pedidosListos = {};
 let pedidosPrevios = 0;
-let audioCtx; // 👈 🔥 AGREGA ESTO
+let audioCtx; // 👈 🔥 AGREGA ESTO\
+
+function togglePanel(id){
+
+  let panel = document.getElementById(id);
+
+  if(panel.style.display === "none"){
+    panel.style.display = "block";
+  }else{
+    panel.style.display = "none";
+  }
+
+}
 
   let promoCliente = false;
 function actualizarEstadoPromoCliente(){
@@ -1016,10 +1028,40 @@ Ver mis pedidos 📜
 
 <button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
 
-<div id="panelProductos" class="admin">  
+<div id="menuAdmin" class="admin" style="
+position:fixed;
+top:10px;
+right:10px;
+background:#000;
+padding:10px;
+border-radius:10px;
+z-index:999;
+">
+
+<button onclick="togglePanel('productosAdmin')">
+📦 Productos
+</button>
+
+<button onclick="togglePanel('pedidosAdmin')">
+🧾 Pedidos
+</button>
+
+<button onclick="togglePanel('gananciasAdmin')">
+💰 Ganancias
+</button>
+
+<button onclick="togglePanel('promosAdmin')">
+🎁 Promos
+</button>
+
+</div>
+
+<div id="productosAdmin" class="admin" style="display:none;"> 
 <h3>ADMIN</h3>  
   <h3>💰 Ganancias de hoy</h3>
-<div id="gananciasHoy">Cargando...</div>
+<div id="gananciasAdmin" style="display:none;">
+  <div id="gananciasHoy">Cargando...</div>
+</div>
   <b>Productos</b><br>
 
 <div id="listaProductosAdmin"></div>  <hr>  <b>Promo del día</b><br>
@@ -1028,6 +1070,7 @@ Ver mis pedidos 📜
 <button onclick="guardarPromo()">Guardar</button>
   
 <hr>
+<div id="promosAdmin" style="display:none;">
 <b>Promoción Pastor</b><br>
 <div id="promoPastorAdmin">
   <button onclick="togglePromoPastor()">🌮 Pastor 2x1</button>
@@ -1035,6 +1078,8 @@ Ver mis pedidos 📜
 </div>
 
 </div>  
+
+</div>
 
 <div id="formulario">  
 <div class="box">  
@@ -1084,7 +1129,8 @@ Confirmar pedido
 </button>  
 </div>  
 </div>  
-<div id="panelPedidos" class="admin" style="
+<div id="pedidosAdmin" class="admin" style="
+display:none;
 position:fixed;
 left:10px;
 top:10px;
