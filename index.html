@@ -9,7 +9,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBBzyNLtsJBulrflAbg4XteZmO7GIk4mcc",
   authDomain: "tacos-milo.firebaseapp.com",
   projectId: "tacos-milo",
- storageBucket: "tacos-milo.appspot.com",
+storageBucket: "tacos-milo.firebasestorage.app",
   messagingSenderId: "264651688631",
   appId: "1:264651688631:web:685a8ee662c2b0c1d49b32",
   measurementId: "G-P2FXFV9RWZ"
@@ -498,9 +498,13 @@ actualizar();
 }  
 
 function aplicarPromoPastor(cantidad){
+
+  let gratis = Math.floor(cantidad / 2);
+  let cobrar = cantidad - gratis;
+
   return {
-    cobrar: cantidad,
-    mostrar: cantidad + " = " + (cantidad * 2) + " Past"
+    cobrar: cobrar,
+    mostrar: cantidad + " Pastor (pagas " + cobrar + ")"
   };
 }
 function quitar(p){  
@@ -855,10 +859,10 @@ function verHistorialCliente(){
   ${
 Object.entries(p.pedido || {}).map(([item, cantidad]) => {
 
-  if(
-    promoPastorActiva &&
-    item === "Pastor"
-  ){
+if(
+  promoPastorActiva &&
+  item === "Pastor"
+){
     let promo = aplicarPromoPastor(cantidad);
     return `- ${promo.mostrar}`;
   }
@@ -1024,7 +1028,6 @@ Ver mis pedidos 📜
 </button>
 
 <div id="historialCliente" style="margin-top:10px;"></div>
-</button>
 
 <button onclick="activarAdmin()" style="position:fixed;bottom:10px;right:10px;">⚙️</button>
 
@@ -1070,23 +1073,11 @@ z-index:999;
 <button onclick="guardarPromo()">Guardar</button>
 
 </div>
-  <b>Productos</b><br>
 
-<div id="listaProductosAdmin"></div>  <hr>  <b>Promo del día</b><br>
-<input id="promoInput" placeholder="Ej: 2x1 tacos">
-<br>
-<button onclick="guardarPromo()">Guardar</button>
-  
-<hr>
-<div id="promosAdmin" style="display:none;">
 <b>Promoción Pastor</b><br>
 <div id="promoPastorAdmin">
   <button onclick="togglePromoPastor()">🌮 Pastor 2x1</button>
   <p id="estadoPromoPastor"></p>
-</div>
-
-</div>  
-
 </div>
 
 <div id="formulario">  
