@@ -465,17 +465,28 @@ card.style.display="block";
 }  
   
 // ===== CARRITO =====  
-function agregar(p){  
-carrito.push(p);
-  
-beepSuave(); // 👈 SONIDO  
-  
-if(navigator.vibrate){  
-navigator.vibrate(100);  
-}  
-  
-actualizar();  
-}  
+function agregar(p){
+
+  // 🌮 PROMO 2x1 PASTOR
+  if(
+    p === "Pastor" &&
+    promoPastorActiva &&
+    promoCliente
+  ){
+    carrito.push(p);
+    carrito.push(p);
+  }else{
+    carrito.push(p);
+  }
+
+  beepSuave();
+
+  if(navigator.vibrate){
+    navigator.vibrate(100);
+  }
+
+  actualizar();
+} 
   
 function agregarConCarne(tipo,id){  
 let carne=document.getElementById(id).value;  
@@ -499,8 +510,7 @@ actualizar();
 
 function aplicarPromoPastor(cantidad){
 
-  let gratis = Math.floor(cantidad / 2);
-  let cobrar = cantidad - gratis;
+  let cobrar = cantidad / 2;
 
   return {
     cobrar: cobrar,
