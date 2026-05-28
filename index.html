@@ -510,11 +510,12 @@ actualizar();
 
 function aplicarPromoPastor(cantidad){
 
-  let cobrar = cantidad / 2;
+  let gratis = Math.floor(cantidad / 2);
+  let cobrar = cantidad - gratis;
 
   return {
     cobrar: cobrar,
-    mostrar: cantidad + " Pastor (pagas " + cobrar + ")"
+    mostrar: cantidad + " Pastor"
   };
 }
 function quitar(p){  
@@ -684,8 +685,7 @@ if(
   promoCliente &&
   x === "Pastor"
 ){
-  let promo = aplicarPromoPastor(cantidad);
-  txt += "- " + promo.mostrar + " ($" + precio + ")\n";
+  txt += "- " + cantidad + " Pastor ($" + precio + ")\n";
 }else{
   txt += "- " + cantidad + " " + x + " ($" + precio + ")\n";
 }
