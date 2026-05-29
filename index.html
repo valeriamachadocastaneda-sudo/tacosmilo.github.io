@@ -534,25 +534,31 @@ carrito.forEach(x=>cont[x]=(cont[x]||0)+1);
 for(let x in cont){
   let base = x.includes("Agua") ? "Agua" : x.split(" de ")[0];
   let cantidad = cont[x];
-  let texto = cantidad + " " + x;
-  let cobrar = cantidad;
 
-  // 👇 PROMO
-if(
-  promoPastorActiva &&
-  promoCliente &&
-  x === "Pastor"
-){
-  let promo = aplicarPromoPastor(cantidad);
-  cobrar = promo.cobrar;
-texto = promo.mostrar;
-}
+  let cobrar = cantidad;
+  let texto = "";
+
+  // 🌮 PROMO PASTOR 2x1
+  if(
+    promoPastorActiva &&
+    promoCliente &&
+    x === "Pastor"
+  ){
+    let gratis = Math.floor(cantidad / 2);
+    cobrar = cantidad - gratis;
+
+    texto = `${cantidad} Pastor (pagas ${cobrar})`;
+  } else {
+    texto = `${cantidad} ${x}`;
+  }
 
   let precio = precios[base] * cobrar;
   total += precio;
 
-  lista.innerHTML += `${texto} - $${precio}
-  <button onclick="quitar('${x}')">❌</button><br>`;
+  lista.innerHTML += `
+    ${texto} - $${precio}
+    <button onclick="quitar('${x}')">❌</button><br>
+  `;
 }
 
 // 👇 ESTO VA FUERA DEL FOR
