@@ -10,4 +10,6 @@ function seleccionarMesa(mesa){
 
     console.log("Mesa seleccionada:", mesaActual);
 
+    localStorage.setItem("mesa", mesaActual);
+
 }
