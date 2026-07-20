@@ -35,10 +35,7 @@ if(textoMesa){
 }
 
 
-
-// ORDEN
-
-let orden = [];
+let orden = JSON.parse(localStorage.getItem("orden_" + mesaGuardada)) || [];
 
 let total = 0;
 
@@ -73,10 +70,54 @@ function agregarProducto(nombre, precio){
 
     mostrarOrden();
 
+    guardarOrden();
+
+}
+
+function sumarProducto(nombre){
+
+    let producto = orden.find(p => p.nombre === nombre);
+
+    producto.cantidad++;
+
+    mostrarOrden();
+
+    guardarOrden();
+
 }
 
 
 
+function restarProducto(nombre){
+
+    let producto = orden.find(p => p.nombre === nombre);
+
+
+    if(producto.cantidad > 1){
+
+        producto.cantidad--;
+
+    }else{
+
+        orden = orden.filter(p => p.nombre !== nombre);
+
+    }
+
+
+    mostrarOrden();
+
+    guardarOrden();
+
+}
+
+function guardarOrden(){
+
+    localStorage.setItem(
+        "orden_" + mesaGuardada,
+        JSON.stringify(orden)
+    );
+
+}
 
 function mostrarOrden(){
 
@@ -103,18 +144,18 @@ orden.forEach(producto => {
     totalCalculado += subtotal;
 
 
-    lista.innerHTML += 
-    producto.cantidad + " x " + producto.nombre + 
-    " $" + subtotal + "<br>";
+lista.innerHTML += 
+producto.cantidad + " x " + producto.nombre +
+" $" + subtotal +
+` <button onclick="sumarProducto('${producto.nombre}')">+</button>
+<button onclick="restarProducto('${producto.nombre}')">-</button>
+<br>`;
 
 
 });
 
 
 totalTexto.innerHTML = "Total: $" + totalCalculado;
-
-
-        totalTexto.innerHTML = "Total: $" + total;
 
 
     }
