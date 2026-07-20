@@ -112,13 +112,24 @@ function restarProducto(nombre){
 
 function guardarOrden(){
 
+    // Guardar en localStorage
     localStorage.setItem(
         "orden_" + mesaGuardada,
         JSON.stringify(orden)
     );
 
-}
+    // Guardar en Firebase
+    database.ref("ordenes/" + mesaGuardada).set({
 
+        mesa: mesaGuardada,
+
+        productos: orden,
+
+        fecha: Date.now()
+
+    });
+
+}
 function mostrarOrden(){
 
     let lista = document.getElementById("listaOrden");
