@@ -49,16 +49,26 @@ function agregarProducto(nombre, precio){
     console.log("Producto agregado:", nombre);
 
 
-    orden.push({
-
-        nombre:nombre,
-
-        precio:precio
-
-    });
+    let productoExistente = orden.find(producto => producto.nombre === nombre);
 
 
-    total = total + precio;
+    if(productoExistente){
+
+        productoExistente.cantidad++;
+
+    }else{
+
+        orden.push({
+
+            nombre:nombre,
+
+            precio:precio,
+
+            cantidad:1
+
+        });
+
+    }
 
 
     mostrarOrden();
@@ -81,14 +91,27 @@ function mostrarOrden(){
         lista.innerHTML = "";
 
 
-        orden.forEach(producto => {
+   let totalCalculado = 0;
 
 
-            lista.innerHTML += 
-            producto.nombre + " $" + producto.precio + "<br>";
+orden.forEach(producto => {
 
 
-        });
+    let subtotal = producto.precio * producto.cantidad;
+
+
+    totalCalculado += subtotal;
+
+
+    lista.innerHTML += 
+    producto.cantidad + " x " + producto.nombre + 
+    " $" + subtotal + "<br>";
+
+
+});
+
+
+totalTexto.innerHTML = "Total: $" + totalCalculado;
 
 
         totalTexto.innerHTML = "Total: $" + total;
