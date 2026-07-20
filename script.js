@@ -45,7 +45,8 @@ let total = 0;
 
 
 function agregarProducto(nombre, precio){
-
+    
+alert("Agregando: " + nombre);
 
     orden.push({
 
