@@ -21,6 +21,7 @@ function seleccionarMesa(mesa){
 
 let mesaGuardada = localStorage.getItem("mesa");
 
+console.log("Mesa guardada:", mesaGuardada);
 
 let textoMesa = document.getElementById("mesaTexto");
 
