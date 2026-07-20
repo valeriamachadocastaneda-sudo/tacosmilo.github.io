@@ -45,8 +45,9 @@ let total = 0;
 
 
 function agregarProducto(nombre, precio){
-    
-alert("Agregando: " + nombre);
+
+    console.log("Producto agregado:", nombre);
+
 
     orden.push({
 
@@ -62,7 +63,6 @@ alert("Agregando: " + nombre);
 
     mostrarOrden();
 
-
 }
 
 
@@ -70,18 +70,15 @@ alert("Agregando: " + nombre);
 
 function mostrarOrden(){
 
-
     let lista = document.getElementById("listaOrden");
 
     let totalTexto = document.getElementById("total");
-
 
 
     if(lista){
 
 
         lista.innerHTML = "";
-
 
 
         orden.forEach(producto => {
@@ -94,11 +91,9 @@ function mostrarOrden(){
         });
 
 
-
         totalTexto.innerHTML = "Total: $" + total;
 
 
     }
-
 
 }
