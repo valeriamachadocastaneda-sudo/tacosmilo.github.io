@@ -1,4 +1,6 @@
 console.log("Tacos Milo iniciado");
+
+
 let mesaActual = "";
 
 
