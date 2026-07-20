@@ -3,7 +3,6 @@ console.log("Tacos Milo iniciado");
 
 let mesaActual = "";
 
-
 function seleccionarMesa(mesa){
 
     mesaActual = mesa;
@@ -11,5 +10,7 @@ function seleccionarMesa(mesa){
     console.log("Mesa seleccionada:", mesaActual);
 
     localStorage.setItem("mesa", mesaActual);
+
+    window.location.href = "menu.html";
 
 }
