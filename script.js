@@ -119,7 +119,7 @@ function guardarOrden(){
     );
 
     // Guardar en Firebase
-    database.ref("ordenes/" + mesaGuardada).set({
+database.ref("pedidos/" + mesaGuardada).set({
 
         mesa: mesaGuardada,
 
