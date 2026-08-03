@@ -16,19 +16,19 @@ import {
 
 const firebaseConfig = {
 
-    apiKey: "TU_API_KEY",
+    apiKey: "AIzaSyBmt0_Uztjq_hP8ejw_eTGPE_4ZE25nnfk",
 
-    authDomain: "TU_PROYECTO.firebaseapp.com",
+    authDomain: "tacos-milo-6438a.firebaseapp.com",
 
-    databaseURL: "https://tacos-milo-6438a-default-rtdb.firebaseio.com/",
+    databaseURL: "https://tacos-milo-6438a-default-rtdb.firebaseio.com",
 
-    projectId: "TU_PROYECTO",
+    projectId: "tacos-milo-6438a",
 
-    storageBucket: "TU_PROYECTO.appspot.com",
+    storageBucket: "tacos-milo-6438a.firebasestorage.app",
 
-    messagingSenderId: "TU_MESSAGING_ID",
+    messagingSenderId: "424796577310",
 
-    appId: "TU_APP_ID"
+    appId: "1:424796577310:web:b4ecfa554fdebab93dd80f"
 
 };
 
