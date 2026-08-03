@@ -1,41 +1,89 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tacos Milo 🌮</title>
 
-<title>Tacos Milo</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>TACOS MILO 🌮</h1>
-
-<h2>Selecciona una mesa</h2>
-
-<div id="mesas">
-
-<button onclick="seleccionarMesa(1)">Mesa 1</button>
-
-<button onclick="seleccionarMesa(2)">Mesa 2</button>
-
-<button onclick="seleccionarMesa(3)">Mesa 3</button>
-
-<button onclick="seleccionarMesa(4)">Mesa 4</button>
+<header>
+    <h1>🌮 Tacos Milo</h1>
+    <p>Los mejores tacos de la zona</p>
+</header>
 
 
-<button class="llevar" onclick="seleccionarMesa('llevar')">
-🛍️ Para llevar
-</button>
+<section class="bienvenida">
 
-</div>
+    <h2>¡Bienvenido!</h2>
 
-<script src="./script.js"></script>
+    <p>
+        Disfruta nuestros tacos preparados al momento.
+        Haz tu pedido fácil y rápido.
+    </p>
+
+    <a href="menu.html" class="boton">
+        Ver menú 🌮
+    </a>
+
+</section>
+
+
+<section class="promocion">
+
+    <h2>🔥 Promoción del día</h2>
+
+    <p id="promoTexto">
+        2x1 en tacos de pastor
+    </p>
+
+</section>
+
+
+<section class="informacion">
+
+    <h2>📍 Información</h2>
+
+    <p>
+        Horario:
+        <br>
+        Lunes a Domingo
+    </p>
+
+    <p>
+        Método de pago:
+        <br>
+        Transferencia 💳
+    </p>
+
+</section>
+
+
+<footer>
+
+<p>
+© Tacos Milo 🌮
+</p>
+
+</footer>
+
+
+<script>
+
+const promo = localStorage.getItem("promo");
+
+if(promo){
+
+    document.getElementById("promoTexto").innerHTML = promo;
+
+}
+
+</script>
+
+
 </body>
-
 </html>
