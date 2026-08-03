@@ -1,124 +1,175 @@
-console.log("Admin Tacos Milo iniciado");
+import { escucharPedidos } from "./firebase.js";
 
 
-let contenedor = document.getElementById("ordenesAdmin");
+
+// ==========================
+// CARGAR PEDIDOS
+// ==========================
 
 
-for(let mesa = 1; mesa <= 4; mesa++){
+window.cargarPedidos=function(){
 
 
-    let orden = JSON.parse(
-        localStorage.getItem("orden_" + mesa)
-    );
+    escucharPedidos((datos)=>{
 
 
-    let estado = localStorage.getItem(
-        "estado_" + mesa
-    ) || "Pendiente";
+        let contenedor = document.getElementById("pedidos");
 
 
-    if(orden && orden.length > 0){
+
+        contenedor.innerHTML="";
 
 
-        let html = `
 
-        <div class="tarjetaMesa">
-
-        <h2>
-        Mesa ${mesa}
-        </h2>
-
-        <h3>
-        Estado: ${estado}
-        </h3>
-
-        `;
+        if(!datos){
 
 
-        orden.forEach(producto => {
+            contenedor.innerHTML="No hay pedidos";
+
+            return;
 
 
-            let subtotal =
-            producto.precio * producto.cantidad;
+        }
 
 
-            html += 
-            producto.cantidad +
-            " x " +
-            producto.nombre +
-            " $" +
-            subtotal +
-            "<br>";
+
+        Object.keys(datos).forEach(id=>{
+
+
+            let pedido = datos[id];
+
+
+
+            let productos="";
+
+
+
+            pedido.productos.forEach(p=>{
+
+
+                productos += `
+
+                ${p.nombre} - $${p.precio}
+                
+                `;
+
+
+            });
+
+
+
+
+
+            contenedor.innerHTML += `
+
+
+            <div class="producto">
+
+
+            <h3>🌮 Pedido</h3>
+
+
+            <p>
+            Cliente:
+            ${pedido.cliente}
+            </p>
+
+
+            <p>
+            Tipo:
+            ${pedido.tipo}
+            </p>
+
+
+            <p>
+            Mesa:
+            ${pedido.mesa}
+            </p>
+
+
+            <p>
+            Productos:
+            <br>
+            ${productos}
+            </p>
+
+
+            <p>
+            Total:
+            $${pedido.total}
+            </p>
+
+
+            <p>
+            Fecha:
+            ${pedido.fecha}
+            </p>
+
+
+
+            </div>
+
+
+            `;
+
 
 
         });
 
 
 
-        html += `
-
-        <br>
-
-        <button onclick="cambiarEstado(${mesa}, 'Preparando')">
-        🔥 Preparando
-        </button>
+    });
 
 
-        <button onclick="cambiarEstado(${mesa}, 'Entregado')">
-        🟢 Entregado
-        </button>
+
+};
 
 
-        <button onclick="cerrarMesa(${mesa})">
-        🗑️ Cerrar mesa
-        </button>
 
 
-        </div>
-
-        `;
 
 
-        contenedor.innerHTML += html;
+// ==========================
+// PROMOCIÓN
+// ==========================
+
+
+window.guardarPromo=function(){
+
+
+    let texto =
+    document.getElementById("nuevaPromo").value;
+
+
+
+    if(texto.trim()===""){
+
+
+        alert("Escribe una promoción");
+
+        return;
 
 
     }
 
-}
-
-
-
-
-function cambiarEstado(mesa, estado){
 
 
     localStorage.setItem(
-        "estado_" + mesa,
-        estado
+
+        "promo",
+
+        texto
+
     );
 
 
-    location.reload();
 
+    alert(
 
-}
+        "Promoción guardada 🌮"
 
-
-
-function cerrarMesa(mesa){
-
-
-    localStorage.removeItem(
-        "orden_" + mesa
     );
 
 
-    localStorage.removeItem(
-        "estado_" + mesa
-    );
 
-
-    location.reload();
-
-
-}
+};
