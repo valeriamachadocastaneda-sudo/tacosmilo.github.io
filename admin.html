@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Tacos Milo</title>
+<title>Admin - Tacos Milo 🌮</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,20 +15,80 @@
 
 <body>
 
-<h1>ADMIN TACOS MILO 🌮</h1>
 
-<h2>Órdenes activas</h2>
-  
-<button onclick="location.reload()">
-🔄 Actualizar órdenes
+<header>
+
+<h1>🔐 Panel Administrador</h1>
+
+<p>Tacos Milo 🌮</p>
+
+</header>
+
+
+
+
+<section class="admin">
+
+
+<h2>📋 Pedidos recibidos</h2>
+
+
+<button class="boton" onclick="cargarPedidos()">
+
+Actualizar pedidos
+
 </button>
 
-<div id="ordenesAdmin">
+
+
+<div id="pedidos">
+
+No hay pedidos cargados
 
 </div>
 
 
-<script src="admin.js"></script>
+
+</section>
+
+
+
+
+
+<section class="admin">
+
+
+<h2>🔥 Promoción</h2>
+
+
+<input id="nuevaPromo" placeholder="Escribe la promoción">
+
+
+<button class="boton" onclick="guardarPromo()">
+
+Guardar promoción
+
+</button>
+
+
+</section>
+
+
+
+
+
+
+<footer>
+
+© Tacos Milo 🌮
+
+</footer>
+
+
+
+
+
+<script type="module" src="admin.js"></script>
 
 
 </body>
