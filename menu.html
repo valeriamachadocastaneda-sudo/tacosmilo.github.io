@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Menú Tacos Milo</title>
+<title>Menú - Tacos Milo 🌮</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -15,90 +15,244 @@
 
 <body>
 
-<h1>TACOS MILO 🌮</h1>
 
-<h3 id="mesaTexto"></h3>
+<header>
 
-<h2>Menú</h2>
+<h1>🌮 Menú Tacos Milo</h1>
 
-<div id="menu">
+<p>Elige tus tacos favoritos</p>
+
+</header>
+
+
+
+<section>
+
+<h2>🌮 Tacos</h2>
+
 
 <div class="producto">
 
-<img src="imagenes/pastor.jpg" alt="Taco Pastor">
+<span>Pastor - $18</span>
 
-<h3>Taco Pastor</h3>
-
-<p>$18</p>
-
-<button onclick="agregarProducto('Taco Pastor',18)">
+<button onclick="agregar('Pastor',18)">
 Agregar
 </button>
 
 </div>
 
-<button onclick="agregarProducto('Taco Bistec',18)">
-🌮 Taco Bistec
-<br>
-$18
+
+<div class="producto">
+
+<span>Chorizo - $18</span>
+
+<button onclick="agregar('Chorizo',18)">
+Agregar
 </button>
 
+</div>
 
-<button onclick="agregarProducto('Taco Suadero',18)">
-🌮 Taco Suadero
-<br>
-$18
+
+<div class="producto">
+
+<span>Bistec - $18</span>
+
+<button onclick="agregar('Bistec',18)">
+Agregar
 </button>
 
+</div>
 
-<button onclick="agregarProducto('Taco Chorizo',18)">
-🌮 Taco Chorizo
-<br>
-$18
+
+<div class="producto">
+
+<span>Suadero - $18</span>
+
+<button onclick="agregar('Suadero',18)">
+Agregar
 </button>
 
+</div>
+
+
+<div class="producto">
+
+<span>Tripa - $24</span>
+
+<button onclick="agregar('Tripa',24)">
+Agregar
+</button>
+
+</div>
+
+
+<div class="producto">
+
+<span>Arrachera - $20</span>
+
+<button onclick="agregar('Arrachera',20)">
+Agregar
+</button>
 
 </div>
 
 
 
-<div id="orden">
-
-<h2>Tu orden</h2>
-
-<p id="listaOrden">
-No hay productos todavía
-</p>
+<h2>🔥 Especialidades</h2>
 
 
-<h3 id="total">
-Total: $0
+<div class="producto">
+
+<span>Volcán - $30</span>
+
+<button onclick="agregar('Volcán',30)">
+Agregar
+</button>
+
+</div>
+
+
+<div class="producto">
+
+<span>Quesadilla sencilla - $25</span>
+
+<button onclick="agregar('Quesadilla sencilla',25)">
+Agregar
+</button>
+
+</div>
+
+
+<div class="producto">
+
+<span>Quesadilla con carne - $35</span>
+
+<button onclick="agregar('Quesadilla con carne',35)">
+Agregar
+</button>
+
+</div>
+
+
+<div class="producto">
+
+<span>Lonche - $50</span>
+
+<button onclick="agregar('Lonche',50)">
+Agregar
+</button>
+
+</div>
+
+
+<div class="producto">
+
+<span>Gringa - $40</span>
+
+<button onclick="agregar('Gringa',40)">
+Agregar
+</button>
+
+</div>
+
+
+
+<h2>🥤 Bebidas</h2>
+
+
+<div class="producto">
+
+<span>Agua - $25</span>
+
+<button onclick="agregar('Agua',25)">
+Agregar
+</button>
+
+</div>
+
+
+<div class="producto">
+
+<span>Coca 250ml - $24</span>
+
+<button onclick="agregar('Coca 250ml',24)">
+Agregar
+</button>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section class="carrito">
+
+
+<h2>🛒 Tu pedido</h2>
+
+
+<div id="listaCarrito">
+
+Vacío
+
+</div>
+
+
+<h3>
+
+Total:
+$<span id="total">0</span>
+
 </h3>
 
 
-</div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+<input id="nombre" placeholder="Tu nombre">
 
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyBBzyNLtsJBulrflAbg4XteZmO7GIk4mcc",
-  authDomain: "tacos-milo.firebaseapp.com",
-  databaseURL: "https://tacos-milo-default-rtdb.firebaseio.com",
-  projectId: "tacos-milo",
-  storageBucket: "tacos-milo.firebasestorage.app",
-  messagingSenderId: "264651688631",
-  appId: "1:264651688631:web:685a8ee662c2b0c1d49b32"
-};
 
-firebase.initializeApp(firebaseConfig);
+<select id="tipo">
 
-const database = firebase.database();
-</script>
+<option value="Para llevar">
+Para llevar
+</option>
 
-<script src="script.js"></script>
+<option value="Comer aquí">
+Comer aquí
+</option>
+
+</select>
+
+
+
+<input id="mesa" placeholder="Número de mesa">
+
+
+
+<button onclick="enviarPedido()" class="boton">
+
+Enviar pedido 🌮
+
+</button>
+
+
+
+</section>
+
+
+
+<footer>
+
+© Tacos Milo 🌮
+
+</footer>
+
+
+
+<script type="module" src="menu.js"></script>
 
 
 </body>
