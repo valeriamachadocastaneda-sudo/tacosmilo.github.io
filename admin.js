@@ -1,30 +1,39 @@
 import { escucharPedidos } from "./firebase.js";
 
+import { 
+    getDatabase,
+    ref,
+    update
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-// ==========================
+// =================================
 // CARGAR PEDIDOS
-// ==========================
+// =================================
 
 
-window.cargarPedidos=function(){
+window.cargarPedidos = function(){
 
 
     escucharPedidos((datos)=>{
 
 
-        let contenedor = document.getElementById("pedidos");
+        const contenedor = document.getElementById(
+            "pedidos"
+        );
 
 
 
-        contenedor.innerHTML="";
+        contenedor.innerHTML = "";
 
 
 
         if(!datos){
 
 
-            contenedor.innerHTML="No hay pedidos";
+            contenedor.innerHTML =
+            "No hay pedidos todavía";
+
 
             return;
 
@@ -33,25 +42,38 @@ window.cargarPedidos=function(){
 
 
 
+
+
         Object.keys(datos).forEach(id=>{
 
 
-            let pedido = datos[id];
+            const pedido = datos[id];
 
 
 
-            let productos="";
+            let productos = "";
 
 
 
-            pedido.productos.forEach(p=>{
+            pedido.productos.forEach(producto=>{
+
 
 
                 productos += `
 
-                ${p.nombre} - $${p.precio}
-                
+                <p>
+
+                ${producto.cantidad} x 
+                ${producto.nombre}
+
+                <br>
+
+                $${producto.precio * producto.cantidad}
+
+                </p>
+
                 `;
+
 
 
             });
@@ -60,50 +82,95 @@ window.cargarPedidos=function(){
 
 
 
+
             contenedor.innerHTML += `
 
 
-            <div class="producto">
+            <div class="pedido">
 
 
-            <h3>🌮 Pedido</h3>
+                <h3>
+                🌮 Pedido
+                </h3>
 
 
-            <p>
-            Cliente:
-            ${pedido.cliente}
-            </p>
+                <p>
+
+                <b>Cliente:</b>
+
+                ${pedido.cliente}
+
+                </p>
 
 
-            <p>
-            Tipo:
-            ${pedido.tipo}
-            </p>
+
+                <p>
+
+                <b>Tipo:</b>
+
+                ${pedido.tipo}
+
+                </p>
 
 
-            <p>
-            Mesa:
-            ${pedido.mesa}
-            </p>
+
+                ${
+                    pedido.mesa
+
+                    ?
+
+                    `<p>
+
+                    <b>Mesa:</b>
+
+                    ${pedido.mesa}
+
+                    </p>`
+
+                    :
+
+                    ""
+
+                }
 
 
-            <p>
-            Productos:
-            <br>
-            ${productos}
-            </p>
 
 
-            <p>
-            Total:
-            $${pedido.total}
-            </p>
+
+                <hr>
 
 
-            <p>
-            Fecha:
-            ${pedido.fecha}
-            </p>
+                <h4>
+                Productos:
+                </h4>
+
+
+
+                ${productos}
+
+
+
+
+                <hr>
+
+
+                <h3>
+
+                Total:
+
+                $${pedido.total}
+
+                </h3>
+
+
+
+
+                <small>
+
+                ${pedido.fecha}
+
+                </small>
+
 
 
 
@@ -114,8 +181,78 @@ window.cargarPedidos=function(){
 
 
 
+
         });
 
+
+
+    });
+
+// =================================
+// CAMBIAR ESTADO DEL PEDIDO
+// =================================
+
+
+import { 
+    getDatabase,
+    ref,
+    update
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+
+
+
+// =================================
+// MARCAR COMO LISTO
+// =================================
+
+
+window.marcarListo=function(id){
+
+
+
+    const database = getDatabase();
+
+
+
+    const pedidoRef = ref(
+
+        database,
+
+        "pedidos/"+id
+
+    );
+
+
+
+    update(
+
+        pedidoRef,
+
+        {
+
+            estado:"Listo"
+
+        }
+
+    )
+
+    .then(()=>{
+
+
+        alert(
+
+        "Pedido marcado como listo ✅"
+
+        );
+
+
+    })
+
+    .catch(error=>{
+
+
+        console.log(error);
 
 
     });
@@ -128,48 +265,34 @@ window.cargarPedidos=function(){
 
 
 
-
-// ==========================
-// PROMOCIÓN
-// ==========================
-
-
-window.guardarPromo=function(){
+// =================================
+// ACTUALIZAR VISUALIZACION
+// =================================
 
 
-    let texto =
-    document.getElementById("nuevaPromo").value;
+function mostrarEstado(estado){
 
 
 
-    if(texto.trim()===""){
+    if(estado==="Listo"){
 
 
-        alert("Escribe una promoción");
-
-        return;
+        return "🟢 Listo";
 
 
     }
 
 
 
-    localStorage.setItem(
-
-        "promo",
-
-        texto
-
-    );
+    else{
 
 
-
-    alert(
-
-        "Promoción guardada 🌮"
-
-    );
+        return "🟡 Preparando";
 
 
+    }
+
+
+}
 
 };
