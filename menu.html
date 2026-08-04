@@ -1,260 +1,155 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tacos Milo - Menú</title>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Menú - Tacos Milo 🌮</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
-
 <body>
 
-
 <header>
-
-<h1>🌮 Menú Tacos Milo</h1>
-
-<p>Elige tus tacos favoritos</p>
-
+    <h1>🌮 Tacos Milo</h1>
+    <p>Haz tu pedido</p>
 </header>
 
+<main>
 
+    <!-- TACOS -->
+    <section class="categoria">
 
-<section>
+        <h2>🌮 Tacos</h2>
 
-<h2>🌮 Tacos</h2>
+        <div id="tacos"></div>
 
+    </section>
 
-<div class="producto">
 
-<span>Pastor - $18</span>
+    <!-- GRINGAS -->
 
-<button onclick="agregar('Pastor',18)">
-Agregar
-</button>
+    <section class="categoria">
 
-</div>
+        <h2>🫓 Gringas</h2>
 
+        <div id="gringas"></div>
 
-<div class="producto">
+    </section>
 
-<span>Chorizo - $18</span>
 
-<button onclick="agregar('Chorizo',18)">
-Agregar
-</button>
+    <!-- LONCHES -->
 
-</div>
+    <section class="categoria">
 
+        <h2>🥪 Lonches</h2>
 
-<div class="producto">
+        <div id="lonches"></div>
 
-<span>Bistec - $18</span>
+    </section>
 
-<button onclick="agregar('Bistec',18)">
-Agregar
-</button>
 
-</div>
+    <!-- QUESADILLAS -->
 
+    <section class="categoria">
 
-<div class="producto">
+        <h2>🧀 Quesadillas</h2>
 
-<span>Suadero - $18</span>
+        <div id="quesadillas"></div>
 
-<button onclick="agregar('Suadero',18)">
-Agregar
-</button>
+    </section>
 
-</div>
 
+    <!-- VOLCANES -->
 
-<div class="producto">
+    <section class="categoria">
 
-<span>Tripa - $24</span>
+        <h2>🌋 Volcanes</h2>
 
-<button onclick="agregar('Tripa',24)">
-Agregar
-</button>
+        <div id="volcanes"></div>
 
-</div>
+    </section>
 
 
-<div class="producto">
+    <!-- BEBIDAS -->
 
-<span>Arrachera - $20</span>
+    <section class="categoria">
 
-<button onclick="agregar('Arrachera',20)">
-Agregar
-</button>
+        <h2>🥤 Bebidas</h2>
 
-</div>
+        <div id="bebidas"></div>
 
+    </section>
 
 
-<h2>🔥 Especialidades</h2>
 
+    <!-- CARRITO -->
 
-<div class="producto">
+    <section class="carrito">
 
-<span>Volcán - $30</span>
+        <h2>🛒 Mi pedido</h2>
 
-<button onclick="agregar('Volcán',30)">
-Agregar
-</button>
+        <div id="listaCarrito">
 
-</div>
+            No hay productos
 
+        </div>
 
-<div class="producto">
+        <h3>
 
-<span>Quesadilla sencilla - $25</span>
+            Total: $
 
-<button onclick="agregar('Quesadilla sencilla',25)">
-Agregar
-</button>
+            <span id="total">
 
-</div>
+                0
 
+            </span>
 
-<div class="producto">
+        </h3>
 
-<span>Quesadilla con carne - $35</span>
+        <hr>
 
-<button onclick="agregar('Quesadilla con carne',35)">
-Agregar
-</button>
+        <input
+            type="text"
+            id="nombre"
+            placeholder="Nombre del cliente">
 
-</div>
+        <select id="tipoPedido">
 
+            <option value="Para llevar">
 
-<div class="producto">
+                Para llevar
 
-<span>Lonche - $50</span>
+            </option>
 
-<button onclick="agregar('Lonche',50)">
-Agregar
-</button>
+            <option value="Comer aquí">
 
-</div>
+                Comer aquí
 
+            </option>
 
-<div class="producto">
+        </select>
 
-<span>Gringa - $40</span>
 
-<button onclick="agregar('Gringa',40)">
-Agregar
-</button>
+        <div id="contenedorMesa" style="display:none;">
 
-</div>
+            <input
+                type="number"
+                id="mesa"
+                placeholder="Número de mesa">
 
+        </div>
 
+        <button id="enviarPedido">
 
-<h2>🥤 Bebidas</h2>
+            Enviar pedido 🌮
 
+        </button>
 
-<div class="producto">
+    </section>
 
-<span>Agua - $25</span>
-
-<button onclick="agregar('Agua',25)">
-Agregar
-</button>
-
-</div>
-
-
-<div class="producto">
-
-<span>Coca 250ml - $24</span>
-
-<button onclick="agregar('Coca 250ml',24)">
-Agregar
-</button>
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-<section class="carrito">
-
-
-<h2>🛒 Tu pedido</h2>
-
-
-<div id="listaCarrito">
-
-Vacío
-
-</div>
-
-
-<h3>
-
-Total:
-$<span id="total">0</span>
-
-</h3>
-
-
-
-<input id="nombre" placeholder="Tu nombre">
-
-
-<select id="tipo">
-
-<option value="Para llevar">
-Para llevar
-</option>
-
-<option value="Comer aquí">
-Comer aquí
-</option>
-
-</select>
-
-
-
-<input id="mesa" placeholder="Número de mesa">
-
-
-
-<button onclick="enviarPedido()" class="boton">
-
-Enviar pedido 🌮
-
-</button>
-
-
-
-</section>
-
-
-
-<footer>
-
-© Tacos Milo 🌮
-
-</footer>
-
-
+</main>
 
 <script type="module" src="menu.js"></script>
 
-
 </body>
-
 </html>
