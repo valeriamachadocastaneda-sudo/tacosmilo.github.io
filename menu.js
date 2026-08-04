@@ -155,6 +155,30 @@ const productos = {
 
         }
 
-    ]
+    ]window.onload = ()=>{
+
+    crearMenu();
+
+    mostrarCarrito();
+
+};
+
+
+
+function crearMenu(){
+
+    crearTacos();
+
+    crearGringas();
+
+    crearLonches();
+
+    crearQuesadillas();
+
+    crearVolcanes();
+
+    crearBebidas();
+
+}
 
 };
