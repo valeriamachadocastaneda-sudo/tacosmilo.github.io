@@ -1,286 +1,160 @@
 import { guardarPedido } from "./firebase.js";
 
+/*=========================================
+            TACOS MILO 2.0
+==========================================*/
 
-let carrito = [];
-
-
-
-// ==========================
-// AGREGAR PRODUCTOS
-// ==========================
-
-window.agregar = function(nombre, precio){
+const carrito = [];
 
 
-    carrito.push({
+/*=========================================
+              CARNES
+==========================================*/
 
-        nombre:nombre,
-        precio:precio
+const carnes = [
+    "Pastor",
+    "Bistec",
+    "Chorizo",
+    "Suadero",
+    "Arrachera",
+    "Tripa"
+];
 
-    });
+const carnesSinTripa = [
+    "Pastor",
+    "Bistec",
+    "Chorizo",
+    "Suadero",
+    "Arrachera"
+];
+
+const saboresAgua = [
+    "Jamaica",
+    "Horchata",
+    "Limón"
+];
 
 
-    mostrarCarrito();
+/*=========================================
+            PRODUCTOS
+==========================================*/
+
+const productos = {
+
+    tacos: [
+
+        { nombre:"Pastor", precio:18 },
+
+        { nombre:"Bistec", precio:18 },
+
+        { nombre:"Chorizo", precio:18 },
+
+        { nombre:"Suadero", precio:18 },
+
+        { nombre:"Arrachera", precio:18 },
+
+        { nombre:"Tripa", precio:22 }
+
+    ],
+
+
+
+    gringa:{
+
+        nombre:"Gringa",
+
+        precio:50,
+
+        carnes:carnesSinTripa
+
+    },
+
+
+
+    lonches:[
+
+        {
+
+            nombre:"Lonche",
+
+            precio:65,
+
+            carnes:carnes
+
+        },
+
+        {
+
+            nombre:"Lonche con queso",
+
+            precio:75,
+
+            carnes:carnes
+
+        }
+
+    ],
+
+
+
+    quesadillas:[
+
+        {
+
+            nombre:"Quesadilla sencilla",
+
+            precio:20,
+
+            carne:false
+
+        },
+
+        {
+
+            nombre:"Quesadilla con carne",
+
+            precio:30,
+
+            carne:true,
+
+            carnes:carnes
+
+        }
+
+    ],
+
+
+
+    volcan:{
+
+        nombre:"Volcán",
+
+        carnes:carnes
+
+    },
+
+
+
+    bebidas:[
+
+        {
+
+            nombre:"Agua fresca",
+
+            precio:35,
+
+            sabores:saboresAgua
+
+        },
+
+        {
+
+            nombre:"Coca",
+
+            precio:26
+
+        }
+
+    ]
 
 };
-
-
-
-
-// ==========================
-// MOSTRAR CARRITO
-// ==========================
-
-
-function mostrarCarrito(){
-
-
-    let lista = document.getElementById("listaCarrito");
-
-    let total = document.getElementById("total");
-
-
-
-    lista.innerHTML="";
-
-
-    let suma = 0;
-
-
-
-    if(carrito.length === 0){
-
-        lista.innerHTML="Vacío";
-
-    }
-
-
-
-    carrito.forEach((producto,index)=>{
-
-
-        suma += producto.precio;
-
-
-
-        lista.innerHTML += `
-
-        <p>
-
-        ${producto.nombre} - $${producto.precio}
-
-        <button onclick="eliminar(${index})">
-
-        ❌
-
-        </button>
-
-        </p>
-
-        `;
-
-
-    });
-
-
-
-    total.innerHTML=suma;
-
-
-}
-
-
-
-
-
-// ==========================
-// ELIMINAR PRODUCTO
-// ==========================
-
-
-window.eliminar=function(index){
-
-
-    carrito.splice(index,1);
-
-
-    mostrarCarrito();
-
-
-};
-
-
-
-
-
-
-// ==========================
-// ENVIAR PEDIDO
-// ==========================
-
-
-window.enviarPedido=function(){
-
-
-
-    if(carrito.length===0){
-
-        alert("Agrega productos primero");
-
-        return;
-
-    }
-
-
-
-    let nombre = document.getElementById("nombre").value;
-
-
-    let tipo = document.getElementById("tipo").value;
-
-
-    let mesa = document.getElementById("mesa").value;
-
-
-
-    let total = carrito.reduce(
-
-        (suma,p)=>suma+p.precio,
-
-        0
-
-    );
-
-
-
-    let pedido={
-
-
-        cliente:nombre,
-
-        tipo:tipo,
-
-        mesa:mesa,
-
-
-        productos:carrito,
-
-
-        total:total,
-
-
-        fecha:new Date().toLocaleString()
-
-
-    };
-
-
-
-
-
-    guardarPedido(pedido)
-
-    .then(()=>{
-
-
-        alert("Pedido enviado correctamente 🌮");
-
-
-
-        enviarWhatsApp(pedido);
-
-
-
-        carrito=[];
-
-        mostrarCarrito();
-
-
-
-    })
-
-    .catch(error=>{
-
-
-        console.log(error);
-
-        alert("Error al enviar pedido");
-
-
-    });
-
-
-
-};
-
-
-
-
-
-
-// ==========================
-// WHATSAPP
-// ==========================
-
-
-function enviarWhatsApp(pedido){
-
-
-
-let texto = 
-
-`🌮 *PEDIDO TACOS MILO*
-
-Cliente:
-${pedido.cliente}
-
-Tipo:
-${pedido.tipo}
-
-Mesa:
-${pedido.mesa}
-
-
-Productos:
-`;
-
-
-
-pedido.productos.forEach(p=>{
-
-
-texto += `
-
-${p.nombre} $${p.precio}
-
-`;
-
-});
-
-
-
-texto += `
-
-TOTAL:
-$${pedido.total}
-
-`;
-
-
-
-// Cambia este número por el WhatsApp del negocio
-
-let numero="521XXXXXXXXXX";
-
-
-
-let url = 
-
-"https://wa.me/"+numero+"?text="+encodeURIComponent(texto);
-
-
-
-window.open(url,"_blank");
-
-
-}
