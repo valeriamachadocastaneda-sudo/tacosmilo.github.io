@@ -1,57 +1,70 @@
+// =====================================
+// TACOS MILO V3
+// MENU.JS PARTE 1
+// =====================================
+
+
+
+// Plato seleccionado actualmente
 import { guardarPedido } from "./firebase.js";
 
+let platoSeleccionado = "";
 
-// =================================
-// CARRITO
-// =================================
+
+
+// Carrito
 
 let carrito = [];
 
 
 
 
-// =================================
+
+// =====================================
 // PRODUCTOS
-// =================================
+// =====================================
+
 
 
 const tacos = [
 
-    {nombre:"Pastor", precio:18},
+    {
+        nombre:"Pastor",
+        precio:18
+    },
 
-    {nombre:"Bistec", precio:18},
+    {
+        nombre:"Bistec",
+        precio:18
+    },
 
-    {nombre:"Chorizo", precio:18},
+    {
+        nombre:"Chorizo",
+        precio:18
+    },
 
-    {nombre:"Suadero", precio:18},
+    {
+        nombre:"Suadero",
+        precio:18
+    },
 
-    {nombre:"Arrachera", precio:18},
+    {
+        nombre:"Arrachera",
+        precio:18
+    },
 
-    {nombre:"Tripa", precio:22}
+    {
+        nombre:"Tripa",
+        precio:22
+    }
 
 ];
+
+
 
 
 
 const carnes = [
-
-    "Pastor",
-
-    "Bistec",
-
-    "Chorizo",
-
-    "Suadero",
-
-    "Arrachera",
-
-    "Tripa"
-
-];
-
-
-
-const carnesGringa = [
 
     "Pastor",
 
@@ -67,7 +80,9 @@ const carnesGringa = [
 
 
 
-const saboresAgua = [
+
+
+const aguas = [
 
     "Jamaica",
 
@@ -79,82 +94,139 @@ const saboresAgua = [
 
 
 
-// =================================
-// INICIAR MENU
-// =================================
 
 
-window.onload = function(){
-
-    cargarTacos();
-
-    cargarGringas();
-
-    cargarLonches();
-
-    cargarQuesadillas();
-
-    cargarVolcanes();
-
-    cargarBebidas();
-
-    actualizarCarrito();
-
-// =================================
-// CREAR TACOS
-// =================================
+// =====================================
+// SELECCIONAR PLATO
+// =====================================
 
 
-function cargarTacos(){
-
-    const contenedor = document.getElementById("tacos");
-
-
-    tacos.forEach((taco,index)=>{
+document
+.querySelectorAll(".botonPlato")
+.forEach(boton=>{
 
 
-        contenedor.innerHTML += `
-
-        <div class="producto">
+    boton.addEventListener("click",()=>{
 
 
-            <div>
-
-                <h3>
-                Taco ${taco.nombre}
-                </h3>
-
-                <p>
-                $${taco.precio}
-                </p>
-
-            </div>
+        platoSeleccionado = boton.innerText;
 
 
 
-            <div class="cantidad">
+        document.getElementById(
+
+            "platoActual"
+
+        ).innerText =
 
 
-                <button onclick="cambiarCantidad('taco${index}',-1)">
-                    -
-                </button>
+        "Lugar seleccionado: "
 
+        +
 
-                <span id="taco${index}">
-                    0
-                </span>
-
-
-                <button onclick="cambiarCantidad('taco${index}',1)">
-                    +
-                </button>
-
-
-            </div>
+        platoSeleccionado;
 
 
 
-        </div>
+        alert(
+
+        "Seleccionaste: "
+
+        +
+
+        platoSeleccionado
+
+        );
+
+
+    });
+
+
+});
+
+
+
+
+
+// =====================================
+// MOSTRAR CARRITO
+// =====================================
+
+
+function actualizarCarrito(){
+
+
+
+    let lista = document.getElementById(
+
+        "listaCarrito"
+
+    );
+
+
+
+    let total = document.getElementById(
+
+        "total"
+
+    );
+
+
+
+    lista.innerHTML="";
+
+
+
+    let suma = 0;
+
+
+
+    if(carrito.length===0){
+
+
+        lista.innerHTML=
+
+        "Tu carrito está vacío";
+
+
+    }
+
+
+
+
+
+    carrito.forEach(producto=>{
+
+
+
+        let subtotal =
+
+        producto.precio *
+
+        producto.cantidad;
+
+
+
+        suma += subtotal;
+
+
+
+
+        lista.innerHTML += `
+
+        <p>
+
+        ${producto.cantidad}
+
+        x
+
+        ${producto.nombre}
+
+        =
+
+        $${subtotal}
+
+        </p>
 
         `;
 
@@ -163,633 +235,316 @@ function cargarTacos(){
 
 
 
-    contenedor.innerHTML += `
-
-    <button onclick="agregarTacosCarrito()">
-
-        Agregar tacos al carrito 🌮
-
-    </button>
-
-    `;
-
-}
+    total.innerText=suma;
+// =====================================
+// MOSTRAR TACOS
+// =====================================
 
 
+function cargarTacos(){
 
 
+    const contenedor = document.getElementById(
 
-// =================================
-// CAMBIAR CANTIDAD
-// =================================
+        "tacos"
 
-
-window.cambiarCantidad = function(id, cambio){
-
-
-    let elemento = document.getElementById(id);
-
-
-    let cantidad = Number(elemento.innerText);
-
-
-    cantidad += cambio;
+    );
 
 
 
-    if(cantidad < 0){
-
-        cantidad = 0;
-
-    }
-
-
-    elemento.innerText = cantidad;
-
-
-}
-
-
-
-
-
-// =================================
-// AGREGAR TACOS AL CARRITO
-// =================================
-
-
-window.agregarTacosCarrito = function(){
+    contenedor.innerHTML = "";
 
 
 
     tacos.forEach((taco,index)=>{
 
 
-        let cantidad = Number(
-
-            document.getElementById(
-
-                "taco"+index
-
-            ).innerText
-
-        );
+        contenedor.innerHTML += `
 
 
-
-        if(cantidad > 0){
-
-
-            agregarProductoCarrito({
-
-                nombre:
-
-                "Taco "+taco.nombre,
+        <div class="producto">
 
 
-                precio:
-
-                taco.precio,
+            <div class="infoProducto">
 
 
-                cantidad:
+                <h3>
 
-                cantidad
+                🌮 ${taco.nombre}
 
-            });
+                </h3>
 
 
-            document.getElementById(
+                <p>
 
-                "taco"+index
+                $${taco.precio}
 
-            ).innerText = 0;
+                </p>
+
+
+            </div>
 
 
 
-        }
+
+
+            <div class="controles">
+
+
+                <button 
+
+                class="btnMenos"
+
+                onclick="quitarProducto('${taco.nombre}')">
+
+                -
+
+                </button>
+
+
+
+
+
+                <span 
+
+                class="cantidad"
+
+                id="cantidad-${taco.nombre}">
+
+                0
+
+                </span>
+
+
+
+
+
+                <button 
+
+                class="btnMas"
+
+                onclick="agregarProducto('${taco.nombre}',${taco.precio})">
+
+                +
+
+                </button>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+        `;
 
 
 
     });
 
 
+}
+
+
+
+
+
+
+// =====================================
+// AGREGAR PRODUCTO
+// =====================================
+
+
+window.agregarProducto=function(nombre,precio){
+
+
+
+    let existe = carrito.find(
+
+        producto => producto.nombre === nombre
+
+    );
+
+
+
+
+    if(existe){
+
+
+        existe.cantidad++;
+
+
+    }
+
+    else{
+
+
+        carrito.push({
+
+            nombre:nombre,
+
+            precio:precio,
+
+            cantidad:1
+
+        });
+
+
+    }
+
+
+
+
+    actualizarCantidad(nombre);
+
 
     actualizarCarrito();
 
 
+
 };
 
-// =================================
-// CREAR GRINGAS
-// =================================
+
+
+
+
+
+// =====================================
+// QUITAR PRODUCTO
+// =====================================
+
+
+window.quitarProducto=function(nombre){
+
+
+
+    let producto = carrito.find(
+
+        p=>p.nombre===nombre
+
+    );
+
+
+
+
+    if(!producto){
+
+        return;
+
+    }
+
+
+
+
+    producto.cantidad--;
+
+
+
+
+
+    if(producto.cantidad<=0){
+
+
+        carrito = carrito.filter(
+
+            p=>p.nombre!==nombre
+
+        );
+
+
+    }
+
+
+
+
+
+    actualizarCantidad(nombre);
+
+
+    actualizarCarrito();
+
+
+
+};
+
+
+
+
+
+
+
+// =====================================
+// ACTUALIZAR NUMERO EN PANTALLA
+// =====================================
+
+
+function actualizarCantidad(nombre){
+
+
+
+    let elemento = document.getElementById(
+
+        "cantidad-"+nombre
+
+    );
+
+
+
+    if(!elemento){
+
+        return;
+
+    }
+
+
+
+
+
+    let producto = carrito.find(
+
+        p=>p.nombre===nombre
+
+    );
+
+
+
+
+
+    elemento.innerText = producto
+
+    ?
+
+    producto.cantidad
+
+    :
+
+    0;
+
+
+
+}
+
+
+
+
+
+
+// CARGAR TACOS AL INICIAR
+
+
+cargarTacos();
+
+    // =====================================
+// MOSTRAR GRINGAS
+// =====================================
 
 
 function cargarGringas(){
 
 
-    const contenedor = document.getElementById("gringas");
-
-
-    contenedor.innerHTML = `
-
-    <div class="producto">
-
-
-        <h3>
-            Gringa - $50
-        </h3>
-
-
-        <label>
-            Elige la carne:
-        </label>
-
-
-        <select id="carneGringa">
-
-
-            ${carnesGringa.map(carne=>`
-
-                <option value="${carne}">
-                    ${carne}
-                </option>
-
-            `).join("")}
-
-
-        </select>
-
-
-
-        <div class="cantidad">
-
-
-            <button onclick="cambiarCantidad('gringa',-1)">
-                -
-            </button>
-
-
-            <span id="gringa">
-                0
-            </span>
-
-
-            <button onclick="cambiarCantidad('gringa',1)">
-                +
-            </button>
-
-
-        </div>
-
-
-
-        <button onclick="agregarGringa()">
-
-            Agregar gringa
-
-        </button>
-
-
-
-    </div>
-
-    `;
-
-
-}
-
-
-
-
-
-window.agregarGringa=function(){
-
-
-    let cantidad = Number(
-
-        document.getElementById("gringa").innerText
-
-    );
-
-
-    if(cantidad > 0){
-
-
-        let carne = document.getElementById(
-
-            "carneGringa"
-
-        ).value;
-
-
-
-        agregarProductoCarrito({
-
-
-            nombre:
-
-            "Gringa de "+carne,
-
-
-            precio:
-
-            50,
-
-
-            cantidad:
-
-            cantidad
-
-
-        });
-
-
-
-        document.getElementById("gringa").innerText=0;
-
-
-        actualizarCarrito();
-
-    }
-
-
-};
-
-
-
-
-
-
-// =================================
-// CREAR LONCHES
-// =================================
-
-
-function cargarLonches(){
-
-
-const contenedor=document.getElementById("lonches");
-
-
-contenedor.innerHTML=`
-
-<div class="producto">
-
-
-<h3>
-Lonche
-</h3>
-
-
-<select id="tipoLonche">
-
-
-<option value="Lonche">
-Lonche $65
-</option>
-
-
-<option value="Lonche con queso">
-Lonche con queso $75
-</option>
-
-
-</select>
-
-
-
-<select id="carneLonche">
-
-
-${carnes.map(carne=>`
-
-<option value="${carne}">
-${carne}
-</option>
-
-`).join("")}
-
-
-</select>
-
-
-
-<div class="cantidad">
-
-
-<button onclick="cambiarCantidad('lonche',-1)">
--
-</button>
-
-
-<span id="lonche">
-0
-</span>
-
-
-<button onclick="cambiarCantidad('lonche',1)">
-+
-</button>
-
-
-</div>
-
-
-
-<button onclick="agregarLonche()">
-
-Agregar lonche
-
-</button>
-
-
-</div>
-
-`;
-
-}
-
-
-
-
-window.agregarLonche=function(){
-
-
-let cantidad = Number(
-
-document.getElementById("lonche").innerText
-
-);
-
-
-
-if(cantidad>0){
-
-
-let tipo=document.getElementById("tipoLonche").value;
-
-
-let carne=document.getElementById("carneLonche").value;
-
-
-
-let precio = tipo==="Lonche con queso"
-
-?75
-
-:65;
-
-
-
-agregarProductoCarrito({
-
-
-nombre:
-
-tipo+" de "+carne,
-
-
-precio,
-
-cantidad
-
-
-});
-
-
-
-document.getElementById("lonche").innerText=0;
-
-
-actualizarCarrito();
-
-
-}
-
-
-
-};
-
-
-
-
-
-
-// =================================
-// CREAR QUESADILLAS
-// =================================
-
-
-function cargarQuesadillas(){
-
-
-const contenedor=document.getElementById("quesadillas");
-
-
-contenedor.innerHTML=`
-
-
-<div class="producto">
-
-
-<h3>
-Quesadilla sencilla - $20
-</h3>
-
-
-<div class="cantidad">
-
-<button onclick="cambiarCantidad('quesoSimple',-1)">
--
-</button>
-
-
-<span id="quesoSimple">
-0
-</span>
-
-
-<button onclick="cambiarCantidad('quesoSimple',1)">
-+
-</button>
-
-
-</div>
-
-
-
-<button onclick="agregarQuesadillaSimple()">
-
-Agregar
-
-</button>
-
-
-</div>
-
-
-
-
-
-<div class="producto">
-
-
-<h3>
-Quesadilla con carne - $30
-</h3>
-
-
-
-<select id="carneQuesadilla">
-
-
-${carnes.map(carne=>`
-
-<option value="${carne}">
-${carne}
-</option>
-
-`).join("")}
-
-
-</select>
-
-
-
-<div class="cantidad">
-
-<button onclick="cambiarCantidad('quesoCarne',-1)">
--
-</button>
-
-
-<span id="quesoCarne">
-0
-</span>
-
-
-<button onclick="cambiarCantidad('quesoCarne',1)">
-+
-</button>
-
-
-</div>
-
-
-
-<button onclick="agregarQuesadillaCarne()">
-
-Agregar
-
-</button>
-
-
-</div>
-
-
-`;
-
-}
-
-
-
-
-
-window.agregarQuesadillaSimple=function(){
-
-
-let cantidad=Number(
-
-document.getElementById("quesoSimple").innerText
-
-);
-
-
-
-if(cantidad>0){
-
-
-agregarProductoCarrito({
-
-nombre:"Quesadilla sencilla",
-
-precio:20,
-
-cantidad
-
-});
-
-
-document.getElementById("quesoSimple").innerText=0;
-
-
-actualizarCarrito();
-
-
-}
-
-
-};
-
-
-
-
-
-window.agregarQuesadillaCarne=function(){
-
-
-let cantidad=Number(
-
-document.getElementById("quesoCarne").innerText
-
-);
-
-
-
-if(cantidad>0){
-
-
-let carne=document.getElementById(
-
-"carneQuesadilla"
-
-).value;
-
-
-
-agregarProductoCarrito({
-
-nombre:"Quesadilla con "+carne,
-
-precio:30,
-
-cantidad
-
-});
-
-
-
-document.getElementById("quesoCarne").innerText=0;
-
-
-actualizarCarrito();
-
-
-}
-
-
-};
-
-// =================================
-// CREAR VOLCANES
-// =================================
-
-
-function cargarVolcanes(){
-
-
-const contenedor = document.getElementById("volcanes");
+const contenedor = document.getElementById("gringas");
 
 
 contenedor.innerHTML = `
@@ -798,8 +553,437 @@ contenedor.innerHTML = `
 <div class="producto">
 
 
+<div class="infoProducto">
+
+
 <h3>
-Volcán
+🫓 Gringa
+</h3>
+
+
+<p>
+$50
+</p>
+
+
+<select id="carneGringa">
+
+
+${carnes.map(carne=>`
+
+<option value="${carne}">
+${carne}
+</option>
+
+`).join("")}
+
+
+</select>
+
+
+</div>
+
+
+
+
+<div class="controles">
+
+
+<button 
+class="btnMenos"
+onclick="quitarProducto('Gringa')">
+
+-
+
+</button>
+
+
+
+<span 
+class="cantidad"
+id="cantidad-Gringa">
+
+0
+
+</span>
+
+
+
+<button 
+class="btnMas"
+onclick="agregarProducto('Gringa',50)">
+
++
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+
+
+
+// =====================================
+// MOSTRAR LONCHES
+// =====================================
+
+
+function cargarLonches(){
+
+
+const contenedor = document.getElementById("lonches");
+
+
+
+contenedor.innerHTML = `
+
+
+<div class="producto">
+
+
+<div class="infoProducto">
+
+
+<h3>
+🥪 Lonche
+</h3>
+
+
+
+<select id="tipoLonche">
+
+
+<option value="65">
+
+Lonche normal $65
+
+</option>
+
+
+<option value="75">
+
+Lonche con queso $75
+
+</option>
+
+
+</select>
+
+
+
+
+<select id="carneLonche">
+
+
+${carnes.map(carne=>`
+
+<option>
+
+${carne}
+
+</option>
+
+`).join("")}
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="controles">
+
+
+<button 
+class="btnMenos"
+onclick="quitarProducto('Lonche')">
+
+-
+
+</button>
+
+
+
+<span 
+class="cantidad"
+id="cantidad-Lonche">
+
+0
+
+</span>
+
+
+
+
+<button 
+class="btnMas"
+onclick="agregarProducto('Lonche',65)">
+
++
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+
+
+
+
+// =====================================
+// MOSTRAR QUESADILLAS
+// =====================================
+
+
+function cargarQuesadillas(){
+
+
+
+const contenedor = document.getElementById("quesadillas");
+
+
+
+contenedor.innerHTML = `
+
+
+
+<div class="producto">
+
+
+<div class="infoProducto">
+
+
+<h3>
+
+🧀 Quesadilla sencilla
+
+</h3>
+
+
+<p>
+
+$20
+
+</p>
+
+
+</div>
+
+
+
+<div class="controles">
+
+
+<button
+
+class="btnMenos"
+
+onclick="quitarProducto('Quesadilla sencilla')">
+
+-
+
+</button>
+
+
+
+<span
+
+class="cantidad"
+
+id="cantidad-Quesadilla sencilla">
+
+0
+
+</span>
+
+
+
+<button
+
+class="btnMas"
+
+onclick="agregarProducto('Quesadilla sencilla',20)">
+
++
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="producto">
+
+
+<div class="infoProducto">
+
+
+<h3>
+
+🧀 Quesadilla con carne
+
+</h3>
+
+
+
+<p>
+
+$30
+
+</p>
+
+
+
+<select id="carneQuesadilla">
+
+
+${carnes.map(carne=>`
+
+<option>
+
+${carne}
+
+</option>
+
+`).join("")}
+
+
+</select>
+
+
+
+</div>
+
+
+
+<div class="controles">
+
+
+<button
+
+class="btnMenos"
+
+onclick="quitarProducto('Quesadilla con carne')">
+
+-
+
+</button>
+
+
+
+
+<span
+
+class="cantidad"
+
+id="cantidad-Quesadilla con carne">
+
+0
+
+</span>
+
+
+
+<button
+
+class="btnMas"
+
+onclick="agregarProducto('Quesadilla con carne',30)">
+
++
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+
+
+
+// =====================================
+// CARGAR SECCIONES
+// =====================================
+
+
+cargarGringas();
+
+cargarLonches();
+
+cargarQuesadillas();
+
+    // =====================================
+// MOSTRAR VOLCANES
+// =====================================
+
+
+function cargarVolcanes(){
+
+
+const contenedor = document.getElementById("volcanes");
+
+
+
+contenedor.innerHTML = `
+
+
+
+<div class="producto">
+
+
+<div class="infoProducto">
+
+
+<h3>
+🌋 Volcán
 </h3>
 
 
@@ -809,37 +993,27 @@ Volcán
 
 ${carnes.map(carne=>`
 
-<option value="${carne}">
+<option>
+
 ${carne}
+
 </option>
 
 `).join("")}
 
 
-
 </select>
 
 
+<p>
 
+Precio normal $35
 
-<div class="cantidad">
+<br>
 
+Tripa $40
 
-<button onclick="cambiarCantidad('volcan',-1)">
--
-</button>
-
-
-
-<span id="volcan">
-0
-</span>
-
-
-
-<button onclick="cambiarCantidad('volcan',1)">
-+
-</button>
+</p>
 
 
 </div>
@@ -847,11 +1021,49 @@ ${carne}
 
 
 
-<button onclick="agregarVolcan()">
+<div class="controles">
 
-Agregar volcán
+
+<button
+
+class="btnMenos"
+
+onclick="quitarProducto('Volcán')">
+
+-
 
 </button>
+
+
+
+
+<span
+
+class="cantidad"
+
+id="cantidad-Volcán">
+
+0
+
+</span>
+
+
+
+
+
+<button
+
+class="btnMas"
+
+onclick="agregarVolcan()">
+
++
+
+</button>
+
+
+
+</div>
 
 
 
@@ -865,18 +1077,16 @@ Agregar volcán
 
 
 
+
+
+
+// =====================================
+// AGREGAR VOLCAN
+// =====================================
+
+
 window.agregarVolcan=function(){
 
-
-let cantidad = Number(
-
-document.getElementById("volcan").innerText
-
-);
-
-
-
-if(cantidad>0){
 
 
 let carne = document.getElementById(
@@ -887,50 +1097,61 @@ let carne = document.getElementById(
 
 
 
-let precio;
+let precio = 35;
 
 
 
 if(carne==="Tripa"){
 
-    precio=40;
+precio=40;
+
+}
+
+
+
+
+let nombre = 
+
+"Volcán de "+carne;
+
+
+
+
+let existe = carrito.find(
+
+p=>p.nombre===nombre
+
+);
+
+
+
+
+
+if(existe){
+
+existe.cantidad++;
 
 }
 
 else{
 
-    precio=35;
 
-}
+carrito.push({
 
+nombre:nombre,
 
+precio:precio,
 
-
-
-agregarProductoCarrito({
-
-
-nombre:
-
-"Volcán de "+carne,
-
-
-precio,
-
-cantidad
-
+cantidad:1
 
 });
 
 
+}
 
-document.getElementById("volcan").innerText=0;
 
 
 actualizarCarrito();
-
-
-}
 
 
 
@@ -942,12 +1163,14 @@ actualizarCarrito();
 
 
 
-// =================================
-// CREAR BEBIDAS
-// =================================
+
+// =====================================
+// MOSTRAR BEBIDAS
+// =====================================
 
 
 function cargarBebidas(){
+
 
 
 const contenedor = document.getElementById("bebidas");
@@ -957,51 +1180,41 @@ const contenedor = document.getElementById("bebidas");
 contenedor.innerHTML = `
 
 
+
 <div class="producto">
 
 
-<h3>
-Agua fresca - $35
-</h3>
+<div class="infoProducto">
 
+
+<h3>
+🥤 Agua fresca
+</h3>
 
 
 <select id="saborAgua">
 
 
-${saboresAgua.map(sabor=>`
+${aguas.map(agua=>`
 
-<option value="${sabor}">
-${sabor}
+<option>
+
+${agua}
+
 </option>
 
 `).join("")}
 
 
+
 </select>
 
 
+<p>
 
+$35
 
-<div class="cantidad">
-
-
-<button onclick="cambiarCantidad('agua',-1)">
--
-</button>
-
-
-
-<span id="agua">
-0
-</span>
-
-
-
-<button onclick="cambiarCantidad('agua',1)">
-+
-</button>
-
+</p>
 
 
 </div>
@@ -1009,11 +1222,47 @@ ${sabor}
 
 
 
-<button onclick="agregarAgua()">
 
-Agregar agua
+<div class="controles">
+
+
+<button
+
+class="btnMenos"
+
+onclick="quitarProducto('Agua fresca')">
+
+-
 
 </button>
+
+
+
+<span
+
+class="cantidad"
+
+id="cantidad-Agua fresca">
+
+0
+
+</span>
+
+
+
+
+<button
+
+class="btnMas"
+
+onclick="agregarAgua()">
+
++
+
+</button>
+
+
+</div>
 
 
 
@@ -1028,48 +1277,70 @@ Agregar agua
 <div class="producto">
 
 
+<div class="infoProducto">
+
+
 <h3>
-Coca - $26
+🥤 Coca
 </h3>
 
 
+<p>
+$26
+</p>
 
 
-<div class="cantidad">
+</div>
 
 
-<button onclick="cambiarCantidad('coca',-1)">
+
+
+<div class="controles">
+
+
+<button
+
+class="btnMenos"
+
+onclick="quitarProducto('Coca')">
+
 -
+
 </button>
 
 
 
-<span id="coca">
+<span
+
+class="cantidad"
+
+id="cantidad-Coca">
+
 0
+
 </span>
 
 
 
-<button onclick="cambiarCantidad('coca',1)">
+
+<button
+
+class="btnMas"
+
+onclick="agregarProducto('Coca',26)">
+
 +
-</button>
-
-
-
-</div>
-
-
-
-
-<button onclick="agregarCoca()">
-
-Agregar Coca
 
 </button>
 
 
 
 </div>
+
+
+
+</div>
+
 
 
 `;
@@ -1081,23 +1352,14 @@ Agregar Coca
 
 
 
-// =================================
+
+// =====================================
 // AGREGAR AGUA
-// =================================
+// =====================================
 
 
 window.agregarAgua=function(){
 
-
-let cantidad = Number(
-
-document.getElementById("agua").innerText
-
-);
-
-
-
-if(cantidad>0){
 
 
 let sabor=document.getElementById(
@@ -1108,32 +1370,47 @@ let sabor=document.getElementById(
 
 
 
-agregarProductoCarrito({
+let nombre="Agua "+sabor;
 
 
-nombre:
 
-"Agua de "+sabor,
+let existe=carrito.find(
 
+p=>p.nombre===nombre
+
+);
+
+
+
+
+
+if(existe){
+
+existe.cantidad++;
+
+}
+
+else{
+
+
+carrito.push({
+
+nombre:nombre,
 
 precio:35,
 
-
-cantidad
-
+cantidad:1
 
 });
 
 
+}
 
-document.getElementById("agua").innerText=0;
 
 
 actualizarCarrito();
 
 
-}
-
 
 };
 
@@ -1143,298 +1420,60 @@ actualizarCarrito();
 
 
 
-// =================================
-// AGREGAR COCA
-// =================================
 
+// CARGAR TODO
 
-window.agregarCoca=function(){
+cargarVolcanes();
 
+cargarBebidas();
 
-let cantidad = Number(
+    // =====================================
+// ENVIAR PEDIDO A FIREBASE
+// =====================================
 
-document.getElementById("coca").innerText
 
-);
 
 
 
-if(cantidad>0){
+document
+.getElementById("enviarPedido")
+.addEventListener("click", async ()=>{
 
 
 
-agregarProductoCarrito({
 
 
-nombre:"Coca",
+    if(platoSeleccionado===""){
 
 
-precio:26,
-
-
-cantidad
-
-
-});
-
-
-
-document.getElementById("coca").innerText=0;
-
-
-actualizarCarrito();
-
-
-}
-
-
-};
-
-// =================================
-// AGREGAR PRODUCTO AL CARRITO
-// =================================
-
-
-function agregarProductoCarrito(producto){
-
-
-    let encontrado = carrito.find(p =>
-
-        p.nombre === producto.nombre
-
-    );
-
-
-
-    if(encontrado){
-
-
-        encontrado.cantidad += producto.cantidad;
-
-
-    }
-
-    else{
-
-
-        carrito.push(producto);
-
-
-    }
-
-
-}
-
-
-
-
-
-
-// =================================
-// MOSTRAR CARRITO
-// =================================
-
-
-function actualizarCarrito(){
-
-
-    const lista = document.getElementById("listaCarrito");
-
-    const totalHTML = document.getElementById("total");
-
-
-
-    lista.innerHTML = "";
-
-
-
-    let total = 0;
-
-
-
-    if(carrito.length === 0){
-
-
-        lista.innerHTML = "No hay productos";
-
-
-    }
-
-
-
-
-
-    carrito.forEach((producto,index)=>{
-
-
-        let subtotal = producto.precio * producto.cantidad;
-
-
-        total += subtotal;
-
-
-
-        lista.innerHTML += `
-
-
-        <div class="producto">
-
-
-            <p>
-
-            ${producto.cantidad} x 
-            ${producto.nombre}
-
-            <br>
-
-            $${subtotal}
-
-
-            </p>
-
-
-
-            <button onclick="eliminarProducto(${index})">
-
-                ❌
-
-            </button>
-
-
-        </div>
-
-
-        `;
-
-
-
-    });
-
-
-
-
-    totalHTML.innerText = total;
-
-
-
-}
-
-
-
-
-
-
-
-// =================================
-// ELIMINAR PRODUCTO
-// =================================
-
-
-window.eliminarProducto=function(index){
-
-
-    carrito.splice(index,1);
-
-
-    actualizarCarrito();
-
-
-};
-
-
-
-
-
-
-// =================================
-// MOSTRAR OCULTAR MESA
-// =================================
-
-
-document.addEventListener(
-
-"change",
-
-function(e){
-
-
-
-    if(e.target.id==="tipoPedido"){
-
-
-
-        let caja = document.getElementById(
-
-        "contenedorMesa"
-
+        alert(
+        "Primero selecciona un plato"
         );
-
-
-
-        if(e.target.value==="Comer aquí"){
-
-
-            caja.style.display="block";
-
-
-        }
-
-        else{
-
-
-            caja.style.display="none";
-
-
-            document.getElementById(
-
-            "mesa"
-
-            ).value="";
-
-
-        }
-
-
-    }
-
-
-
-}
-
-);
-
-
-
-
-
-
-// =================================
-// ENVIAR PEDIDO
-// =================================
-
-
-document.getElementById(
-
-"enviarPedido"
-
-).addEventListener(
-
-"click",
-
-()=>{
-
-
-
-    if(carrito.length===0){
-
-
-        alert("Agrega productos al pedido");
 
 
         return;
 
 
     }
+
+
+
+
+
+
+    if(carrito.length===0){
+
+
+        alert(
+        "El carrito está vacío"
+        );
+
+
+        return;
+
+
+    }
+
 
 
 
@@ -1442,16 +1481,20 @@ document.getElementById(
 
     let nombre = document.getElementById(
 
-    "nombre"
+        "nombreCliente"
 
     ).value;
+
+
 
 
 
     if(nombre.trim()===""){
 
 
-        alert("Escribe tu nombre");
+        alert(
+        "Escribe tu nombre"
+        );
 
 
         return;
@@ -1463,51 +1506,17 @@ document.getElementById(
 
 
 
-    let tipo = document.getElementById(
-
-    "tipoPedido"
-
-    ).value;
-
-
-
-
-    let mesa = "";
-
-
-
-    if(tipo==="Comer aquí"){
-
-
-        mesa = document.getElementById(
-
-        "mesa"
-
-        ).value;
-
-
-
-        if(mesa===""){
-
-
-            alert("Escribe la mesa");
-
-
-            return;
-
-
-        }
-
-
-    }
-
-
-
 
 
     let total = carrito.reduce(
 
-        (s,p)=>s+(p.precio*p.cantidad),
+        (suma,producto)=>
+
+        suma +
+
+        (producto.precio *
+
+        producto.cantidad),
 
         0
 
@@ -1518,26 +1527,27 @@ document.getElementById(
 
 
 
-
     let pedido = {
+
+
+        plato:platoSeleccionado,
 
 
         cliente:nombre,
 
 
-        tipo,
-
-
-        mesa,
-
-
         productos:carrito,
 
 
-        total,
+        total:total,
 
 
-        fecha:new Date().toLocaleString()
+        estado:"Preparando",
+
+
+        fecha:new Date()
+
+        .toLocaleString()
 
 
 
@@ -1549,25 +1559,23 @@ document.getElementById(
 
 
 
-    guardarPedido(pedido)
+    try{
 
-    .then(()=>{
+
+        await guardarPedido(pedido);
 
 
 
         alert(
 
-        "Pedido enviado correctamente 🌮"
+        "Pedido enviado 🌮"
 
         );
 
 
 
-        enviarWhatsApp(pedido);
 
-
-
-        carrito.length=0;
+        carrito=[];
 
 
 
@@ -1575,114 +1583,29 @@ document.getElementById(
 
 
 
-    })
 
-    .catch(error=>{
+    }
+
+    catch(error){
+
 
 
         console.log(error);
 
 
+
         alert(
 
-        "Error enviando pedido"
+        "Error al enviar pedido"
 
         );
 
 
-    });
 
+    }
 
-
-
-
-}
-
-);
-
-
-
-
-
-
-
-
-// =================================
-// WHATSAPP
-// =================================
-
-
-function enviarWhatsApp(pedido){
-
-
-
-    let texto =
-
-`🌮 PEDIDO TACOS MILO
-
-Cliente:
-${pedido.cliente}
-
-${pedido.tipo}
-
-${pedido.mesa ? "Mesa: "+pedido.mesa : ""}
-
-
-PRODUCTOS:
-`;
-
-
-
-
-
-pedido.productos.forEach(producto=>{
-
-
-    texto += `
-
-${producto.cantidad} x ${producto.nombre}
-$${producto.precio * producto.cantidad}
-
-`;
 
 
 });
-
-
-
-
-
-texto += `
-
-TOTAL:
-$${pedido.total}
-
-`;
-
-
-
-
-
-// CAMBIA ESTE NUMERO POR EL DE TACOS MILO
-
-let numero = "521XXXXXXXXXX";
-
-
-
-let url =
-
-"https://wa.me/"+numero+
-
-"?text="+
-
-encodeURIComponent(texto);
-
-
-
-window.open(url,"_blank");
-
-
-
+    
 }
-
-};
