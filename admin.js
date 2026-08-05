@@ -230,3 +230,132 @@ function cargarPedidos(){
 // iniciar
 
 cargarPedidos();
+
+// =====================================
+// MARCAR PEDIDO COMO LISTO
+// =====================================
+
+
+window.marcarListo = async function(id){
+
+
+
+    try{
+
+
+        await cambiarEstado(
+
+            id,
+
+            "Listo"
+
+        );
+
+
+
+        alert(
+
+        "Pedido listo ✅"
+
+        );
+
+
+    }
+
+
+    catch(error){
+
+
+
+        console.log(error);
+
+
+
+        alert(
+
+        "Error cambiando estado"
+
+        );
+
+
+    }
+
+
+
+};
+
+
+
+
+
+
+
+
+// =====================================
+// LIBERAR PLATO
+// =====================================
+
+
+window.liberarPlato = async function(id){
+
+
+
+    let confirmar = confirm(
+
+    "¿Liberar este plato?"
+
+    );
+
+
+
+
+    if(!confirmar){
+
+        return;
+
+    }
+
+
+
+
+
+
+    try{
+
+
+        await eliminarPedido(id);
+
+
+
+        alert(
+
+        "Plato liberado 🍽"
+
+        );
+
+
+
+    }
+
+
+
+    catch(error){
+
+
+
+        console.log(error);
+
+
+
+        alert(
+
+        "Error liberando plato"
+
+        );
+
+
+    }
+
+
+
+};
