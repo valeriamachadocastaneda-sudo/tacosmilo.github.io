@@ -3,295 +3,151 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Tacos Milo</title>
 
-<title>
-Menú - Tacos Milo 🌮
-</title>
-
-
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
-
 
 <header>
 
-<h1>
-🌮 Tacos Milo
-</h1>
+    <h1>🌮 TACOS MILO</h1>
 
-<p>
-Menú digital
-</p>
+    <p>El mejor sabor de la ciudad</p>
 
 </header>
 
-
-
-
 <main>
 
+    <!-- =======================
+         SELECCIONAR PLATO
+    ======================== -->
 
+    <section class="seccion">
 
-<section class="categoria">
+        <h2>🍽 Selecciona un lugar</h2>
 
-<h2>
-🌮 Tacos
-</h2>
+        <div id="platos">
 
-<div id="tacos"></div>
+            <button class="botonPlato" data-plato="Plato 1">🍽 Plato 1</button>
 
-</section>
+            <button class="botonPlato" data-plato="Plato 2">🍽 Plato 2</button>
 
+            <button class="botonPlato" data-plato="Plato 3">🍽 Plato 3</button>
 
+            <button class="botonPlato" data-plato="Plato 4">🍽 Plato 4</button>
 
+            <button class="botonPlato" data-plato="Plato 5">🍽 Plato 5</button>
 
+            <button class="botonPlato" data-plato="Plato 6">🍽 Plato 6</button>
 
+            <button class="botonPlato" data-plato="Para llevar">🥡 Para llevar</button>
 
-<section class="categoria">
+        </div>
 
-<h2>
-🫓 Gringas
-</h2>
+    </section>
 
-<div id="gringas"></div>
+    <!-- =======================
+         MENÚ
+    ======================== -->
 
-</section>
+    <div id="menu" style="display:none;">
 
+        <section class="seccion">
 
+            <h2>🌮 Tacos</h2>
 
+            <div id="listaTacos"></div>
 
+        </section>
 
+        <section class="seccion">
 
+            <h2>🫓 Gringas</h2>
 
-<section class="categoria">
+            <div id="listaGringas"></div>
 
-<h2>
-🥪 Lonches
-</h2>
+        </section>
 
-<div id="lonches"></div>
+        <section class="seccion">
 
-</section>
+            <h2>🥪 Lonches</h2>
 
+            <div id="listaLonches"></div>
 
+        </section>
 
+        <section class="seccion">
 
+            <h2>🧀 Quesadillas</h2>
 
+            <div id="listaQuesadillas"></div>
 
+        </section>
 
-<section class="categoria">
+        <section class="seccion">
 
-<h2>
-🧀 Quesadillas
-</h2>
+            <h2>🌋 Volcanes</h2>
 
-<div id="quesadillas"></div>
+            <div id="listaVolcanes"></div>
 
-</section>
+        </section>
 
+        <section class="seccion">
 
+            <h2>🥤 Bebidas</h2>
 
+            <div id="listaBebidas"></div>
 
+        </section>
 
+    </div>
 
+    <!-- =======================
+         CARRITO
+    ======================== -->
 
-<section class="categoria">
+    <aside id="carrito">
 
-<h2>
-🌋 Volcanes
-</h2>
+        <h2>🛒 Mi Pedido</h2>
 
-<div id="volcanes"></div>
+        <p id="platoSeleccionado">
+            Ningún plato seleccionado
+        </p>
 
-</section>
+        <div id="listaCarrito">
 
+            No hay productos
 
+        </div>
 
+        <h3 class="total">
 
+            Total:
+            $
+            <span id="total">
+                0
+            </span>
 
+        </h3>
 
+        <button id="confirmar">
 
-<section class="categoria">
+            Confirmar pedido
 
-<h2>
-🥤 Bebidas
-</h2>
+        </button>
 
-<div id="bebidas"></div>
-
-</section>
-
-
-
-
-
-
-
-
-<section class="carrito">
-
-
-<h2>
-🛒 Mi pedido
-</h2>
-
-
-
-<div id="listaCarrito">
-
-No hay productos
-
-</div>
-
-
-
-
-<h3>
-
-Total:
-
-$
-
-<span id="total">
-
-0
-
-</span>
-
-
-</h3>
-
-
-
-
-
-
-<hr>
-
-
-
-
-
-
-<input
-
-type="text"
-
-id="nombre"
-
-placeholder="Tu nombre"
-
->
-
-
-
-
-
-
-
-<select id="tipoPedido">
-
-
-<option value="Para llevar">
-
-Para llevar
-
-</option>
-
-
-<option value="Comer aquí">
-
-Comer aquí
-
-</option>
-
-
-</select>
-
-
-
-
-
-
-<div id="contenedorMesa" style="display:none;">
-
-
-<input
-
-type="number"
-
-id="mesa"
-
-placeholder="Número de mesa"
-
->
-
-
-</div>
-
-
-
-
-
-
-
-<button id="enviarPedido">
-
-Enviar pedido 🌮
-
-</button>
-
-
-
-
-
-</section>
-
-
-
+    </aside>
 
 </main>
 
-
-
-
-
-
-
-<footer>
-
-<p>
-
-Tacos Milo 🌮
-
-</p>
-
-</footer>
-
-
-
-
-
-
-
-<script
-
-type="module"
-
-src="menu.js">
-
-</script>
-
-
+<script type="module" src="menu.js"></script>
 
 </body>
 
