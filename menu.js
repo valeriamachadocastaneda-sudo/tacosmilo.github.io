@@ -6,11 +6,107 @@
 
 
 // Plato seleccionado actualmente
-import { guardarPedido } from "./firebase.js";
+import { 
+    guardarPedido,
+    escucharPlatos,
+    ocuparPlato
+} from "./firebase.js";
 
 let platoSeleccionado = "";
 
+// =====================================
+// CONTROL DE PLATOS
+// =====================================
 
+
+let estadosPlatos = {};
+
+
+
+
+// Escuchar cambios de platos en Firebase
+
+escucharPlatos((platos)=>{
+
+
+    estadosPlatos = platos;
+
+
+    actualizarBotonesPlatos();
+
+
+});
+
+
+
+
+
+
+// =====================================
+// CAMBIAR COLOR DE BOTONES
+// =====================================
+
+
+function actualizarBotonesPlatos(){
+
+
+    document
+    .querySelectorAll(".botonPlato")
+    .forEach(boton=>{
+
+
+        let nombre = boton.innerText
+        .replace("🍽 ","")
+        .replace("🥡 ","");
+
+
+
+        if(estadosPlatos[nombre]){
+
+
+            boton.style.background="#e53935";
+
+            boton.style.color="white";
+
+
+            boton.innerHTML =
+            
+            "🔴 "+nombre+"<br>Ocupado";
+
+
+
+            boton.disabled=true;
+
+
+
+        }
+
+        else{
+
+
+            boton.style.background="#43a047";
+
+            boton.style.color="white";
+
+
+            boton.innerHTML =
+
+            "🟢 "+nombre+"<br>Libre";
+
+
+
+            boton.disabled=false;
+
+
+
+        }
+
+
+
+    });
+
+
+}
 
 // Carrito
 
@@ -108,6 +204,7 @@ document
 
     boton.addEventListener("click",()=>{
 
+        await ocuparPlato(platoSeleccionado);
 
         platoSeleccionado = boton.innerText;
 
