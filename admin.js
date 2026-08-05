@@ -1,38 +1,54 @@
-import { escucharPedidos } from "./firebase.js";
+// =====================================
+// TACOS MILO V3
+// ADMIN.JS
+// PARTE 1
+// =====================================
+
 
 import { 
-    getDatabase,
-    ref,
-    update
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    escucharPedidos,
+    cambiarEstado,
+    eliminarPedido
+
+} from "./firebase.js";
 
 
-// =================================
+
+
+
+// =====================================
 // CARGAR PEDIDOS
-// =================================
+// =====================================
 
 
-window.cargarPedidos = function(){
+function cargarPedidos(){
 
 
-    escucharPedidos((datos)=>{
+
+    escucharPedidos((pedidos)=>{
 
 
-        const contenedor = document.getElementById(
-            "pedidos"
+
+        const panel = document.getElementById(
+
+            "panelPedidos"
+
         );
 
 
 
-        contenedor.innerHTML = "";
+        panel.innerHTML = "";
 
 
 
-        if(!datos){
 
 
-            contenedor.innerHTML =
-            "No hay pedidos todavía";
+        if(Object.keys(pedidos).length===0){
+
+
+            panel.innerHTML =
+
+            "No hay pedidos";
 
 
             return;
@@ -44,14 +60,19 @@ window.cargarPedidos = function(){
 
 
 
-        Object.keys(datos).forEach(id=>{
 
 
-            const pedido = datos[id];
+        Object.keys(pedidos).forEach(id=>{
 
 
 
-            let productos = "";
+            let pedido = pedidos[id];
+
+
+
+            let productos="";
+
+
 
 
 
@@ -61,9 +82,13 @@ window.cargarPedidos = function(){
 
                 productos += `
 
+
                 <p>
 
-                ${producto.cantidad} x 
+                ${producto.cantidad}
+
+                x
+
                 ${producto.nombre}
 
                 <br>
@@ -72,8 +97,8 @@ window.cargarPedidos = function(){
 
                 </p>
 
-                `;
 
+                `;
 
 
             });
@@ -83,93 +108,92 @@ window.cargarPedidos = function(){
 
 
 
-            contenedor.innerHTML += `
 
 
-            <div class="pedido">
-
-
-                <h3>
-                🌮 Pedido
-                </h3>
-
-
-                <p>
-
-                <b>Cliente:</b>
-
-                ${pedido.cliente}
-
-                </p>
+            panel.innerHTML += `
 
 
 
-                <p>
-
-                <b>Tipo:</b>
-
-                ${pedido.tipo}
-
-                </p>
+            <div class="seccion">
 
 
 
-                ${
-                    pedido.mesa
+            <h2>
 
-                    ?
+            🍽 ${pedido.plato}
 
-                    `<p>
-
-                    <b>Mesa:</b>
-
-                    ${pedido.mesa}
-
-                    </p>`
-
-                    :
-
-                    ""
-
-                }
+            </h2>
 
 
 
 
 
-                <hr>
+            <h3>
 
+            Estado:
 
-                <h4>
-                Productos:
-                </h4>
+            ${pedido.estado}
 
-
-
-                ${productos}
+            </h3>
 
 
 
 
-                <hr>
 
+            <p>
 
-                <h3>
+            👤 Cliente:
 
-                Total:
+            ${pedido.cliente}
 
-                $${pedido.total}
-
-                </h3>
-
+            </p>
 
 
 
-                <small>
 
-                ${pedido.fecha}
 
-                </small>
+            <hr>
+
+
+
+            ${productos}
+
+
+
+
+
+            <h2>
+
+            Total:
+
+            $${pedido.total}
+
+            </h2>
+
+
+
+
+
+            <button
+
+            onclick="marcarListo('${id}')">
+
+            ✅ Listo
+
+            </button>
+
+
+
+
+
+            <button
+
+            onclick="liberarPlato('${id}')">
+
+            🗑 Liberar plato
+
+            </button>
+
 
 
 
@@ -182,117 +206,27 @@ window.cargarPedidos = function(){
 
 
 
+
         });
 
 
 
-    });
-
-// =================================
-// CAMBIAR ESTADO DEL PEDIDO
-// =================================
-
-
-import { 
-    getDatabase,
-    ref,
-    update
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-
-
-
-// =================================
-// MARCAR COMO LISTO
-// =================================
-
-
-window.marcarListo=function(id){
-
-
-
-    const database = getDatabase();
-
-
-
-    const pedidoRef = ref(
-
-        database,
-
-        "pedidos/"+id
-
-    );
-
-
-
-    update(
-
-        pedidoRef,
-
-        {
-
-            estado:"Listo"
-
-        }
-
-    )
-
-    .then(()=>{
-
-
-        alert(
-
-        "Pedido marcado como listo ✅"
-
-        );
-
-
-    })
-
-    .catch(error=>{
-
-
-        console.log(error);
 
 
     });
 
 
-
-};
-
-
-
-
-
-// =================================
-// ACTUALIZAR VISUALIZACION
-// =================================
-
-
-function mostrarEstado(estado){
-
-
-
-    if(estado==="Listo"){
-
-
-        return "🟢 Listo";
-
-
-    }
-
-
-
-    else{
-
-
-        return "🟡 Preparando";
-
-
-    }
 
 
 }
 
-};
+
+
+
+
+
+
+
+// iniciar
+
+cargarPedidos();
