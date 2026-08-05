@@ -3,93 +3,71 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Admin - Tacos Milo 🌮</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="style.css">
+    <title>Administrador - Tacos Milo</title>
+
+    <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
-
 
 <header>
 
-<h1>🔐 Panel Administrador</h1>
+    <h1>🌮 Panel de Administración</h1>
 
-<p>Tacos Milo 🌮</p>
+    <p>Tacos Milo</p>
 
 </header>
 
+<main>
 
+    <section class="categoria">
 
+        <h2>Pedidos</h2>
 
-<section class="admin">
+        <button id="actualizarPedidos">
 
+            🔄 Actualizar pedidos
 
-<h2>📋 Pedidos recibidos</h2>
+        </button>
 
+        <br><br>
 
-<button class="boton" onclick="cargarPedidos()">
+        <div id="pedidos">
 
-Actualizar pedidos
+            Cargando pedidos...
 
-</button>
+        </div>
 
+    </section>
 
-
-<div id="pedidos">
-
-No hay pedidos cargados
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-<section class="admin">
-
-
-<h2>🔥 Promoción</h2>
-
-
-<input id="nuevaPromo" placeholder="Escribe la promoción">
-
-
-<button class="boton" onclick="guardarPromo()">
-
-Guardar promoción
-
-</button>
-
-
-</section>
-
-
-
-
-
+</main>
 
 <footer>
 
-© Tacos Milo 🌮
+    <p>Tacos Milo © 2026</p>
 
 </footer>
 
+<script type="module">
 
+import "./admin.js";
 
+window.cargarPedidos();
 
+document
+.getElementById("actualizarPedidos")
+.addEventListener("click",()=>{
 
-<script type="module" src="admin.js"></script>
+    window.cargarPedidos();
 
+});
+
+</script>
 
 </body>
 
