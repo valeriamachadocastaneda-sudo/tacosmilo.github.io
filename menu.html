@@ -3,151 +3,122 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tacos Milo</title>
+<title>Tacos Milo</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
 
+
 <body>
 
-<header>
 
-    <h1>🌮 TACOS MILO</h1>
+<header class="encabezado">
 
-    <p>El mejor sabor de la ciudad</p>
+
+<img 
+src="imagenes/logo.png" 
+class="logo"
+alt="Logo Tacos Milo"
+>
+
+
+<h1>
+🌮 TACOS MILO
+</h1>
+
+
+<p>
+El mejor sabor de la ciudad
+</p>
+
 
 </header>
 
+
+
+
 <main>
 
-    <!-- =======================
-         SELECCIONAR PLATO
-    ======================== -->
 
-    <section class="seccion">
+<!-- SELECCIÓN DE PLATO -->
 
-        <h2>🍽 Selecciona un lugar</h2>
+<section class="seccion">
 
-        <div id="platos">
 
-            <button class="botonPlato" data-plato="Plato 1">🍽 Plato 1</button>
+<h2>
+🍽 Selecciona tu lugar
+</h2>
 
-            <button class="botonPlato" data-plato="Plato 2">🍽 Plato 2</button>
 
-            <button class="botonPlato" data-plato="Plato 3">🍽 Plato 3</button>
 
-            <button class="botonPlato" data-plato="Plato 4">🍽 Plato 4</button>
+<div id="platos">
 
-            <button class="botonPlato" data-plato="Plato 5">🍽 Plato 5</button>
 
-            <button class="botonPlato" data-plato="Plato 6">🍽 Plato 6</button>
+<button class="botonPlato">
 
-            <button class="botonPlato" data-plato="Para llevar">🥡 Para llevar</button>
+🍽 Plato 1
 
-        </div>
+</button>
 
-    </section>
 
-    <!-- =======================
-         MENÚ
-    ======================== -->
+<button class="botonPlato">
 
-    <div id="menu" style="display:none;">
+🍽 Plato 2
 
-        <section class="seccion">
+</button>
 
-            <h2>🌮 Tacos</h2>
 
-            <div id="listaTacos"></div>
+<button class="botonPlato">
 
-        </section>
+🍽 Plato 3
 
-        <section class="seccion">
+</button>
 
-            <h2>🫓 Gringas</h2>
 
-            <div id="listaGringas"></div>
+<button class="botonPlato">
 
-        </section>
+🍽 Plato 4
 
-        <section class="seccion">
+</button>
 
-            <h2>🥪 Lonches</h2>
 
-            <div id="listaLonches"></div>
+<button class="botonPlato">
 
-        </section>
+🍽 Plato 5
 
-        <section class="seccion">
+</button>
 
-            <h2>🧀 Quesadillas</h2>
 
-            <div id="listaQuesadillas"></div>
+<button class="botonPlato">
 
-        </section>
+🍽 Plato 6
 
-        <section class="seccion">
+</button>
 
-            <h2>🌋 Volcanes</h2>
 
-            <div id="listaVolcanes"></div>
+<button class="botonPlato">
 
-        </section>
+🥡 Para llevar
 
-        <section class="seccion">
+</button>
 
-            <h2>🥤 Bebidas</h2>
 
-            <div id="listaBebidas"></div>
+</div>
 
-        </section>
 
-    </div>
+</section>
 
-    <!-- =======================
-         CARRITO
-    ======================== -->
-
-    <aside id="carrito">
-
-        <h2>🛒 Mi Pedido</h2>
-
-        <p id="platoSeleccionado">
-            Ningún plato seleccionado
-        </p>
-
-        <div id="listaCarrito">
-
-            No hay productos
-
-        </div>
-
-        <h3 class="total">
-
-            Total:
-            $
-            <span id="total">
-                0
-            </span>
-
-        </h3>
-
-        <button id="confirmar">
-
-            Confirmar pedido
-
-        </button>
-
-    </aside>
 
 </main>
 
+
 <script type="module" src="menu.js"></script>
+
 
 </body>
 
