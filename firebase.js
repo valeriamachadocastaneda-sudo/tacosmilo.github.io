@@ -118,4 +118,73 @@ export async function eliminarPedido(id){
 
     );
 
+    // =====================================
+// PLATOS
+// =====================================
+
+
+export function escucharPlatos(callback){
+
+
+    onValue(
+
+        ref(db,"platos"),
+
+        snapshot=>{
+
+
+            callback(
+
+                snapshot.val() || {}
+
+            );
+
+
+        }
+
+    );
+
+
+}
+
+
+
+
+
+export async function ocuparPlato(plato){
+
+
+
+    await set(
+
+        ref(db,"platos/"+plato),
+
+        {
+
+            estado:"ocupado"
+
+        }
+
+    );
+
+
+}
+
+
+
+
+
+export async function liberarPlatoEstado(plato){
+
+
+
+    await remove(
+
+        ref(db,"platos/"+plato)
+
+    );
+
+
+}
+
 }
