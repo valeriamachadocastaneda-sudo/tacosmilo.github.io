@@ -1,258 +1,598 @@
 <!DOCTYPE html>
 <html lang="es">
 
+
 <head>
 
-<meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Tacos Milo</title>
 
-<link rel="stylesheet" href="style.css">
+    <meta 
+    name="viewport" 
+    content="width=device-width, initial-scale=1.0">
+
+
+    <title>
+        Menú - Tacos Milo 🌮
+    </title>
+
+
+    <!-- Diseño -->
+    <link rel="stylesheet" href="style.css">
+
 
 </head>
+
 
 
 <body>
 
 
-<header class="encabezado">
+    <!-- ENCABEZADO DEL MENÚ -->
 
+    <header class="header">
 
-<img 
-src="imagenes/logo.png" 
-class="logo"
-alt="Logo Tacos Milo"
->
 
+        <h1>
+            🌮 Menú Tacos Milo
+        </h1>
 
-<h1>
-🌮 TACOS MILO
-</h1>
 
+        <p>
+            Elige tus favoritos
+        </p>
 
-<p>
-El mejor sabor de la ciudad
-</p>
 
+    </header>
 
-</header>
+      <!-- MENÚ DE PRODUCTOS 🌮 -->
 
+    <main>
 
 
+        <section id="menu">
 
-<main>
 
+            <!-- TACO PASTOR -->
 
-<!-- SELECCIÓN DE PLATO -->
+            <div class="producto">
 
-<section class="seccion">
 
+                <img 
+                src="imagenes/pastor.png"
+                alt="Taco de pastor">
 
-<h2>
-🍽 Selecciona tu lugar
-</h2>
 
+                <h3>
+                    Taco de pastor
+                </h3>
 
 
-<div id="platos">
+                <p>
+                    $18
+                </p>
 
 
-<button class="botonPlato">
+                <button onclick="agregarCarrito(1)">
 
-🍽 Plato 1
+                    Agregar 🛒
 
-</button>
+                </button>
 
 
-<button class="botonPlato">
+            </div>
 
-🍽 Plato 2
 
-</button>
 
 
-<button class="botonPlato">
+            <!-- TACO TRIPA -->
 
-🍽 Plato 3
+            <div class="producto">
 
-</button>
 
+                <img 
+                src="imagenes/tripa.png"
+                alt="Taco de tripa">
 
-<button class="botonPlato">
 
-🍽 Plato 4
+                <h3>
+                    Taco de tripa
+                </h3>
 
-</button>
 
+                <p>
+                    $22
+                </p>
 
-<button class="botonPlato">
 
-🍽 Plato 5
+                <button onclick="agregarCarrito(2)">
 
-</button>
+                    Agregar 🛒
 
+                </button>
 
-<button class="botonPlato">
 
-🍽 Plato 6
+            </div>
 
-</button>
 
 
-<button class="botonPlato">
 
-🥡 Para llevar
+            <!-- GRINGA -->
 
-</button>
+            <div class="producto">
 
 
-</div>
+                <img 
+                src="imagenes/gringa.png"
+                alt="Gringa">
 
 
-</section>
+                <h3>
+                    Gringa
+                </h3>
 
-  <!-- =========================
-     MENU DE PRODUCTOS
-========================= -->
 
+                <p>
+                    $50
+                </p>
 
-<section id="menuProductos" class="seccion">
 
+                <button onclick="agregarCarrito(3)">
 
-<h2>
-🌮 Tacos
-</h2>
+                    Agregar 🛒
 
+                </button>
 
-<div id="tacos"></div>
 
+            </div>
 
+                      <!-- LONCHE -->
 
-<h2>
-🫓 Gringas
-</h2>
+            <div class="producto">
 
 
-<div id="gringas"></div>
+                <img 
+                src="imagenes/lonche.png"
+                alt="Lonche">
 
 
+                <h3>
+                    Lonche
+                </h3>
 
-<h2>
-🥪 Lonches
-</h2>
 
+                <p>
+                    $65
+                </p>
 
-<div id="lonches"></div>
 
+                <button onclick="agregarCarrito(4)">
 
+                    Agregar 🛒
 
-<h2>
-🧀 Quesadillas
-</h2>
+                </button>
 
 
-<div id="quesadillas"></div>
+            </div>
 
 
 
-<h2>
-🌋 Volcanes
-</h2>
 
+            <!-- LONCHE CON QUESO -->
 
-<div id="volcanes"></div>
+            <div class="producto">
 
 
+                <img 
+                src="imagenes/lonche_queso.png"
+                alt="Lonche con queso">
 
-<h2>
-🥤 Bebidas
-</h2>
 
+                <h3>
+                    Lonche con queso
+                </h3>
 
-<div id="bebidas"></div>
 
+                <p>
+                    $75
+                </p>
 
 
-</section>
+                <button onclick="agregarCarrito(10)">
 
+                    Agregar 🛒
 
+                </button>
 
 
+            </div>
 
-<!-- =========================
-        CARRITO
-========================= -->
 
 
-<section class="seccion carrito">
 
+            <!-- QUESADILLA SENCILLA -->
 
-<h2>
-🛒 Mi pedido
-</h2>
+            <div class="producto">
 
 
+                <img 
+                src="imagenes/quesadilla.png"
+                alt="Quesadilla">
 
-<p id="platoActual">
 
-Plato no seleccionado
+                <h3>
+                    Quesadilla sencilla
+                </h3>
 
-</p>
 
+                <p>
+                    $20
+                </p>
 
 
-<div id="listaCarrito">
+                <button onclick="agregarCarrito(5)">
 
-Tu carrito está vacío
+                    Agregar 🛒
 
-</div>
+                </button>
 
 
+            </div>
 
-<h3>
 
-Total:
 
-$
 
-<span id="total">
+            <!-- QUESADILLA CON CARNE -->
 
-0
+            <div class="producto">
 
-</span>
 
+                <img 
+                src="imagenes/quesadilla_carne.png"
+                alt="Quesadilla con carne">
 
-</h3>
 
+                <h3>
+                    Quesadilla con carne
+                </h3>
 
 
+                <p>
+                    $30
+                </p>
 
-<input 
-type="text"
-id="nombreCliente"
-placeholder="Tu nombre"
->
 
+                <button onclick="agregarCarrito(6)">
 
+                    Agregar 🛒
 
-<button id="enviarPedido">
+                </button>
 
-Enviar pedido 🌮
 
-</button>
+            </div>
 
+                      <!-- VOLCÁN -->
 
+            <div class="producto">
 
-</section>
 
-</main>
+                <img 
+                src="imagenes/volcan.png"
+                alt="Volcán">
 
 
-<script type="module" src="menu.js"></script>
+                <h3>
+                    Volcán
+                </h3>
+
+
+                <p>
+                    $35
+                </p>
+
+
+                <button onclick="agregarCarrito(7)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+
+
+            <!-- VOLCÁN DE TRIPA -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/volcan_tripa.png"
+                alt="Volcán de tripa">
+
+
+                <h3>
+                    Volcán de tripa
+                </h3>
+
+
+                <p>
+                    $40
+                </p>
+
+
+                <button onclick="agregarCarrito(11)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+
+
+            <!-- COCA COLA -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/coca.png"
+                alt="Coca-Cola">
+
+
+                <h3>
+                    Coca-Cola
+                </h3>
+
+
+                <p>
+                    $26
+                </p>
+
+
+                <button onclick="agregarCarrito(8)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+
+
+            <!-- AGUA FRESCA -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/agua.png"
+                alt="Agua fresca">
+
+
+                <h3>
+                    Agua fresca
+                </h3>
+
+
+                <p>
+                    $35
+                </p>
+
+
+                <button onclick="agregarCarrito(9)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+              <!-- VOLCÁN -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/volcan.png"
+                alt="Volcán">
+
+
+                <h3>
+                    Volcán
+                </h3>
+
+
+                <p>
+                    $35
+                </p>
+
+
+                <button onclick="agregarCarrito(7)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+
+
+            <!-- VOLCÁN DE TRIPA -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/volcan_tripa.png"
+                alt="Volcán de tripa">
+
+
+                <h3>
+                    Volcán de tripa
+                </h3>
+
+
+                <p>
+                    $40
+                </p>
+
+
+                <button onclick="agregarCarrito(11)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+
+
+            <!-- COCA COLA -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/coca.png"
+                alt="Coca-Cola">
+
+
+                <h3>
+                    Coca-Cola
+                </h3>
+
+
+                <p>
+                    $26
+                </p>
+
+
+                <button onclick="agregarCarrito(8)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+
+
+            <!-- AGUA FRESCA -->
+
+            <div class="producto">
+
+
+                <img 
+                src="imagenes/agua.png"
+                alt="Agua fresca">
+
+
+                <h3>
+                    Agua fresca
+                </h3>
+
+
+                <p>
+                    $35
+                </p>
+
+
+                <button onclick="agregarCarrito(9)">
+
+                    Agregar 🛒
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+  
+    <!-- CARRITO 🛒 -->
+
+    <section>
+
+
+        <h2 style="text-align:center;">
+            Tu pedido 🌮
+        </h2>
+
+
+        <div id="carrito">
+
+
+        </div>
+
+
+
+        <div style="text-align:center;">
+
+
+            <button onclick="enviarWhatsApp()">
+
+                Enviar pedido por WhatsApp 📲
+
+            </button>
+
+
+        </div>
+
+
+    </section>
+
+
+
+
+    <!-- REGRESAR AL INICIO -->
+
+    <div style="text-align:center; margin:30px;">
+
+
+        <a href="index.html" class="boton">
+
+            Volver al inicio
+
+        </a>
+
+
+    </div>
+
+
+
+
+    <!-- SCRIPTS -->
+
+    <script src="script.js"></script>
 
 
 </body>
+
 
 </html>
