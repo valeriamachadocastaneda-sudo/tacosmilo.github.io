@@ -1,89 +1,197 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Tacos Milo 🌮</title>
 
+
+    <!-- Estilos principales -->
     <link rel="stylesheet" href="style.css">
+
+
 </head>
+
 
 <body>
 
-<header>
-    <h1>🌮 Tacos Milo</h1>
-    <p>Los mejores tacos de la zona</p>
-</header>
+
+    <!-- ENCABEZADO -->
+    <header class="header">
+
+        <h1>
+            🌮 Tacos Milo
+        </h1>
+
+        <p>
+            El mejor sabor para tu familia
+        </p>
+
+    </header>
+
+        <!-- PRESENTACIÓN DEL NEGOCIO -->
+
+    <section class="inicio">
+
+        <img 
+        src="imagenes/logo.png" 
+        alt="Logo Tacos Milo"
+        class="logo">
 
 
-<section class="bienvenida">
-
-    <h2>¡Bienvenido!</h2>
-
-    <p>
-        Disfruta nuestros tacos preparados al momento.
-        Haz tu pedido fácil y rápido.
-    </p>
-
-    <a href="menu.html" class="boton">
-        Ver menú 🌮
-    </a>
-
-</section>
+        <h2>
+            Bienvenido a Tacos Milo 🌮
+        </h2>
 
 
-<section class="promocion">
-
-    <h2>🔥 Promoción del día</h2>
-
-    <p id="promoTexto">
-        2x1 en tacos de pastor
-    </p>
-
-</section>
+        <p>
+            Disfruta tacos, gringas, lonches,
+            quesadillas y más.
+        </p>
 
 
-<section class="informacion">
+        <button onclick="irMenu()">
 
-    <h2>📍 Información</h2>
+            Ver menú
 
-    <p>
-        Horario:
-        <br>
-        Lunes a Domingo
-    </p>
-
-    <p>
-        Método de pago:
-        <br>
-        Transferencia 💳
-    </p>
-
-</section>
+        </button>
 
 
-<footer>
+        <button onclick="hacerPedido()">
 
-<p>
-© Tacos Milo 🌮
-</p>
+            Hacer pedido
 
-</footer>
+        </button>
 
 
-<script>
+    </section>
 
-const promo = localStorage.getItem("promo");
+        <!-- INFORMACIÓN DEL NEGOCIO -->
 
-if(promo){
+    <section class="informacion">
 
-    document.getElementById("promoTexto").innerHTML = promo;
 
-}
+        <h2>
+            Sobre nosotros 🌮
+        </h2>
 
-</script>
+
+        <p>
+            En Tacos Milo preparamos tacos con
+            ingredientes frescos y mucho sabor.
+        </p>
+
+
+        <div class="datos">
+
+
+            <div class="dato">
+
+                <h3>
+                    🕒 Horario
+                </h3>
+
+                <p>
+                    Todos los días
+                </p>
+
+            </div>
+
+
+
+            <div class="dato">
+
+                <h3>
+                    📍 Ubicación
+                </h3>
+
+                <p>
+                    Tacos Milo
+                </p>
+
+            </div>
+
+
+
+            <div class="dato">
+
+                <h3>
+                    📲 Pedidos
+                </h3>
+
+                <p>
+                    Por WhatsApp
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+        <!-- BOTONES DE ACCESO RÁPIDO -->
+
+    <section class="accesos">
+
+
+        <h2>
+            Haz tu pedido 🌮
+        </h2>
+
+
+        <div class="botones">
+
+
+            <a href="menu.html" class="boton">
+
+                Ver menú
+
+            </a>
+
+
+            <a 
+            href="https://wa.me/"
+            target="_blank"
+            class="boton">
+
+                WhatsApp
+
+            </a>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- PIE DE PÁGINA -->
+
+    <footer>
+
+
+        <p>
+            © Tacos Milo 🌮
+            Todos los derechos reservados
+        </p>
+
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+
+    <script src="script.js"></script>
 
 
 </body>
+
+
 </html>
