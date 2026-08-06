@@ -6,22 +6,20 @@
 <head>
 
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta 
+    name="viewport" 
+    content="width=device-width, initial-scale=1.0">
 
 
-<title>
-
-Administrador - Tacos Milo
-
-</title>
+    <title>
+        Administrador - Tacos Milo 🌮
+    </title>
 
 
-
-<link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 
 
 </head>
@@ -31,87 +29,226 @@ Administrador - Tacos Milo
 <body>
 
 
+    <!-- ENCABEZADO ADMIN -->
 
-<header>
-
-
-<img 
-
-src="imagenes/logo.png"
-
-class="logo"
-
-alt="Tacos Milo"
+    <header class="header">
 
 
-
->
-
-
-<h1>
-
-🌮 TACOS MILO
-
-</h1>
+        <h1>
+            🌮 Panel Administrador
+        </h1>
 
 
-<p>
-
-Panel de cocina
-
-</p>
+        <p>
+            Tacos Milo
+        </p>
 
 
-</header>
+    </header>
 
 
 
+    <!-- LOGIN ADMIN -->
+
+    <section class="admin">
+
+
+        <h2>
+            Acceso
+        </h2>
+
+
+        <input 
+        type="password"
+        id="claveAdmin"
+        placeholder="Contraseña">
+
+
+        <button onclick="entrarAdmin()">
+
+            Entrar
+
+        </button>
+
+
+    </section>
+
+  
+    <!-- PANEL PRINCIPAL (OCULTO AL INICIO) -->
+
+    <section 
+    class="admin"
+    id="panelAdmin"
+    style="display:none;">
+
+
+
+        <h2>
+            Administración de Tacos Milo 🌮
+        </h2>
+
+
+
+        <!-- PROMOCIÓN -->
+
+        <div class="dato">
+
+
+            <h3>
+                🎉 Promoción
+            </h3>
+
+
+            <input
+            type="text"
+            id="promoTexto"
+            placeholder="Ejemplo: 2x1 tacos pastor">
+
+
+            <button onclick="guardarPromo()">
+
+                Guardar promoción
+
+            </button>
+
+
+        </div>
 
 
 
 
-<main>
+        <!-- AGUAS -->
+
+        <div class="dato">
+
+
+            <h3>
+                🥤 Sabores de agua
+            </h3>
+
+
+            <input
+            type="text"
+            id="nuevoSabor"
+            placeholder="Nuevo sabor">
+
+
+            <button onclick="agregarSabor()">
+
+                Agregar sabor
+
+            </button>
+
+
+            <div id="listaAguas">
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ADMINISTRAR PRODUCTOS -->
+
+        <div class="dato">
+
+
+            <h3>
+                🌮 Productos
+            </h3>
 
 
 
-<section class="seccion">
+            <input
+            type="text"
+            id="nombreProducto"
+            placeholder="Nombre del producto">
 
 
 
-<h2>
-
-🍽 Pedidos activos
-
-</h2>
-
+            <input
+            type="number"
+            id="precioProducto"
+            placeholder="Precio">
 
 
 
-<div id="panelPedidos">
+            <button onclick="agregarProducto()">
 
+                Agregar producto
 
-Cargando pedidos...
-
-
-</div>
-
+            </button>
 
 
 
-</section>
-
-
-
-
-</main>
+        </div>
 
 
 
 
+        <!-- LISTA DE PRODUCTOS -->
+
+        <div class="dato">
+
+
+            <h3>
+                📋 Productos actuales
+            </h3>
 
 
 
-<script type="module" src="admin.js"></script>
+            <div id="listaProductos">
+
+
+            </div>
+
+
+
+        </div>
+
+      
+        <!-- PEDIDOS RECIBIDOS -->
+
+        <div class="dato">
+
+
+            <h3>
+                📦 Pedidos
+            </h3>
+
+
+
+            <div id="listaPedidos">
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+        <!-- CERRAR SESIÓN -->
+
+        <button onclick="salirAdmin()">
+
+            Cerrar sesión
+
+        </button>
+
+
+
+    </section>
+
+
+
+
+
+    <!-- JAVASCRIPT ADMIN -->
+
+    <script src="admin.js"></script>
 
 
 
