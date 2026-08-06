@@ -1,1255 +1,788 @@
 // =====================================
-// TACOS MILO V3
-// MENU.JS PARTE 1 (CORREGIDA)
+// TACOS MILO 🌮
+// menu.js
+// Parte 1
 // =====================================
 
-import {
-    guardarPedido,
-    escucharPlatos,
-    ocuparPlato
-} from "./firebase.js";
 
-// =====================================
-// VARIABLES
-// =====================================
-
-let platoSeleccionado = "";
-let estadosPlatos = {};
-let carrito = [];
-
-// =====================================
-// PRODUCTOS
-// =====================================
-
-const tacos = [
-    { nombre: "Pastor", precio: 18 },
-    { nombre: "Bistec", precio: 18 },
-    { nombre: "Chorizo", precio: 18 },
-    { nombre: "Suadero", precio: 18 },
-    { nombre: "Arrachera", precio: 18 },
-    { nombre: "Tripa", precio: 22 }
-];
-
-const carnes = [
-    "Pastor",
-    "Bistec",
-    "Chorizo",
-    "Suadero",
-    "Arrachera",
-    "Tripa"
-];
-
-const aguas = [
-    "Jamaica",
-    "Horchata",
-    "Limón"
-];
-
-// =====================================
-// ESCUCHAR CAMBIOS EN FIREBASE
-// =====================================
-
-escucharPlatos((platos) => {
-    estadosPlatos = platos;
-    actualizarBotonesPlatos();
-});
-
-// =====================================
-// ACTUALIZAR BOTONES DE PLATOS
-// =====================================
-
-function actualizarBotonesPlatos() {
-
-    document.querySelectorAll(".botonPlato").forEach(boton => {
-
-        const nombre = boton.dataset.plato ||
-            boton.innerText
-                .replace("🍽 ", "")
-                .replace("🥡 ", "")
-                .replace("🔴 ", "")
-                .replace("🟢 ", "")
-                .replace("Ocupado", "")
-                .replace("Libre", "")
-                .trim();
-
-        boton.dataset.plato = nombre;
-
-        if (estadosPlatos[nombre]) {
-
-            boton.style.background = "#e53935";
-            boton.style.color = "white";
-            boton.innerHTML = `🔴 ${nombre}<br>Ocupado`;
-            boton.disabled = true;
-
-        } else {
-
-            boton.style.background = "#43a047";
-            boton.style.color = "white";
-            boton.innerHTML = `🟢 ${nombre}<br>Libre`;
-            boton.disabled = false;
-
-        }
-
-    });
-
-}
-
-// =====================================
-// SELECCIONAR PLATO
-// =====================================
-
-document.querySelectorAll(".botonPlato").forEach(boton => {
-
-    boton.addEventListener("click", async () => {
-
-        const nombre = boton.dataset.plato;
-
-        try {
-
-            await ocuparPlato(nombre);
-
-            platoSeleccionado = nombre;
-
-            document.getElementById("platoActual").innerText =
-                "Lugar seleccionado: " + platoSeleccionado;
-
-            alert("Seleccionaste: " + platoSeleccionado);
-
-        } catch (error) {
-
-            console.error(error);
-            alert("No se pudo ocupar el plato.");
-
-        }
-
-    });
-
-});// =====================================
-// TACOS MILO V3
-// MENU.JS PARTE 1 (CORREGIDA)
-// =====================================
-
-import {
-    guardarPedido,
-    escucharPlatos,
-    ocuparPlato
-} from "./firebase.js";
-
-// =====================================
-// VARIABLES
-// =====================================
-
-let platoSeleccionado = "";
-let estadosPlatos = {};
-let carrito = [];
-
-// =====================================
-// PRODUCTOS
-// =====================================
-
-const tacos = [
-    { nombre: "Pastor", precio: 18 },
-    { nombre: "Bistec", precio: 18 },
-    { nombre: "Chorizo", precio: 18 },
-    { nombre: "Suadero", precio: 18 },
-    { nombre: "Arrachera", precio: 18 },
-    { nombre: "Tripa", precio: 22 }
-];
-
-const carnes = [
-    "Pastor",
-    "Bistec",
-    "Chorizo",
-    "Suadero",
-    "Arrachera",
-    "Tripa"
-];
-
-const aguas = [
-    "Jamaica",
-    "Horchata",
-    "Limón"
-];
-
-// =====================================
-// ESCUCHAR CAMBIOS EN FIREBASE
-// =====================================
-
-escucharPlatos((platos) => {
-    estadosPlatos = platos;
-    actualizarBotonesPlatos();
-});
-
-// =====================================
-// ACTUALIZAR BOTONES DE PLATOS
-// =====================================
-
-function actualizarBotonesPlatos() {
-
-    document.querySelectorAll(".botonPlato").forEach(boton => {
-
-        const nombre = boton.dataset.plato ||
-            boton.innerText
-                .replace("🍽 ", "")
-                .replace("🥡 ", "")
-                .replace("🔴 ", "")
-                .replace("🟢 ", "")
-                .replace("Ocupado", "")
-                .replace("Libre", "")
-                .trim();
-
-        boton.dataset.plato = nombre;
-
-        if (estadosPlatos[nombre]) {
-
-            boton.style.background = "#e53935";
-            boton.style.color = "white";
-            boton.innerHTML = `🔴 ${nombre}<br>Ocupado`;
-            boton.disabled = true;
-
-        } else {
-
-            boton.style.background = "#43a047";
-            boton.style.color = "white";
-            boton.innerHTML = `🟢 ${nombre}<br>Libre`;
-            boton.disabled = false;
-
-        }
-
-    });
-
-}
-
-// =====================================
-// SELECCIONAR PLATO
-// =====================================
-
-document.querySelectorAll(".botonPlato").forEach(boton => {
-
-    boton.addEventListener("click", async () => {
-
-        const nombre = boton.dataset.plato;
-
-        try {
-
-            await ocuparPlato(nombre);
-
-            platoSeleccionado = nombre;
-
-            document.getElementById("platoActual").innerText =
-                "Lugar seleccionado: " + platoSeleccionado;
-
-            alert("Seleccionaste: " + platoSeleccionado);
-
-        } catch (error) {
-
-            console.error(error);
-            alert("No se pudo ocupar el plato.");
-
-        }
-
-    });
-
-});// =====================================
-// TACOS MILO V3
-// MENU.JS PARTE 1 (CORREGIDA)
-// =====================================
-
-import {
-    guardarPedido,
-    escucharPlatos,
-    ocuparPlato
-} from "./firebase.js";
-
-// =====================================
-// VARIABLES
-// =====================================
-
-let platoSeleccionado = "";
-let estadosPlatos = {};
-let carrito = [];
-
-// =====================================
-// PRODUCTOS
-// =====================================
-
-const tacos = [
-    { nombre: "Pastor", precio: 18 },
-    { nombre: "Bistec", precio: 18 },
-    { nombre: "Chorizo", precio: 18 },
-    { nombre: "Suadero", precio: 18 },
-    { nombre: "Arrachera", precio: 18 },
-    { nombre: "Tripa", precio: 22 }
-];
-
-const carnes = [
-    "Pastor",
-    "Bistec",
-    "Chorizo",
-    "Suadero",
-    "Arrachera",
-    "Tripa"
-];
-
-const aguas = [
-    "Jamaica",
-    "Horchata",
-    "Limón"
-];
-
-// =====================================
-// ESCUCHAR CAMBIOS EN FIREBASE
-// =====================================
-
-escucharPlatos((platos) => {
-    estadosPlatos = platos;
-    actualizarBotonesPlatos();
-});
-
-// =====================================
-// ACTUALIZAR BOTONES DE PLATOS
-// =====================================
-
-function actualizarBotonesPlatos() {
-
-    document.querySelectorAll(".botonPlato").forEach(boton => {
-
-        const nombre = boton.dataset.plato ||
-            boton.innerText
-                .replace("🍽 ", "")
-                .replace("🥡 ", "")
-                .replace("🔴 ", "")
-                .replace("🟢 ", "")
-                .replace("Ocupado", "")
-                .replace("Libre", "")
-                .trim();
-
-        boton.dataset.plato = nombre;
-
-        if (estadosPlatos[nombre]) {
-
-            boton.style.background = "#e53935";
-            boton.style.color = "white";
-            boton.innerHTML = `🔴 ${nombre}<br>Ocupado`;
-            boton.disabled = true;
-
-        } else {
-
-            boton.style.background = "#43a047";
-            boton.style.color = "white";
-            boton.innerHTML = `🟢 ${nombre}<br>Libre`;
-            boton.disabled = false;
-
-        }
-
-    });
-
-}
-
-// =====================================
-// SELECCIONAR PLATO
-// =====================================
-
-document.querySelectorAll(".botonPlato").forEach(boton => {
-
-    boton.addEventListener("click", async () => {
-
-        const nombre = boton.dataset.plato;
-
-        try {
-
-            await ocuparPlato(nombre);
-
-            platoSeleccionado = nombre;
-
-            document.getElementById("platoActual").innerText =
-                "Lugar seleccionado: " + platoSeleccionado;
-
-            alert("Seleccionaste: " + platoSeleccionado);
-
-        } catch (error) {
-
-            console.error(error);
-            alert("No se pudo ocupar el plato.");
-
-        }
-
-    });
-
-});// =====================================
-// TACOS MILO V3
-// MENU.JS PARTE 1 (CORREGIDA)
-// =====================================
-
-import {
-    guardarPedido,
-    escucharPlatos,
-    ocuparPlato
-} from "./firebase.js";
-
-// =====================================
-// VARIABLES
-// =====================================
-
-let platoSeleccionado = "";
-let estadosPlatos = {};
-let carrito = [];
-
-// =====================================
-// PRODUCTOS
-// =====================================
-
-const tacos = [
-    { nombre: "Pastor", precio: 18 },
-    { nombre: "Bistec", precio: 18 },
-    { nombre: "Chorizo", precio: 18 },
-    { nombre: "Suadero", precio: 18 },
-    { nombre: "Arrachera", precio: 18 },
-    { nombre: "Tripa", precio: 22 }
-];
-
-const carnes = [
-    "Pastor",
-    "Bistec",
-    "Chorizo",
-    "Suadero",
-    "Arrachera",
-    "Tripa"
-];
-
-const aguas = [
-    "Jamaica",
-    "Horchata",
-    "Limón"
-];
-
-// =====================================
-// ESCUCHAR CAMBIOS EN FIREBASE
-// =====================================
-
-escucharPlatos((platos) => {
-    estadosPlatos = platos;
-    actualizarBotonesPlatos();
-});
-
-// =====================================
-// ACTUALIZAR BOTONES DE PLATOS
-// =====================================
-
-function actualizarBotonesPlatos() {
-
-    document.querySelectorAll(".botonPlato").forEach(boton => {
-
-        const nombre = boton.dataset.plato ||
-            boton.innerText
-                .replace("🍽 ", "")
-                .replace("🥡 ", "")
-                .replace("🔴 ", "")
-                .replace("🟢 ", "")
-                .replace("Ocupado", "")
-                .replace("Libre", "")
-                .trim();
-
-        boton.dataset.plato = nombre;
-
-        if (estadosPlatos[nombre]) {
-
-            boton.style.background = "#e53935";
-            boton.style.color = "white";
-            boton.innerHTML = `🔴 ${nombre}<br>Ocupado`;
-            boton.disabled = true;
-
-        } else {
-
-            boton.style.background = "#43a047";
-            boton.style.color = "white";
-            boton.innerHTML = `🟢 ${nombre}<br>Libre`;
-            boton.disabled = false;
-
-        }
-
-    });
-
-}
-
-// =====================================
-// SELECCIONAR PLATO
-// =====================================
-
-document.querySelectorAll(".botonPlato").forEach(boton => {
-
-    boton.addEventListener("click", async () => {
-
-        const nombre = boton.dataset.plato;
-
-        try {
-
-            await ocuparPlato(nombre);
-
-            platoSeleccionado = nombre;
-
-            document.getElementById("platoActual").innerText =
-                "Lugar seleccionado: " + platoSeleccionado;
-
-            alert("Seleccionaste: " + platoSeleccionado);
-
-        } catch (error) {
-
-            console.error(error);
-            alert("No se pudo ocupar el plato.");
-
-        }
-
-    });
-
-});
-
-// =====================================
-// MOSTRAR CARRITO
-// =====================================
-
-function actualizarCarrito() {
-
-    const lista = document.getElementById("listaCarrito");
-    const total = document.getElementById("total");
-
-    lista.innerHTML = "";
-
-    let suma = 0;
-
-    if (carrito.length === 0) {
-        lista.innerHTML = "<p>Tu carrito está vacío</p>";
-    } else {
-
-        carrito.forEach(producto => {
-
-            const subtotal = producto.precio * producto.cantidad;
-            suma += subtotal;
-
-            lista.innerHTML += `
-                <p>
-                    ${producto.cantidad} x ${producto.nombre}
-                    = $${subtotal}
-                </p>
-            `;
-
-        });
-
+// CARRITO
+
+let carrito = JSON.parse(
+
+    localStorage.getItem(
+        "carritoTacosMilo"
+    )
+
+) || [];
+
+
+
+
+
+// PRODUCTOS INICIALES
+
+let productos = JSON.parse(
+
+    localStorage.getItem(
+        "productosTacosMilo"
+    )
+
+) || [
+
+    {
+        id:1,
+        nombre:"Taco de pastor",
+        precio:18,
+        imagen:"imagenes/pastor.png"
+    },
+
+    {
+        id:2,
+        nombre:"Taco de tripa",
+        precio:22,
+        imagen:"imagenes/tripa.png"
+    },
+
+    {
+        id:3,
+        nombre:"Gringa",
+        precio:50,
+        imagen:"imagenes/gringa.png"
+    },
+
+    {
+        id:4,
+        nombre:"Lonche",
+        precio:65,
+        imagen:"imagenes/lonche.png"
+    },
+
+    {
+        id:5,
+        nombre:"Quesadilla sencilla",
+        precio:20,
+        imagen:"imagenes/quesadilla.png"
+    },
+
+    {
+        id:6,
+        nombre:"Quesadilla con carne",
+        precio:30,
+        imagen:"imagenes/quesadilla_carne.png"
+    },
+
+    {
+        id:7,
+        nombre:"Volcán",
+        precio:35,
+        imagen:"imagenes/volcan.png"
+    },
+
+    {
+        id:8,
+        nombre:"Coca-Cola",
+        precio:26,
+        imagen:"imagenes/coca.png"
+    },
+
+    {
+        id:9,
+        nombre:"Agua fresca",
+        precio:35,
+        imagen:"imagenes/agua.png"
     }
 
-    total.innerText = "$" + suma;
+];
 
-}
 
 // =====================================
-// MOSTRAR TACOS
+// MOSTRAR MENÚ 🌮
 // =====================================
 
-function cargarTacos() {
 
-    const contenedor = document.getElementById("tacos");
+function mostrarMenu(){
+
+
+    let contenedor = document.getElementById(
+        "menu"
+    );
+
+
+    if(!contenedor) return;
+
+
 
     contenedor.innerHTML = "";
 
-    tacos.forEach((taco) => {
+
+
+    productos.forEach((producto)=>{
+
 
         contenedor.innerHTML += `
 
+
         <div class="producto">
 
-            <div class="infoProducto">
 
-                <h3>🌮 ${taco.nombre}</h3>
+            <img 
+            src="${producto.imagen}"
+            alt="${producto.nombre}">
 
-                <p>$${taco.precio}</p>
 
-            </div>
+            <h3>
 
-            <div class="controles">
+            ${producto.nombre}
 
-                <button
-                    class="btnMenos"
-                    onclick="quitarProducto('${taco.nombre}')">
-                    -
-                </button>
+            </h3>
 
-                <span
-                    class="cantidad"
-                    id="cantidad-${taco.nombre}">
-                    0
-                </span>
 
-                <button
-                    class="btnMas"
-                    onclick="agregarProducto('${taco.nombre}', ${taco.precio})">
-                    +
-                </button>
 
-            </div>
+            <p>
+
+            $${producto.precio}
+
+            </p>
+
+
+
+            <button onclick="agregarCarrito(${producto.id})">
+
+                Agregar 🛒
+
+            </button>
+
 
         </div>
+
 
         `;
 
+
     });
 
-}
-
-// =====================================
-// AGREGAR PRODUCTO
-// =====================================
-
-window.agregarProducto = function(nombre, precio) {
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (producto) {
-
-        producto.cantidad++;
-
-    } else {
-
-        carrito.push({
-            nombre: nombre,
-            precio: precio,
-            cantidad: 1
-        });
-
-    }
-
-    actualizarCantidad(nombre);
-    actualizarCarrito();
-
-};
-
-// =====================================
-// QUITAR PRODUCTO
-// =====================================
-
-window.quitarProducto = function(nombre) {
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (!producto) return;
-
-    producto.cantidad--;
-
-    if (producto.cantidad <= 0) {
-
-        carrito = carrito.filter(p => p.nombre !== nombre);
-
-    }
-
-    actualizarCantidad(nombre);
-    actualizarCarrito();
-
-};
-
-// =====================================
-// ACTUALIZAR CANTIDAD
-// =====================================
-
-function actualizarCantidad(nombre) {
-
-    const elemento = document.getElementById("cantidad-" + nombre);
-
-    if (!elemento) return;
-
-    const producto = carrito.find(p => p.nombre === nombre);
-
-    elemento.innerText = producto ? producto.cantidad : 0;
 
 }
 
-// =====================================
-// CARGAR TACOS
-// =====================================
 
-cargarTacos();
 
-// =====================================
-// MOSTRAR GRINGAS
-// =====================================
 
-function cargarGringas() {
 
-    const contenedor = document.getElementById("gringas");
 
-    contenedor.innerHTML = `
-
-    <div class="producto">
-
-        <div class="infoProducto">
-
-            <h3>🫓 Gringa</h3>
-
-            <p>$50</p>
-
-            <select id="carneGringa">
-                ${carnes.map(carne =>
-                    `<option value="${carne}">${carne}</option>`
-                ).join("")}
-            </select>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos"
-                onclick="quitarGringa()">
-                -
-            </button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Gringa">
-                0
-            </span>
-
-            <button class="btnMas"
-                onclick="agregarGringa()">
-                +
-            </button>
-
-        </div>
-
-    </div>
-
-    `;
-
-}
-
-window.agregarGringa = function () {
-
-    const carne = document.getElementById("carneGringa").value;
-    const nombre = "Gringa de " + carne;
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (producto) {
-        producto.cantidad++;
-    } else {
-        carrito.push({
-            nombre,
-            precio: 50,
-            cantidad: 1
-        });
-    }
-
-    actualizarCantidad("Gringa");
-    actualizarCarrito();
-
-}
-
-window.quitarGringa = function () {
-
-    const carne = document.getElementById("carneGringa").value;
-    quitarProducto("Gringa de " + carne);
-
-    actualizarCantidad("Gringa");
-
-}
 
 // =====================================
-// MOSTRAR LONCHES
+// AGREGAR AL CARRITO 🛒
 // =====================================
 
-function cargarLonches() {
 
-    const contenedor = document.getElementById("lonches");
+function agregarCarrito(id){
 
-    contenedor.innerHTML = `
 
-    <div class="producto">
+    let producto = productos.find(
 
-        <div class="infoProducto">
+        p => p.id === id
 
-            <h3>🥪 Lonche</h3>
-
-            <select id="tipoLonche">
-
-                <option value="65">
-                    Lonche normal $65
-                </option>
-
-                <option value="75">
-                    Lonche con queso $75
-                </option>
-
-            </select>
-
-            <select id="carneLonche">
-
-                ${carnes.map(carne =>
-                    `<option value="${carne}">${carne}</option>`
-                ).join("")}
-
-            </select>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos"
-                onclick="quitarLonche()">
-                -
-            </button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Lonche">
-                0
-            </span>
-
-            <button class="btnMas"
-                onclick="agregarLonche()">
-                +
-            </button>
-
-        </div>
-
-    </div>
-
-    `;
-
-}
-
-window.agregarLonche = function () {
-
-    const precio = Number(document.getElementById("tipoLonche").value);
-    const carne = document.getElementById("carneLonche").value;
-
-    const tipo = precio === 75
-        ? "Lonche con queso"
-        : "Lonche";
-
-    const nombre = tipo + " de " + carne;
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (producto) {
-        producto.cantidad++;
-    } else {
-        carrito.push({
-            nombre,
-            precio,
-            cantidad: 1
-        });
-    }
-
-    actualizarCantidad("Lonche");
-    actualizarCarrito();
-
-}
-
-window.quitarLonche = function () {
-
-    const precio = Number(document.getElementById("tipoLonche").value);
-    const carne = document.getElementById("carneLonche").value;
-
-    const tipo = precio === 75
-        ? "Lonche con queso"
-        : "Lonche";
-
-    quitarProducto(tipo + " de " + carne);
-
-    actualizarCantidad("Lonche");
-
-}
-
-// =====================================
-// MOSTRAR QUESADILLAS
-// =====================================
-
-function cargarQuesadillas() {
-
-    const contenedor = document.getElementById("quesadillas");
-
-    contenedor.innerHTML = `
-
-    <div class="producto">
-
-        <div class="infoProducto">
-
-            <h3>🧀 Quesadilla sencilla</h3>
-
-            <p>$20</p>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos"
-                onclick="quitarProducto('Quesadilla sencilla')">
-                -
-            </button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Quesadilla sencilla">
-                0
-            </span>
-
-            <button class="btnMas"
-                onclick="agregarProducto('Quesadilla sencilla',20)">
-                +
-            </button>
-
-        </div>
-
-    </div>
-
-    <div class="producto">
-
-        <div class="infoProducto">
-
-            <h3>🧀 Quesadilla con carne</h3>
-
-            <p>$30</p>
-
-            <select id="carneQuesadilla">
-
-                ${carnes.map(carne =>
-                    `<option value="${carne}">${carne}</option>`
-                ).join("")}
-
-            </select>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos"
-                onclick="quitarQuesadilla()">
-                -
-            </button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Quesadilla con carne">
-                0
-            </span>
-
-            <button class="btnMas"
-                onclick="agregarQuesadilla()">
-                +
-            </button>
-
-        </div>
-
-    </div>
-
-    `;
-
-}
-
-window.agregarQuesadilla = function () {
-
-    const carne = document.getElementById("carneQuesadilla").value;
-    const nombre = "Quesadilla de " + carne;
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (producto) {
-        producto.cantidad++;
-    } else {
-        carrito.push({
-            nombre,
-            precio: 30,
-            cantidad: 1
-        });
-    }
-
-    actualizarCantidad("Quesadilla con carne");
-    actualizarCarrito();
-
-}
-
-window.quitarQuesadilla = function () {
-
-    const carne = document.getElementById("carneQuesadilla").value;
-
-    quitarProducto("Quesadilla de " + carne);
-
-    actualizarCantidad("Quesadilla con carne");
-
-}
-
-// =====================================
-// CARGAR SECCIONES
-// =====================================
-
-cargarGringas();
-cargarLonches();
-cargarQuesadillas();
-
-// =====================================
-// MOSTRAR VOLCANES
-// =====================================
-
-function cargarVolcanes() {
-
-    const contenedor = document.getElementById("volcanes");
-
-    contenedor.innerHTML = `
-
-    <div class="producto">
-
-        <div class="infoProducto">
-
-            <h3>🌋 Volcán</h3>
-
-            <select id="carneVolcan">
-
-                ${carnes.map(carne => `
-                    <option value="${carne}">
-                        ${carne}
-                    </option>
-                `).join("")}
-
-                <option value="Tripa">Tripa</option>
-
-            </select>
-
-            <p>
-                Precio normal $35<br>
-                Tripa $40
-            </p>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos" onclick="quitarVolcan()">-</button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Volcan">
-                0
-            </span>
-
-            <button class="btnMas" onclick="agregarVolcan()">+</button>
-
-        </div>
-
-    </div>
-
-    `;
-
-}
-
-window.agregarVolcan = function () {
-
-    const carne = document.getElementById("carneVolcan").value;
-
-    const precio = carne === "Tripa" ? 40 : 35;
-
-    const nombre = "Volcán de " + carne;
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (producto) {
-        producto.cantidad++;
-    } else {
-        carrito.push({
-            nombre,
-            precio,
-            cantidad: 1
-        });
-    }
-
-    actualizarCantidad("Volcan");
-    actualizarCarrito();
-
-}
-
-window.quitarVolcan = function () {
-
-    const carne = document.getElementById("carneVolcan").value;
-
-    quitarProducto("Volcán de " + carne);
-
-    actualizarCantidad("Volcan");
-
-}
-
-// =====================================
-// BEBIDAS
-// =====================================
-
-function cargarBebidas() {
-
-    const contenedor = document.getElementById("bebidas");
-
-    contenedor.innerHTML = `
-
-    <div class="producto">
-
-        <div class="infoProducto">
-
-            <h3>🥤 Agua fresca</h3>
-
-            <select id="saborAgua">
-
-                ${aguas.map(agua => `
-                    <option value="${agua}">
-                        ${agua}
-                    </option>
-                `).join("")}
-
-            </select>
-
-            <p>$35</p>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos" onclick="quitarAgua()">-</button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Agua">
-                0
-            </span>
-
-            <button class="btnMas" onclick="agregarAgua()">+</button>
-
-        </div>
-
-    </div>
-
-    <div class="producto">
-
-        <div class="infoProducto">
-
-            <h3>🥤 Coca</h3>
-
-            <p>$26</p>
-
-        </div>
-
-        <div class="controles">
-
-            <button class="btnMenos"
-                onclick="quitarProducto('Coca')">-</button>
-
-            <span
-                class="cantidad"
-                id="cantidad-Coca">
-                0
-            </span>
-
-            <button class="btnMas"
-                onclick="agregarProducto('Coca',26)">+</button>
-
-        </div>
-
-    </div>
-
-    `;
-
-}
-
-window.agregarAgua = function () {
-
-    const sabor = document.getElementById("saborAgua").value;
-
-    const nombre = "Agua " + sabor;
-
-    let producto = carrito.find(p => p.nombre === nombre);
-
-    if (producto) {
-        producto.cantidad++;
-    } else {
-        carrito.push({
-            nombre,
-            precio: 35,
-            cantidad: 1
-        });
-    }
-
-    actualizarCantidad("Agua");
-    actualizarCarrito();
-
-}
-
-window.quitarAgua = function () {
-
-    const sabor = document.getElementById("saborAgua").value;
-
-    quitarProducto("Agua " + sabor);
-
-    actualizarCantidad("Agua");
-
-}
-
-// =====================================
-// CARGAR
-// =====================================
-
-cargarVolcanes();
-cargarBebidas();
-
-// =====================================
-// ENVIAR PEDIDO
-// =====================================
-
-document.getElementById("enviarPedido").addEventListener("click", async () => {
-
-    if (platoSeleccionado === "") {
-        alert("Selecciona un plato.");
-        return;
-    }
-
-    if (carrito.length === 0) {
-        alert("El carrito está vacío.");
-        return;
-    }
-
-    const nombre = document.getElementById("nombreCliente").value.trim();
-
-    if (nombre === "") {
-        alert("Escribe el nombre del cliente.");
-        return;
-    }
-
-    const total = carrito.reduce(
-        (suma, p) => suma + (p.precio * p.cantidad),
-        0
     );
 
-    const pedido = {
-        plato: platoSeleccionado,
-        cliente: nombre,
-        productos: carrito,
-        total,
-        estado: "Preparando",
-        fecha: new Date().toLocaleString()
-    };
 
-    try {
 
-        await guardarPedido(pedido);
+    let existe = carrito.find(
 
-        alert("✅ Pedido enviado correctamente.");
+        p => p.id === id
 
-        carrito = [];
+    );
 
-        document.querySelectorAll(".cantidad").forEach(e => {
-            e.innerText = "0";
+
+
+    if(existe){
+
+
+        existe.cantidad++;
+
+
+    }else{
+
+
+        carrito.push({
+
+
+            id:producto.id,
+
+
+            nombre:producto.nombre,
+
+
+            precio:producto.precio,
+
+
+            cantidad:1
+
+
         });
 
-        actualizarCarrito();
-
-        document.getElementById("nombreCliente").value = "";
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert("Error al enviar el pedido.");
 
     }
 
-});
+
+
+    guardarCarrito();
+
+
+
+    mostrarCarrito();
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// GUARDAR CARRITO
+// =====================================
+
+
+function guardarCarrito(){
+
+
+    localStorage.setItem(
+
+        "carritoTacosMilo",
+
+        JSON.stringify(carrito)
+
+    );
+
+
+}
+
+
+// =====================================
+// MOSTRAR CARRITO 🛒
+// =====================================
+
+
+function mostrarCarrito(){
+
+
+    let caja = document.getElementById(
+        "carrito"
+    );
+
+
+    if(!caja) return;
+
+
+
+    caja.innerHTML = "";
+
+
+
+    let total = 0;
+
+
+
+    carrito.forEach((producto)=>{
+
+
+        total += producto.precio * producto.cantidad;
+
+
+
+        caja.innerHTML += `
+
+
+        <div class="dato">
+
+
+            <h3>
+
+            ${producto.nombre}
+
+            </h3>
+
+
+
+            <p>
+
+            Cantidad:
+            ${producto.cantidad}
+
+            <br><br>
+
+
+            Precio:
+            $${producto.precio * producto.cantidad}
+
+            </p>
+
+
+
+            <button onclick="sumarProducto(${producto.id})">
+
+                +
+
+            </button>
+
+
+
+            <button onclick="restarProducto(${producto.id})">
+
+                -
+
+            </button>
+
+
+        </div>
+
+
+        `;
+
+
+    });
+
+
+
+
+
+    caja.innerHTML += `
+
+
+    <h2>
+
+    Total: $${total}
+
+    </h2>
+
+
+    `;
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================
+// SUMAR PRODUCTO ➕
+// =====================================
+
+
+function sumarProducto(id){
+
+
+    let producto = carrito.find(
+
+        p=>p.id===id
+
+    );
+
+
+
+    if(producto){
+
+
+        producto.cantidad++;
+
+
+    }
+
+
+
+    guardarCarrito();
+
+
+    mostrarCarrito();
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// RESTAR PRODUCTO ➖
+// =====================================
+
+
+function restarProducto(id){
+
+
+    let producto = carrito.find(
+
+        p=>p.id===id
+
+    );
+
+
+
+    if(producto){
+
+
+        producto.cantidad--;
+
+
+    }
+
+
+
+
+    carrito = carrito.filter(
+
+        p=>p.cantidad>0
+
+    );
+
+
+
+    guardarCarrito();
+
+
+    mostrarCarrito();
+
+
+}
+
+
+// =====================================
+// ENVIAR PEDIDO 📲
+// =====================================
+
+
+function enviarPedido(){
+
+
+    let nombre = document.getElementById(
+        "nombreCliente"
+    ).value;
+
+
+
+    let tipoPedido = document.getElementById(
+        "tipoPedido"
+    ).value;
+
+
+
+
+    if(carrito.length === 0){
+
+
+        alert(
+            "El carrito está vacío 🌮"
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+    let productosTexto = "";
+
+
+
+    let total = 0;
+
+
+
+    carrito.forEach((producto)=>{
+
+
+        productosTexto +=
+
+        `${producto.nombre} x${producto.cantidad}%0A`;
+
+
+
+        total += producto.precio * producto.cantidad;
+
+
+
+    });
+
+
+
+
+
+
+    let pedido = {
+
+
+        nombre:nombre,
+
+
+        tipo:tipoPedido,
+
+
+        productos:productosTexto,
+
+
+        total:total,
+
+
+        pago:"Transferencia",
+
+
+        fecha:new Date().toLocaleString()
+
+
+    };
+
+
+
+
+
+
+    // GUARDAR EN FIREBASE
+
+    guardarPedidoFirebase(pedido);
+
+
+
+
+
+
+    // GUARDAR LOCALMENTE
+
+    let pedidos = JSON.parse(
+
+        localStorage.getItem(
+            "pedidosTacosMilo"
+        )
+
+    ) || [];
+
+
+
+    pedidos.push(pedido);
+
+
+
+    localStorage.setItem(
+
+        "pedidosTacosMilo",
+
+        JSON.stringify(pedidos)
+
+    );
+
+
+
+
+
+
+    // MENSAJE WHATSAPP
+
+
+    let mensaje =
+
+    `🌮 *Pedido Tacos Milo* 🌮%0A%0A` +
+
+    `👤 Cliente: ${nombre}%0A` +
+
+    `🍽️ Tipo: ${tipoPedido}%0A%0A` +
+
+    productosTexto +
+
+    `%0A💰 Total: $${total}%0A` +
+
+    `💳 Pago: Transferencia`;
+
+
+
+
+    window.open(
+
+        "https://wa.me/?text=" + mensaje
+
+    );
+
+
+
+
+    carrito = [];
+
+
+
+    guardarCarrito();
+
+
+    mostrarCarrito();
+
+
+
+}
+
+
+// =====================================
+// MOSTRAR PROMOCIÓN 🎉
+// =====================================
+
+
+function mostrarPromocion(){
+
+
+    let caja = document.getElementById(
+        "promocion"
+    );
+
+
+
+    if(!caja) return;
+
+
+
+    let promo = localStorage.getItem(
+
+        "promoTacosMilo"
+
+    );
+
+
+
+    if(promo){
+
+
+        caja.innerHTML = `
+
+        🎉 ${promo}
+
+        `;
+
+
+        caja.style.display="block";
+
+
+    }else{
+
+
+        caja.style.display="none";
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// MOSTRAR SABORES DE AGUA 🥤
+// =====================================
+
+
+function mostrarAguas(){
+
+
+    let caja = document.getElementById(
+
+        "saboresAgua"
+
+    );
+
+
+
+    if(!caja)return;
+
+
+
+    let aguas = JSON.parse(
+
+        localStorage.getItem(
+
+            "aguasTacosMilo"
+
+        )
+
+    ) || [
+
+        "Jamaica",
+        "Horchata",
+        "Limón"
+
+    ];
+
+
+
+    caja.innerHTML="";
+
+
+
+    aguas.forEach((agua)=>{
+
+
+        caja.innerHTML += `
+
+
+        <option>
+
+        ${agua}
+
+        </option>
+
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+// =====================================
+// INICIAR MENÚ 🌮
+// =====================================
+
+
+window.onload=function(){
+
+
+    mostrarMenu();
+
+
+    mostrarCarrito();
+
+
+    mostrarPromocion();
+
+
+    mostrarAguas();
+
+
+
+    if(
+        typeof escucharProductos === "function"
+    ){
+
+        escucharProductos();
+
+    }
+
+
+
+};
