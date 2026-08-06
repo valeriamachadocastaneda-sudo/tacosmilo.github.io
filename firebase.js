@@ -1,24 +1,18 @@
-// =======================================
-// FIREBASE V4 - TACOS MILO
-// =======================================
+// =====================================
+// TACOS MILO 🌮
+// firebase.js
+// Conexión Firebase
+// Parte 1
+// =====================================
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-import {
-    getDatabase,
-    ref,
-    push,
-    set,
-    onValue,
-    update,
-    remove
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+// Configuración de Firebase
+// Aquí después pondremos tus datos reales
+// que te da Firebase Console
 
-// =======================================
-// CONFIGURACIÓN FIREBASE
-// =======================================
 
 const firebaseConfig = {
+
   apiKey: "AIzaSyBmt0_Uztjq_hP8ejw_eTGPE_4ZE25nnfk",
 
   authDomain: "tacos-milo-6438a.firebaseapp.com",
@@ -38,136 +32,380 @@ const firebaseConfig = {
 
 };
 
-const app = initializeApp(firebaseConfig);
 
-const db = getDatabase(app);
 
-// =======================================
-// GUARDAR PEDIDO
-// =======================================
+// Inicializar Firebase
 
-export async function guardarPedido(pedido) {
+firebase.initializeApp(firebaseConfig);
 
-    const pedidosRef = ref(db, "pedidos");
 
-    const nuevoPedido = push(pedidosRef);
 
-    await set(nuevoPedido, {
+// Crear conexión con Realtime Database
 
-        ...pedido,
+const database = firebase.database();
 
-        estado: "Preparando",
 
-        fecha: Date.now()
+// =====================================
+// GUARDAR PEDIDOS EN FIREBASE 📦
+// =====================================
+
+
+function guardarPedidoFirebase(pedido){
+
+
+    let nuevoPedido = database
+        .ref("pedidos")
+        .push();
+
+
+
+    nuevoPedido.set(pedido)
+
+    .then(()=>{
+
+
+        console.log(
+            "Pedido guardado correctamente 🌮"
+        );
+
+
+    })
+
+    .catch((error)=>{
+
+
+        console.error(
+            "Error al guardar pedido:",
+            error
+        );
+
 
     });
 
+
 }
 
-// =======================================
-// ESCUCHAR PEDIDOS
-// =======================================
 
-export function escucharPedidos(callback) {
 
-    onValue(
 
-        ref(db, "pedidos"),
 
-        (snapshot) => {
 
-            callback(snapshot.val() || {});
+// =====================================
+// LEER PEDIDOS PARA ADMIN 👨‍💻
+// =====================================
+
+
+function escucharPedidos(){
+
+
+    database
+    .ref("pedidos")
+    .on(
+        "value",
+        (snapshot)=>{
+
+
+            let pedidos = [];
+
+
+
+            snapshot.forEach((item)=>{
+
+
+                pedidos.push({
+
+                    id:item.key,
+
+                    ...item.val()
+
+                });
+
+
+            });
+
+
+
+            localStorage.setItem(
+
+                "pedidosTacosMilo",
+
+                JSON.stringify(pedidos)
+
+            );
+
+
+
+            if(
+                typeof cargarPedidos === "function"
+            ){
+
+                cargarPedidos();
+
+            }
+
 
         }
 
     );
 
+
 }
 
-// =======================================
-// CAMBIAR ESTADO
-// =======================================
+// =====================================
+// ELIMINAR PEDIDO DE FIREBASE 🗑️
+// =====================================
 
-export async function cambiarEstado(id, estado) {
 
-    await update(
+function eliminarPedidoFirebase(id){
 
-        ref(db, "pedidos/" + id),
 
-        {
+    database
+    .ref("pedidos/" + id)
+    .remove()
 
-            estado
+    .then(()=>{
+
+
+        console.log(
+            "Pedido eliminado 🌮"
+        );
+
+
+    })
+
+    .catch((error)=>{
+
+
+        console.error(
+            "Error eliminando pedido:",
+            error
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// GUARDAR PROMOCIÓN 🎉
+// =====================================
+
+
+function guardarPromocionFirebase(texto){
+
+
+    database
+    .ref("configuracion/promocion")
+    .set(texto)
+
+    .then(()=>{
+
+
+        console.log(
+            "Promoción guardada"
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// LEER PROMOCIÓN
+// =====================================
+
+
+function cargarPromocionFirebase(){
+
+
+    database
+    .ref("configuracion/promocion")
+
+    .once("value")
+
+    .then((snapshot)=>{
+
+
+        let promo = snapshot.val();
+
+
+
+        localStorage.setItem(
+
+            "promoTacosMilo",
+
+            promo || ""
+
+        );
+
+
+    });
+
+
+}
+
+
+// =====================================
+// GUARDAR SABORES DE AGUA 🥤
+// =====================================
+
+
+function guardarAguasFirebase(aguas){
+
+
+    database
+    .ref("configuracion/aguas")
+    .set(aguas)
+
+    .then(()=>{
+
+
+        console.log(
+            "Sabores de agua guardados 🥤"
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// LEER SABORES DE AGUA
+// =====================================
+
+
+function cargarAguasFirebase(){
+
+
+    database
+    .ref("configuracion/aguas")
+
+    .once("value")
+
+    .then((snapshot)=>{
+
+
+        let aguas = snapshot.val();
+
+
+
+        if(aguas){
+
+
+            localStorage.setItem(
+
+                "aguasTacosMilo",
+
+                JSON.stringify(aguas)
+
+            );
+
+
+        }
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// GUARDAR PRODUCTOS 🌮
+// =====================================
+
+
+function guardarProductosFirebase(productos){
+
+
+    database
+    .ref("productos")
+
+    .set(productos)
+
+    .then(()=>{
+
+
+        console.log(
+            "Productos actualizados 🌮"
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+// =====================================
+// LEER PRODUCTOS EN TIEMPO REAL
+// =====================================
+
+
+function escucharProductos(){
+
+
+    database
+    .ref("productos")
+
+    .on(
+        "value",
+        (snapshot)=>{
+
+
+            let productos = snapshot.val();
+
+
+
+            if(productos){
+
+
+                localStorage.setItem(
+
+                    "productosTacosMilo",
+
+                    JSON.stringify(productos)
+
+                );
+
+
+            }
+
 
         }
 
     );
 
-}
-
-// =======================================
-// ELIMINAR PEDIDO
-// =======================================
-
-export async function eliminarPedido(id) {
-
-    await remove(
-
-        ref(db, "pedidos/" + id)
-
-    );
-
-}
-
-// =======================================
-// ESCUCHAR PLATOS
-// =======================================
-
-export function escucharPlatos(callback) {
-
-    onValue(
-
-        ref(db, "platos"),
-
-        (snapshot) => {
-
-            callback(snapshot.val() || {});
-
-        }
-
-    );
-
-}
-
-// =======================================
-// OCUPAR PLATO
-// =======================================
-
-export async function ocuparPlato(plato) {
-
-    await set(
-
-        ref(db, "platos/" + plato),
-
-        {
-
-            estado: "ocupado"
-
-        }
-
-    );
-
-}
-
-// =======================================
-// LIBERAR PLATO
-// =======================================
-
-export async function liberarPlatoEstado(plato) {
-
-    await remove(
-
-        ref(db, "platos/" + plato)
-
-    );
 
 }
