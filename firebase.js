@@ -1,6 +1,6 @@
-// ===============================
-// FIREBASE V3 - TACOS MILO
-// ===============================
+// =======================================
+// FIREBASE V4 - TACOS MILO
+// =======================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
@@ -14,21 +14,27 @@ import {
     remove
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
+// =======================================
+// CONFIGURACIÓN FIREBASE
+// =======================================
+
 const firebaseConfig = {
+  apiKey: "AIzaSyBmt0_Uztjq_hP8ejw_eTGPE_4ZE25nnfk",
 
-    apiKey: "TU_API_KEY",
+  authDomain: "tacos-milo-6438a.firebaseapp.com",
 
-    authDomain: "TU_PROYECTO.firebaseapp.com",
+  databaseURL: "https://tacos-milo-6438a-default-rtdb.firebaseio.com",
 
-    databaseURL: "TU_DATABASE_URL",
+  projectId: "tacos-milo-6438a",
 
-    projectId: "TU_PROJECT_ID",
+  storageBucket: "tacos-milo-6438a.firebasestorage.app",
 
-    storageBucket: "TU_PROYECTO.appspot.com",
+  messagingSenderId: "424796577310",
 
-    messagingSenderId: "TU_MESSAGING_SENDER_ID",
+  appId: "1:424796577310:web:b4ecfa554fdebab93dd80f",
 
-    appId: "TU_APP_ID"
+  measurementId: "G-EWKNPSZFCL"
+
 
 };
 
@@ -36,43 +42,39 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
-
-
-// ======================================
+// =======================================
 // GUARDAR PEDIDO
-// ======================================
+// =======================================
 
-export async function guardarPedido(pedido){
+export async function guardarPedido(pedido) {
 
-    const pedidosRef = ref(db,"pedidos");
+    const pedidosRef = ref(db, "pedidos");
 
     const nuevoPedido = push(pedidosRef);
 
-    await set(nuevoPedido,{
+    await set(nuevoPedido, {
 
         ...pedido,
 
-        estado:"Preparando",
+        estado: "Preparando",
 
-        fecha:Date.now()
+        fecha: Date.now()
 
     });
 
 }
 
-
-
-// ======================================
+// =======================================
 // ESCUCHAR PEDIDOS
-// ======================================
+// =======================================
 
-export function escucharPedidos(callback){
+export function escucharPedidos(callback) {
 
     onValue(
 
-        ref(db,"pedidos"),
+        ref(db, "pedidos"),
 
-        snapshot=>{
+        (snapshot) => {
 
             callback(snapshot.val() || {});
 
@@ -82,17 +84,15 @@ export function escucharPedidos(callback){
 
 }
 
-
-
-// ======================================
+// =======================================
 // CAMBIAR ESTADO
-// ======================================
+// =======================================
 
-export async function cambiarEstado(id,estado){
+export async function cambiarEstado(id, estado) {
 
     await update(
 
-        ref(db,"pedidos/"+id),
+        ref(db, "pedidos/" + id),
 
         {
 
@@ -104,87 +104,70 @@ export async function cambiarEstado(id,estado){
 
 }
 
-
-
-// ======================================
+// =======================================
 // ELIMINAR PEDIDO
-// ======================================
+// =======================================
 
-export async function eliminarPedido(id){
+export async function eliminarPedido(id) {
 
     await remove(
 
-        ref(db,"pedidos/"+id)
+        ref(db, "pedidos/" + id)
 
     );
 
-    // =====================================
-// PLATOS
-// =====================================
+}
 
+// =======================================
+// ESCUCHAR PLATOS
+// =======================================
 
-export function escucharPlatos(callback){
-
+export function escucharPlatos(callback) {
 
     onValue(
 
-        ref(db,"platos"),
+        ref(db, "platos"),
 
-        snapshot=>{
+        (snapshot) => {
 
-
-            callback(
-
-                snapshot.val() || {}
-
-            );
-
+            callback(snapshot.val() || {});
 
         }
 
     );
 
-
 }
 
+// =======================================
+// OCUPAR PLATO
+// =======================================
 
-
-
-
-export async function ocuparPlato(plato){
-
-
+export async function ocuparPlato(plato) {
 
     await set(
 
-        ref(db,"platos/"+plato),
+        ref(db, "platos/" + plato),
 
         {
 
-            estado:"ocupado"
+            estado: "ocupado"
 
         }
 
     );
 
-
 }
 
+// =======================================
+// LIBERAR PLATO
+// =======================================
 
-
-
-
-export async function liberarPlatoEstado(plato){
-
-
+export async function liberarPlatoEstado(plato) {
 
     await remove(
 
-        ref(db,"platos/"+plato)
+        ref(db, "platos/" + plato)
 
     );
-
-
-}
 
 }
