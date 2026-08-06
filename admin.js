@@ -1,221 +1,117 @@
 // =====================================
-// TACOS MILO V3
-// ADMIN.JS
-// PARTE 1
+// TACOS MILO 🌮
+// admin.js
+// Parte 1
 // =====================================
 
 
-import { 
-    escucharPedidos,
-    cambiarEstado,
-    eliminarPedido
 
-} from "./firebase.js";
+// CONTRASEÑA DEL ADMIN
+
+const claveCorrecta = "tacosmilo123";
 
 
 
 
+// ENTRAR AL PANEL ADMIN
 
-// =====================================
-// CARGAR PEDIDOS
-// =====================================
-
-
-function cargarPedidos(){
+function entrarAdmin(){
 
 
-
-    escucharPedidos((pedidos)=>{
+    let clave = document.getElementById("claveAdmin").value;
 
 
 
-        const panel = document.getElementById(
+    if(clave === claveCorrecta){
 
-            "panelPedidos"
 
+        document.getElementById("panelAdmin").style.display = "block";
+
+
+        localStorage.setItem(
+            "adminTacosMilo",
+            "activo"
         );
 
 
-
-        panel.innerHTML = "";
-
+        cargarDatosAdmin();
 
 
 
-
-        if(Object.keys(pedidos).length===0){
-
-
-            panel.innerHTML =
-
-            "No hay pedidos";
+    }else{
 
 
-            return;
+        alert(
+            "Contraseña incorrecta"
+        );
 
+
+    }
+
+
+}
+
+
+
+
+
+
+// COMPROBAR SI YA ESTÁ INICIADO
+
+window.onload = function(){
+
+
+    if(
+        localStorage.getItem("adminTacosMilo")
+        ===
+        "activo"
+    ){
+
+
+        let panel = document.getElementById(
+            "panelAdmin"
+        );
+
+
+        if(panel){
+
+            panel.style.display="block";
 
         }
 
 
+        cargarDatosAdmin();
 
 
+    }
 
 
+};
 
-        Object.keys(pedidos).forEach(id=>{
 
+// =====================================
+// PROMOCIONES 🎉
+// =====================================
 
 
-            let pedido = pedidos[id];
+function guardarPromo(){
 
 
+    let promo = document.getElementById(
+        "promoTexto"
+    ).value;
 
-            let productos="";
 
 
+    localStorage.setItem(
+        "promoTacosMilo",
+        promo
+    );
 
 
-
-            pedido.productos.forEach(producto=>{
-
-
-
-                productos += `
-
-
-                <p>
-
-                ${producto.cantidad}
-
-                x
-
-                ${producto.nombre}
-
-                <br>
-
-                $${producto.precio * producto.cantidad}
-
-                </p>
-
-
-                `;
-
-
-            });
-
-
-
-
-
-
-
-
-            panel.innerHTML += `
-
-
-
-            <div class="seccion">
-
-
-
-            <h2>
-
-            🍽 ${pedido.plato}
-
-            </h2>
-
-
-
-
-
-            <h3>
-
-            Estado:
-
-            ${pedido.estado}
-
-            </h3>
-
-
-
-
-
-            <p>
-
-            👤 Cliente:
-
-            ${pedido.cliente}
-
-            </p>
-
-
-
-
-
-            <hr>
-
-
-
-            ${productos}
-
-
-
-
-
-            <h2>
-
-            Total:
-
-            $${pedido.total}
-
-            </h2>
-
-
-
-
-
-            <button
-
-            onclick="marcarListo('${id}')">
-
-            ✅ Listo
-
-            </button>
-
-
-
-
-
-            <button
-
-            onclick="liberarPlato('${id}')">
-
-            🗑 Liberar plato
-
-            </button>
-
-
-
-
-
-            </div>
-
-
-            `;
-
-
-
-
-
-        });
-
-
-
-
-
-    });
-
-
+    alert(
+        "Promoción guardada 🌮"
+    );
 
 
 }
@@ -226,90 +122,503 @@ function cargarPedidos(){
 
 
 
-
-// iniciar
-
-cargarPedidos();
-
 // =====================================
-// MARCAR PEDIDO COMO LISTO
+// AGUAS FRESCAS 🥤
 // =====================================
 
 
-window.marcarListo = async function(id){
+
+let saboresAgua = JSON.parse(
+
+    localStorage.getItem(
+        "aguasTacosMilo"
+    )
+
+) || [
+
+    "Jamaica",
+    "Horchata",
+    "Limón"
+
+];
 
 
 
-    try{
 
 
-        await cambiarEstado(
-
-            id,
-
-            "Listo"
-
-        );
+function agregarSabor(){
 
 
-
-        alert(
-
-        "Pedido listo ✅"
-
-        );
-
-
-    }
-
-
-    catch(error){
+    let nuevo = document.getElementById(
+        "nuevoSabor"
+    ).value;
 
 
 
-        console.log(error);
-
-
+    if(nuevo.trim() === ""){
 
         alert(
-
-        "Error cambiando estado"
-
+            "Escribe un sabor"
         );
 
+        return;
 
     }
 
 
 
-};
+    saboresAgua.push(nuevo);
 
 
 
+    localStorage.setItem(
 
+        "aguasTacosMilo",
 
-
-
-
-// =====================================
-// LIBERAR PLATO
-// =====================================
-
-
-window.liberarPlato = async function(id){
-
-
-
-    let confirmar = confirm(
-
-    "¿Liberar este plato?"
+        JSON.stringify(saboresAgua)
 
     );
 
 
 
+    document.getElementById(
+        "nuevoSabor"
+    ).value="";
 
-    if(!confirmar){
+
+
+    mostrarAguas();
+
+
+}
+
+
+
+
+
+
+
+function mostrarAguas(){
+
+
+    let lista = document.getElementById(
+        "listaAguas"
+    );
+
+
+    if(!lista)return;
+
+
+
+    lista.innerHTML="";
+
+
+
+    saboresAgua.forEach((agua,index)=>{
+
+
+        lista.innerHTML += `
+
+        <p>
+
+        🥤 ${agua}
+
+        <button onclick="eliminarAgua(${index})">
+
+        ❌
+
+        </button>
+
+        </p>
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+function eliminarAgua(index){
+
+
+    saboresAgua.splice(
+        index,
+        1
+    );
+
+
+
+    localStorage.setItem(
+
+        "aguasTacosMilo",
+
+        JSON.stringify(saboresAgua)
+
+    );
+
+
+
+    mostrarAguas();
+
+
+}
+
+
+// =====================================
+// PRODUCTOS 🌮
+// =====================================
+
+
+
+let productosAdmin = JSON.parse(
+
+    localStorage.getItem(
+        "productosTacosMilo"
+    )
+
+) || [
+
+    {
+        nombre:"Taco de pastor",
+        precio:18
+    },
+
+    {
+        nombre:"Taco de tripa",
+        precio:22
+    },
+
+    {
+        nombre:"Gringa",
+        precio:50
+    },
+
+    {
+        nombre:"Lonche",
+        precio:65
+    },
+
+    {
+        nombre:"Quesadilla sencilla",
+        precio:20
+    },
+
+    {
+        nombre:"Quesadilla con carne",
+        precio:30
+    },
+
+    {
+        nombre:"Volcán",
+        precio:35
+    },
+
+    {
+        nombre:"Coca-Cola",
+        precio:26
+    },
+
+    {
+        nombre:"Agua fresca",
+        precio:35
+    }
+
+];
+
+
+
+
+
+function agregarProducto(){
+
+
+    let nombre = document.getElementById(
+        "nombreProducto"
+    ).value;
+
+
+
+    let precio = Number(
+        document.getElementById(
+            "precioProducto"
+        ).value
+    );
+
+
+
+    if(
+        nombre === "" ||
+        precio <= 0
+    ){
+
+        alert(
+            "Completa los datos"
+        );
+
+        return;
+
+    }
+
+
+
+    productosAdmin.push({
+
+        nombre:nombre,
+
+        precio:precio
+
+    });
+
+
+
+    guardarProductos();
+
+
+
+    document.getElementById(
+        "nombreProducto"
+    ).value="";
+
+
+
+    document.getElementById(
+        "precioProducto"
+    ).value="";
+
+
+
+    mostrarProductos();
+
+
+}
+
+
+
+
+
+function guardarProductos(){
+
+
+    localStorage.setItem(
+
+        "productosTacosMilo",
+
+        JSON.stringify(productosAdmin)
+
+    );
+
+
+}
+
+
+// =====================================
+// MOSTRAR PRODUCTOS ADMIN 🌮
+// =====================================
+
+
+function mostrarProductos(){
+
+
+    let lista = document.getElementById(
+        "listaProductos"
+    );
+
+
+    if(!lista)return;
+
+
+
+    lista.innerHTML="";
+
+
+
+    productosAdmin.forEach((producto,index)=>{
+
+
+        lista.innerHTML += `
+
+
+        <div class="dato">
+
+
+            <p>
+
+            🌮 ${producto.nombre}
+
+            <br>
+
+            💲 $${producto.precio}
+
+            </p>
+
+
+
+            <button onclick="eliminarProducto(${index})">
+
+                Eliminar ❌
+
+            </button>
+
+
+        </div>
+
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+function eliminarProducto(index){
+
+
+    productosAdmin.splice(
+
+        index,
+
+        1
+
+    );
+
+
+
+    guardarProductos();
+
+
+
+    mostrarProductos();
+
+
+}
+
+
+
+
+
+
+// =====================================
+// CARGAR TODO EL PANEL
+// =====================================
+
+
+function cargarDatosAdmin(){
+
+
+    mostrarProductos();
+
+
+    mostrarAguas();
+
+
+
+    let promoGuardada = localStorage.getItem(
+
+        "promoTacosMilo"
+
+    );
+
+
+
+    if(promoGuardada){
+
+
+        let caja = document.getElementById(
+            "promoTexto"
+        );
+
+
+        if(caja){
+
+            caja.value = promoGuardada;
+
+        }
+
+
+    }
+
+
+}
+
+
+
+
+
+
+// =====================================
+// CERRAR SESIÓN
+// =====================================
+
+
+function salirAdmin(){
+
+
+    localStorage.removeItem(
+
+        "adminTacosMilo"
+
+    );
+
+
+
+    location.reload();
+
+
+}
+
+
+// =====================================
+// PEDIDOS RECIBIDOS 📦
+// =====================================
+
+
+function cargarPedidos(){
+
+
+    let pedidos = JSON.parse(
+
+        localStorage.getItem(
+            "pedidosTacosMilo"
+        )
+
+    ) || [];
+
+
+
+    let lista = document.getElementById(
+        "listaPedidos"
+    );
+
+
+    if(!lista)return;
+
+
+
+    lista.innerHTML="";
+
+
+
+    if(pedidos.length === 0){
+
+
+        lista.innerHTML = `
+
+        <p>
+        No hay pedidos todavía 🌮
+        </p>
+
+        `;
+
 
         return;
 
@@ -319,43 +628,131 @@ window.liberarPlato = async function(id){
 
 
 
-
-    try{
-
-
-        await eliminarPedido(id);
+    pedidos.forEach((pedido,index)=>{
 
 
+        lista.innerHTML += `
 
-        alert(
 
-        "Plato liberado 🍽"
+        <div class="dato">
 
-        );
 
+            <h3>
+            Pedido #${index + 1}
+            </h3>
+
+
+
+            <p>
+
+            👤 Cliente:
+            ${pedido.nombre || "Sin nombre"}
+
+            <br><br>
+
+
+            🛒 Productos:
+
+            <br>
+
+            ${pedido.productos}
+
+
+            <br><br>
+
+
+            💲 Total:
+            $${pedido.total}
+
+
+            <br><br>
+
+
+            💳 Pago:
+            Transferencia
+
+
+            </p>
+
+
+
+            <button onclick="eliminarPedido(${index})">
+
+            Eliminar pedido ❌
+
+            </button>
+
+
+        </div>
+
+
+        `;
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+function eliminarPedido(index){
+
+
+    let pedidos = JSON.parse(
+
+        localStorage.getItem(
+            "pedidosTacosMilo"
+        )
+
+    ) || [];
+
+
+
+    pedidos.splice(
+        index,
+        1
+    );
+
+
+
+    localStorage.setItem(
+
+        "pedidosTacosMilo",
+
+        JSON.stringify(pedidos)
+
+    );
+
+
+
+    cargarPedidos();
+
+
+}
+
+
+
+
+
+
+
+// CARGAR PEDIDOS AL ABRIR ADMIN
+
+window.addEventListener(
+
+    "load",
+
+    ()=>{
+
+
+        cargarPedidos();
 
 
     }
 
-
-
-    catch(error){
-
-
-
-        console.log(error);
-
-
-
-        alert(
-
-        "Error liberando plato"
-
-        );
-
-
-    }
-
-
-
-};
+);
