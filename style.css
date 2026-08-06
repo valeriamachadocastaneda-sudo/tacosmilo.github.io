@@ -1,344 +1,594 @@
-/* =======================================
-   TACOS MILO V3
-======================================= */
+/* ==================================
+   TACOS MILO 🌮
+   style.css
+   Parte 1
+================================== */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
 
-body{
+/* CONFIGURACIÓN GENERAL */
 
-    background:#f5f5f5;
+* {
 
-}
+    margin: 0;
 
-header{
+    padding: 0;
 
-    background:#b71c1c;
-
-    color:white;
-
-    text-align:center;
-
-    padding:25px;
-
-    box-shadow:0 3px 10px rgba(0,0,0,.25);
+    box-sizing: border-box;
 
 }
 
-header h1{
 
-    font-size:40px;
 
-}
+body {
 
-header p{
+    font-family: Arial, sans-serif;
 
-    margin-top:10px;
+    background: #fff8ee;
 
-    font-size:18px;
+    color: #333;
 
 }
 
-main{
 
-    width:95%;
-    max-width:1200px;
-    margin:25px auto;
 
-}
+html {
 
-/* =======================
-BOTONES DE PLATOS
-======================= */
-
-#platos{
-
-    display:grid;
-
-    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-
-    gap:15px;
-
-    margin-bottom:30px;
+    scroll-behavior: smooth;
 
 }
 
-.botonPlato{
 
-    background:#fff;
 
-    border:none;
+/* ==================================
+   ENCABEZADO
+================================== */
 
-    border-radius:15px;
 
-    padding:18px;
+.header {
 
-    font-size:20px;
+    background: #b52b27;
 
-    font-weight:bold;
+    color: white;
 
-    cursor:pointer;
+    text-align: center;
 
-    transition:.25s;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.15);
+    padding: 30px 15px;
 
 }
 
-.botonPlato:hover{
 
-    transform:scale(1.04);
 
-    background:#ffd54f;
+.header h1 {
 
-}
+    font-size: 45px;
 
-/* =======================
-SECCIONES
-======================= */
-
-.seccion{
-
-    background:white;
-
-    margin-bottom:20px;
-
-    border-radius:18px;
-
-    padding:20px;
-
-    box-shadow:0 2px 10px rgba(0,0,0,.10);
+    margin-bottom: 10px;
 
 }
 
-.seccion h2{
 
-    color:#b71c1c;
 
-    margin-bottom:20px;
+.header p {
 
-}
-
-/* =======================
-PRODUCTOS
-======================= */
-
-.producto{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    padding:12px 0;
-
-    border-bottom:1px solid #ddd;
+    font-size: 18px;
 
 }
 
-.producto:last-child{
+/* ==================================
+   SECCIÓN INICIO
+================================== */
 
-    border-bottom:none;
 
-}
+.inicio {
 
-.infoProducto h3{
+    text-align: center;
 
-    font-size:20px;
-
-}
-
-.infoProducto p{
-
-    color:#666;
+    padding: 40px 20px;
 
 }
 
-/* =======================
-BOTONES + Y -
-======================= */
 
-.controles{
 
-    display:flex;
+.logo {
 
-    align-items:center;
+    width: 220px;
 
-    gap:10px;
+    max-width: 80%;
 
-}
+    border-radius: 50%;
 
-.btnMas,
-
-.btnMenos{
-
-    width:40px;
-
-    height:40px;
-
-    border:none;
-
-    border-radius:50%;
-
-    font-size:24px;
-
-    cursor:pointer;
-
-    color:white;
+    margin-bottom: 20px;
 
 }
 
-.btnMas{
 
-    background:#2e7d32;
 
-}
+.inicio h2 {
 
-.btnMenos{
+    font-size: 32px;
 
-    background:#d32f2f;
+    color: #b52b27;
 
-}
-
-.cantidad{
-
-    width:30px;
-
-    text-align:center;
-
-    font-size:20px;
-
-    font-weight:bold;
+    margin-bottom: 15px;
 
 }
 
-/* =======================
-SELECT
-======================= */
 
-select{
 
-    padding:8px;
+.inicio p {
 
-    border-radius:10px;
+    font-size: 18px;
 
-    border:1px solid #ccc;
-
-    margin-top:10px;
+    margin-bottom: 25px;
 
 }
 
-/* =======================
-CARRITO
-======================= */
 
-#carrito{
 
-    position:fixed;
+/* ==================================
+   BOTONES
+================================== */
 
-    right:20px;
 
-    bottom:20px;
+button,
+.boton {
 
-    width:340px;
 
-    background:white;
+    display: inline-block;
 
-    border-radius:20px;
+    background: #e6a21a;
 
-    padding:20px;
+    color: white;
 
-    box-shadow:0 5px 18px rgba(0,0,0,.25);
+    border: none;
 
-}
+    padding: 14px 25px;
 
-#carrito h2{
+    margin: 10px;
 
-    color:#b71c1c;
+    border-radius: 25px;
 
-    margin-bottom:15px;
+    font-size: 17px;
 
-}
+    cursor: pointer;
 
-.itemCarrito{
+    text-decoration: none;
 
-    display:flex;
+    transition: 0.3s;
 
-    justify-content:space-between;
-
-    margin:8px 0;
 
 }
 
-.total{
 
-    margin-top:15px;
 
-    font-size:24px;
+button:hover,
+.boton:hover {
 
-    font-weight:bold;
 
-    color:#b71c1c;
+    transform: scale(1.05);
 
-}
-
-#confirmar{
-
-    width:100%;
-
-    margin-top:20px;
-
-    border:none;
-
-    background:#2e7d32;
-
-    color:white;
-
-    padding:15px;
-
-    font-size:18px;
-
-    border-radius:15px;
-
-    cursor:pointer;
 
 }
 
-#confirmar:hover{
+/* ==================================
+   INFORMACIÓN DEL NEGOCIO
+================================== */
 
-    background:#1b5e20;
 
-}
+.informacion {
 
-/* =======================
-RESPONSIVE
-======================= */
+    text-align: center;
 
-@media(max-width:900px){
-
-#carrito{
-
-    position:static;
-
-    width:100%;
-
-    margin-top:20px;
+    padding: 40px 20px;
 
 }
 
-.producto{
 
-    flex-direction:column;
 
-    align-items:flex-start;
+.informacion h2 {
 
-    gap:10px;
+    color: #b52b27;
+
+    font-size: 30px;
+
+    margin-bottom: 20px;
 
 }
+
+
+
+.datos {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 20px;
+
+    flex-wrap: wrap;
+
+    margin-top: 25px;
+
+}
+
+
+
+.dato {
+
+    background: white;
+
+    width: 250px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+
+}
+
+
+
+.dato h3 {
+
+    color: #e6a21a;
+
+    margin-bottom: 10px;
+
+}
+
+
+
+/* ==================================
+   ACCESOS RÁPIDOS
+================================== */
+
+
+.accesos {
+
+    text-align: center;
+
+    padding: 40px 20px;
+
+}
+
+
+
+.accesos h2 {
+
+    color: #b52b27;
+
+    margin-bottom: 20px;
+
+}
+
+
+
+.botones {
+
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+}
+
+/* ==================================
+   MENÚ DE PRODUCTOS 🌮
+================================== */
+
+
+#menu {
+
+    display: grid;
+
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(220px, 1fr)
+    );
+
+    gap: 25px;
+
+    padding: 30px;
+
+}
+
+
+
+.producto {
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+
+    transition: 0.3s;
+
+}
+
+
+
+.producto:hover {
+
+    transform: translateY(-8px);
+
+}
+
+
+
+.producto img {
+
+    width: 150px;
+
+    height: 150px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+
+}
+
+
+
+.producto h3 {
+
+    margin: 15px 0 10px;
+
+    color: #b52b27;
+
+}
+
+
+
+.producto p {
+
+    font-size: 20px;
+
+    color: #e6a21a;
+
+    font-weight: bold;
+
+}
+
+
+
+.producto button {
+
+    margin-top: 15px;
+
+}
+
+/* ==================================
+   CARRITO DE COMPRA 🛒
+================================== */
+
+
+#carrito {
+
+    background: white;
+
+    margin: 30px auto;
+
+    padding: 25px;
+
+    max-width: 500px;
+
+    border-radius: 20px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+}
+
+
+
+#carrito div {
+
+    padding: 15px;
+
+    border-bottom: 1px solid #ddd;
+
+    font-size: 18px;
+
+}
+
+
+
+#carrito button {
+
+    padding: 8px 14px;
+
+    margin: 5px;
+
+    border-radius: 50%;
+
+    font-size: 15px;
+
+}
+
+
+
+#carrito hr {
+
+    margin: 20px 0;
+
+}
+
+
+
+/* ==================================
+   PIE DE PÁGINA
+================================== */
+
+
+footer {
+
+    background: #b52b27;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 20px;
+
+    margin-top: 40px;
+
+}
+
+
+
+/* ==================================
+   CELULARES 📱
+================================== */
+
+
+@media(max-width:600px){
+
+
+    .header h1 {
+
+        font-size: 35px;
+
+    }
+
+
+    .inicio h2 {
+
+        font-size: 25px;
+
+    }
+
+
+    #menu {
+
+        padding: 15px;
+
+    }
+
+
+    .producto img {
+
+        width: 130px;
+
+        height: 130px;
+
+    }
+
+
+}
+
+/* ==================================
+   PROMOCIONES TACOS MILO 🎉
+================================== */
+
+
+.promocion {
+
+    background: #e6a21a;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 20px;
+
+    margin: 25px auto;
+
+    max-width: 700px;
+
+    border-radius: 20px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+}
+
+
+
+/* ==================================
+   PANEL ADMINISTRADOR
+================================== */
+
+
+.admin {
+
+    max-width: 600px;
+
+    margin: 30px auto;
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+}
+
+
+
+.admin input,
+.admin button {
+
+    width: 100%;
+
+    margin: 10px 0;
+
+}
+
+
+
+.admin h2 {
+
+    color: #b52b27;
+
+    text-align: center;
+
+}
+
+
+
+/* ==================================
+   ANIMACIONES
+================================== */
+
+
+@keyframes aparecer {
+
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
+    }
+
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+
+}
+
+
+
+.producto,
+.dato,
+.inicio {
+
+    animation: aparecer 0.6s ease;
 
 }
